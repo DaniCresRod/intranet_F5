@@ -1,7 +1,7 @@
 package com.intranet_F5.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.intranet_F5.DTO.UserBasic;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import static java.time.temporal.ChronoUnit.MONTHS;
 
 @Entity
 @Getter
@@ -28,11 +31,8 @@ public class UserModel {
     @Column(name = "Name")
     private String userName;
 
-    @Column(name = "Surname_1")
-    private String userSurName1;
-
-    @Column(name = "Surname_2")
-    private String userSurName2;
+    @Column(name = "Surname")
+    private String userSurName;
 
     @Column(name = "Nif")
     private String userNif;
@@ -42,6 +42,40 @@ public class UserModel {
 
     @Column(name = "Phone")
     private String userPhone;
+
+    @Column(name = "StartDate")
+    private LocalDate userStartDate;
+
+    @Column(name = "EndDate")
+    private LocalDate userEndDate;
+
+    @Column(name = "Spent_Days")
+    private int userDays;
+
+    //Con esto, se pre-calculan los valores de vacaciones en funcion de la
+    @PrePersist
+    public void setDefaultStartDate() {
+        if (this.userStartDate == null) {
+            this.userStartDate = LocalDate.now();
+        }
+//        if(this.userDays == null) {
+//            int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
+//            this.userDays = calculatedDays;
+//        }
+    }
+
+    private int calcularDiasDeVacaciones(LocalDate userStartDate, LocalDate userEndDate) {
+        long differenceMonths=MONTHS.between(userStartDate, userEndDate);
+        if(differenceMonths<12){
+            return (int) Math.floor(differenceMonths*2.5);
+        }
+        return 30;
+    }
+
+
+
+    @Column(name = "Password")
+    private String userPass;
 
     @Column(name = "Type")
     @Enumerated(EnumType.STRING)
@@ -53,12 +87,16 @@ public class UserModel {
     @JsonIgnoreProperties("schoolsList")
     private SchoolModel SchoolID;
 
+    @Column(name = "userRequests")
+    private List<userRequest> userRequests;
+
     public enum UserType
     {
-        SuperAdmin,
-        Autorizator,
+        Supervisor,
         HHRR,
-        Worker,
+        Employee,
     }
+
+    public UserBasic myUserBasic=new UserBasic(this.getId(), this.getUserName(), this.getSchoolID());
 
 }

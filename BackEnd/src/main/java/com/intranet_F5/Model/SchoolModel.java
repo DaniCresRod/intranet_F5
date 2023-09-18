@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -33,8 +34,8 @@ public class SchoolModel {
     @Column(name = "Phone")
     private String schoolPhone;
 
-    @Column(name = "City")
-    private String schoolCity;
+    @Column(name = "BankHolidays")
+    private List<LocalDate> schoolBankHs;
 
     @OneToMany(mappedBy = "SchoolID",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("SchoolID")
