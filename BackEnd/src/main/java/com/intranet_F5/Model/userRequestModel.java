@@ -18,9 +18,8 @@ public class userRequestModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "userId")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="Id", nullable=false)
+    @JoinColumn(name="UserId", nullable=false)
     @JsonIgnoreProperties("userRequests")
     private UserModel userId;
 

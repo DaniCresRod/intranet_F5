@@ -78,13 +78,11 @@ public class UserModel {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    @Column(name = "SchoolID")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "Id")
+    @JoinColumn(name = "School_Id")
     @JsonIgnoreProperties("schoolsList")
     private SchoolModel SchoolID;
 
-    @Column(name = "userRequests")
     @OneToMany(mappedBy = "userId",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("userId")
     private List<userRequestModel> userRequests;
