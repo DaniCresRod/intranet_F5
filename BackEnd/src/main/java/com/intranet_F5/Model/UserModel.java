@@ -42,6 +42,10 @@ public class UserModel {
     @Column(name = "Phone")
     private String userPhone;
 
+    public void setUserStartDate(String userStartDate) {
+        this.userStartDate = LocalDate.parse(userStartDate);
+    }
+
     @Column(name = "StartDate")
     private LocalDate userStartDate;
 
@@ -49,7 +53,7 @@ public class UserModel {
     private LocalDate userEndDate;
 
     @Column(name = "Spent_Days")
-    private int userDays;
+    private Integer userDays;
 
     //Con esto, se pre-calculan los valores de vacaciones en funcion de la
     @PrePersist
@@ -57,10 +61,10 @@ public class UserModel {
         if (this.userStartDate == null) {
             this.userStartDate = LocalDate.now();
         }
-        if(this.userDays != 30) {
+       // if((this.userDays == null)){
             int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
             this.userDays = calculatedDays;
-        }
+       // }
     }
 
     private int calcularDiasDeVacaciones(LocalDate userStartDate, LocalDate userEndDate) {
@@ -85,7 +89,7 @@ public class UserModel {
 
     @OneToMany(mappedBy = "userId",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("userId")
-    private List<userRequestModel> userRequests;
+    private List<UserRequestModel> userRequests;
 
     public enum UserType
     {
@@ -93,5 +97,7 @@ public class UserModel {
         HHRR,
         Employee,
     }
+
+
 
 }

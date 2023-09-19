@@ -39,5 +39,5 @@ public class SchoolModel {
 
     @OneToMany(mappedBy = "SchoolID",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("SchoolID")
-    private List<UserModel> schoolsList;
+    private List<UserModel> schoolUserList;
 }
