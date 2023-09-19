@@ -1,7 +1,6 @@
 package com.intranet_F5.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.intranet_F5.DTO.UserBasic;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -58,10 +57,10 @@ public class UserModel {
         if (this.userStartDate == null) {
             this.userStartDate = LocalDate.now();
         }
-//        if(this.userDays == null) {
-//            int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
-//            this.userDays = calculatedDays;
-//        }
+        if(this.userDays != 30) {
+            int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
+            this.userDays = calculatedDays;
+        }
     }
 
     private int calcularDiasDeVacaciones(LocalDate userStartDate, LocalDate userEndDate) {
@@ -71,8 +70,6 @@ public class UserModel {
         }
         return 30;
     }
-
-
 
     @Column(name = "Password")
     private String userPass;
@@ -88,7 +85,9 @@ public class UserModel {
     private SchoolModel SchoolID;
 
     @Column(name = "userRequests")
-    private List<userRequest> userRequests;
+    @OneToMany(mappedBy = "userId",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("userId")
+    private List<userRequestModel> userRequests;
 
     public enum UserType
     {
@@ -96,7 +95,5 @@ public class UserModel {
         HHRR,
         Employee,
     }
-
-    public UserBasic myUserBasic=new UserBasic(this.getId(), this.getUserName(), this.getSchoolID());
 
 }

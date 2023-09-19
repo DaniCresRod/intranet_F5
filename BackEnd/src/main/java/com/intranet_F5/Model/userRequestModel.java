@@ -1,6 +1,6 @@
 package com.intranet_F5.Model;
 
-import com.intranet_F5.DTO.UserBasic;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,14 +12,17 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "userRequest")
-public class userRequest {
+public class userRequestModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "user_basic")
-    private UserBasic basicUser;
+    @Column(name = "userId")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="Id", nullable=false)
+    @JsonIgnoreProperties("userRequests")
+    private UserModel userId;
 
     @Column(name = "start_date")
     private LocalDate startDate;
@@ -30,7 +33,9 @@ public class userRequest {
     @Column(name = "approved", columnDefinition = "boolean default false")
     private boolean approved;
 
-
+    @Column(name = "reason")
+    @Enumerated(EnumType.STRING)
+    private RequestType userReason;
 
 
     public enum RequestType
