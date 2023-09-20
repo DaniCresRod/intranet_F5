@@ -42,10 +42,6 @@ public class UserModel {
     @Column(name = "Phone")
     private String userPhone;
 
-    public void setUserStartDate(String userStartDate) {
-        this.userStartDate = LocalDate.parse(userStartDate);
-    }
-
     @Column(name = "StartDate")
     private LocalDate userStartDate;
 
@@ -54,26 +50,6 @@ public class UserModel {
 
     @Column(name = "Spent_Days")
     private Integer userDays;
-
-    //Con esto, se pre-calculan los valores de vacaciones en funcion de la
-    @PrePersist
-    public void setDefaultStartDate() {
-        if (this.userStartDate == null) {
-            this.userStartDate = LocalDate.now();
-        }
-       // if((this.userDays == null)){
-            int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
-            this.userDays = calculatedDays;
-       // }
-    }
-
-    private int calcularDiasDeVacaciones(LocalDate userStartDate, LocalDate userEndDate) {
-        long differenceMonths=MONTHS.between(userStartDate, userEndDate);
-        if(differenceMonths<12){
-            return (int) Math.floor(differenceMonths*2.5);
-        }
-        return 30;
-    }
 
     @Column(name = "Password")
     private String userPass;
@@ -98,6 +74,44 @@ public class UserModel {
         Employee,
     }
 
+    //Checks if the End date is before the Start date (wrong date)
+    public void setUserEndDate(LocalDate userEndDate) throws Exception {
+        LocalDate previousUserEndDate=this.userEndDate;
+        try{
+            this.userEndDate = userEndDate;
+            this.setDefaultStartDate();
+        }
+        catch(Exception e){
+            this.userEndDate=previousUserEndDate;
+            throw new Exception("La fecha de fin es anterior a la fecha de inicio de contrato");
+        }
+    }
 
+    public void setUserDays(Integer userDays) {
+        this.userDays = userDays;
+    }
 
+    //Con esto, se pre-calculan los valores de vacaciones en funcion de la
+    @PrePersist
+    public void setDefaultStartDate() throws Exception {
+        if (this.userStartDate == null) {
+            this.userStartDate = LocalDate.now();
+        }
+
+        if(this.userStartDate.isAfter(this.userEndDate)){
+            throw new Exception();
+        }
+        // if((this.userDays == null)){
+        int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
+        this.userDays = calculatedDays;
+        // }
+    }
+
+    private int calcularDiasDeVacaciones(LocalDate userStartDate, LocalDate userEndDate) {
+        long differenceMonths=MONTHS.between(userStartDate, userEndDate);
+        if(differenceMonths<12){
+            return (int) Math.floor(differenceMonths*2.5);
+        }
+        return 30;
+    }
 }

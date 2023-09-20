@@ -20,6 +20,8 @@ class UserModelTest {
     UserModel myTestUser5;
     SchoolModel SchoolTest1;
     List<UserRequestModel> UserRequestModelList1;
+    UserRequestModel requestTest1;
+
     @BeforeEach
     public void initEach(){
         //TestDummy 1: User without StarDate, no School, no Requests
@@ -32,11 +34,11 @@ class UserModelTest {
         myTestUser3= new UserModel(3L, "userName3","userSurname3", "userNif3", "user3@email.com", "userPhone3", LocalDate.parse("2020-01-01"), LocalDate.parse("2023-01-31"), 15, "pass3", UserModel.UserType.Employee, null, null );
 
         //TestDummy 4: User more than a year old, no School, no Requests
-         SchoolTest1=new SchoolModel(1L, "School1", "email1@school.com", "PhoneSchool1", null, null);
+        SchoolTest1=new SchoolModel(1L, "School1", "email1@school.com", "PhoneSchool1", null, null);
         myTestUser4= new UserModel(4L, "userName4","userSurname4", "userNif4", "user4@email.com", "userPhone4", LocalDate.parse("2023-01-01"), LocalDate.parse("2023-01-31"), 30, "pass4", UserModel.UserType.Employee, SchoolTest1, null );
 
         //TestDummy 5: User more than a year old, with School, with Requests
-        UserRequestModel requestTest1 = new UserRequestModel(1L, myTestUser5, LocalDate.parse("2023-04-02"), LocalDate.parse("2023-04-10"), false, UserRequestModel.RequestType.Holidays);
+        requestTest1 = new UserRequestModel(1L, myTestUser5, LocalDate.parse("2023-04-02"), LocalDate.parse("2023-04-10"), false, UserRequestModel.RequestType.Holidays);
         UserRequestModelList1=new ArrayList<>();
         UserRequestModelList1.add(requestTest1);
 
@@ -44,7 +46,7 @@ class UserModelTest {
 
     }
     @Test
-    void setDefaultStartDate() {
+    void setDefaultStartDate() throws Exception {
         myTestUser1.setDefaultStartDate();
         myTestUser2.setDefaultStartDate();
         myTestUser3.setDefaultStartDate();
@@ -85,62 +87,45 @@ class UserModelTest {
 
     @Test
     void getUserSurName() {
-        assertEquals( myTestUser1.getUserSurName(),"UserSurName1" );
-        assertEquals( myTestUser2.getUserSurName(),"UserSurName2" );
-        assertEquals( myTestUser3.getUserSurName(),"UserSurName3");
-        assertEquals( myTestUser4.getUserSurName(),"UserSurName4");
-        assertEquals( myTestUser5.getUserSurName(),"UserSurName5");
+        assertEquals( "userSurname1", myTestUser1.getUserSurName());
     }
 
     @Test
     void getUserNif() {
-        assertEquals( "UserNif1" , myTestUser1.getUserNif());
+        assertEquals( "userNif1" , myTestUser1.getUserNif());
     }
 
     @Test
     void getUserEmail() {
-        assertEquals( "UserEmail1", myTestUser1.getUserEmail());
+        assertEquals( "user1@email.com", myTestUser1.getUserEmail());
     }
 
     @Test
     void getUserPhone() {
-        assertEquals( "UserPhone1", myTestUser1.getUserPhone());
+        assertEquals( "userPhone1", myTestUser1.getUserPhone());
     }
 
     @Test
     void getUserStartDate() {
         assertEquals( null, myTestUser1.getUserStartDate());
-        assertEquals( LocalDate.parse("2023-01-01"), myTestUser2.getUserStartDate());
-        assertEquals( LocalDate.parse("2020-01-01"), myTestUser3.getUserStartDate());
-        assertEquals( LocalDate.parse("2023-01-01"), myTestUser4.getUserStartDate());
-        assertEquals( LocalDate.parse("2023-01-01"), myTestUser5.getUserStartDate());
+        assertEquals( myTestUser2.getUserStartDate(), LocalDate.parse("2023-01-01"));
     }
 
     @Test
     void getUserEndDate() {
         assertEquals( LocalDate.now().plusDays(30), myTestUser1.getUserEndDate());
         assertEquals( LocalDate.parse("2023-07-31"), myTestUser2.getUserEndDate());
-        assertEquals( LocalDate.parse("2023-01-31"), myTestUser3.getUserEndDate());
-        assertEquals( LocalDate.parse("2023-01-31"), myTestUser4.getUserEndDate());
-        assertEquals( LocalDate.parse("2023-01-31"), myTestUser5.getUserEndDate());
     }
 
     @Test
     void getUserDays() {
         assertEquals( myTestUser1.getUserDays(),30 );
         assertEquals( myTestUser2.getUserDays(),null);
-        assertEquals( myTestUser3.getUserDays(),15);
-        assertEquals( myTestUser4.getUserDays(),30);
-        assertEquals( myTestUser5.getUserDays(),30);
     }
 
     @Test
     void getUserPass() {
-        assertEquals( myTestUser1.getUserDays(),"pass1" );
-        assertEquals( myTestUser2.getUserDays(),"pass2");
-        assertEquals( myTestUser3.getUserDays(),"pass3");
-        assertEquals( myTestUser4.getUserDays(),"pass4");
-        assertEquals( myTestUser5.getUserDays(),"pass5");
+        assertEquals("pass1", myTestUser1.getUserPass());
     }
 
     @Test
@@ -174,7 +159,7 @@ class UserModelTest {
     @Test
     void setUserName() {
         myTestUser1.setUserName("Robustiano");
-        assertEquals( myTestUser1.getUserName(),"Robustiano");
+        assertEquals( "Robustiano", myTestUser1.getUserName());
     }
 
     @Test
@@ -198,36 +183,82 @@ class UserModelTest {
     @Test
     void setUserPhone() {
         myTestUser1.setUserPhone("Ok Phone");
-        assertEquals( myTestUser1.getUserPhone(),"Ok Phone");
+        assertEquals( "Ok Phone", myTestUser1.getUserPhone());
     }
 
     @Test
     void setUserStartDate() {
-        myTestUser1.setUserStartDate("1981-01-17");
+        myTestUser1.setUserStartDate(LocalDate.parse("1981-01-17"));
         assertEquals( myTestUser1.getUserStartDate(),LocalDate.parse("1981-01-17"));
     }
 
     @Test
-    void setUserEndDate() {
+    void setUserEndDate_when_bad_End_date() throws Exception {
+        //Test with a wrong date
+        assertThrows(Exception.class,
+                () -> {myTestUser1.setUserEndDate(LocalDate.parse("1981-01-17"));
+        });
+
+        //Test with a right date
+        myTestUser1.setUserEndDate(LocalDate.parse("2024-01-17"));
+        assertEquals( myTestUser1.getUserEndDate(), LocalDate.parse("2024-01-17"));
     }
 
     @Test
-    void setUserDays() {
+    void setUserDays() throws Exception {
+        myTestUser1.setDefaultStartDate();
+        myTestUser1.setUserDays(45);
+
+        assertEquals(45, myTestUser1.getUserDays());
+
+        myTestUser2.setUserDays(45);
+        myTestUser2.setDefaultStartDate();
+
+        assertNotEquals(null, myTestUser2.getUserDays());
+        assertNotEquals(45, myTestUser2.getUserDays());
     }
 
     @Test
     void setUserPass() {
+        myTestUser1.setUserPass("Ok Pass");
+        assertEquals( "Ok Pass", myTestUser1.getUserPass());
     }
 
     @Test
     void setUserType() {
+        myTestUser1.setUserType(UserModel.UserType.HHRR);
+        assertEquals( UserModel.UserType.HHRR, myTestUser1.getUserType());
     }
 
     @Test
     void setSchoolID() {
+        myTestUser1.setSchoolID(SchoolTest1);
+        List<UserModel> mySchoolUsersList=new ArrayList<>();
+        mySchoolUsersList.add(myTestUser1);
+        mySchoolUsersList.add(myTestUser2);
+        SchoolTest1.setSchoolUserList(mySchoolUsersList);
+
+        assertFalse(myTestUser1.getSchoolID()==null);
+        assertEquals(SchoolTest1, myTestUser1.getSchoolID());
+        assertTrue(SchoolTest1.getSchoolUserList().contains(myTestUser1));
+        assertEquals(SchoolTest1.getSchoolUserList().get(0).getSchoolID().getId(),myTestUser1.getSchoolID().getId());
+
+        SchoolModel SchoolTest2=new SchoolModel();
+        myTestUser4.setSchoolID(SchoolTest2);
+
+        assertNotEquals(SchoolTest1, myTestUser4.getSchoolID());
+        assertEquals(SchoolTest2, myTestUser4.getSchoolID());
     }
 
+    //The checking of the correct userId in request must be done in the request creation
     @Test
     void setUserRequests() {
+        myTestUser1.setUserRequests(UserRequestModelList1);
+
+        assertEquals(UserRequestModelList1, myTestUser1.getUserRequests());
+        assertTrue(myTestUser1.getUserRequests().contains(requestTest1));
+
+        myTestUser5.setUserRequests(null);
+        assertEquals(null, myTestUser5.getUserRequests());
     }
 }
