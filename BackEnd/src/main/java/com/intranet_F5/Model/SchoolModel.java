@@ -37,7 +37,37 @@ public class SchoolModel {
     @Column(name = "BankHolidays")
     private List<LocalDate> schoolBankHs;
 
+    @Column(name = "StateHolidays")
+    private List<LocalDate> schoolStateHolidays;
+
+    @Column(name = "State")
+    @Enumerated(EnumType.STRING)
+    private StateCode schoolStateCode;
+
     @OneToMany(mappedBy = "SchoolID",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("SchoolID")
     private List<UserModel> schoolUserList;
+
+    public enum StateCode{
+       AN,// Andalucía
+       AR,// Aragón
+       AS,// Asturias
+       CB,// Cantabria
+       CE,// Ciudad de Ceuta
+       CL,// Castilla y León
+       CM,// Castile-La Mancha
+       CN,// Islas Canarias
+       CT,// Cataluña
+       EX,// Extremadura
+       GA,// Galicia
+       IB,// Illes Balears
+       MC,// Murcia Region
+       MD,// Comunidad de Madrid
+       ML,// Ciudad de Melilla
+       NC,// Comunidad Foral de Navarra
+       PV,// País Vasco
+       RI,// La Rioja
+       VC,// Comunitat Valenciana               
+    }
+
 }

@@ -3,10 +3,7 @@ package com.intranet_F5.Controller;
 import com.intranet_F5.Model.UserModel;
 import com.intranet_F5.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +18,11 @@ public class UserController {
     public List<UserModel> getAllUsers(){
         return userService.getAllUsers();
     }
+
+    @PostMapping
+    public String addNewUser(@RequestBody UserModel newUser){
+        return userService.addnewUser(newUser);
+    }
+
 
 }

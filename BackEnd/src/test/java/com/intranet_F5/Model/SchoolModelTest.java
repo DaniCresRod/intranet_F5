@@ -20,19 +20,19 @@ class SchoolModelTest {
     @BeforeEach
     public void initEach(){
         //SchoolModel object1: No Students, no bankHolidays
-        SchoolTest1=new SchoolModel(1L, "School1", "email1@school.com", "PhoneSchool1", null, null);
+        SchoolTest1=new SchoolModel(1L, "School1", "email1@school.com", "PhoneSchool1",null, null, SchoolModel.StateCode.AS, null);
 
         //SchoolModel object2: 1 Student, no bankHolidays
-        myTestUser1= new UserModel(1L, "userName1","userSurname1", "userNif1", "user1@email.com", "userPhone1", LocalDate.parse("2020-01-01"), LocalDate.parse("2023-01-31"), 30, "pass2", UserModel.UserType.Employee, null, null );
+        myTestUser1= new UserModel(1L, "userName1","userSurname1", "userNif1", "user1@email.com", "userPhone1",null, LocalDate.parse("2020-01-01"), LocalDate.parse("2023-01-31"), 30, "pass2", UserModel.UserType.Employee, null, null, null );
         myUsersTestList1=new ArrayList<>();
         myUsersTestList1.add(myTestUser1);
-        SchoolTest2=new SchoolModel(2L, "School2", "email2@school.com", "PhoneSchool2", null, myUsersTestList1);
+        SchoolTest2=new SchoolModel(2L, "School2", "email2@school.com", "PhoneSchool2", null,null, SchoolModel.StateCode.AS, myUsersTestList1);
 
         //SchoolModel object3: 1 Students, with bankHolidays
         myDatesTestList1=new ArrayList<>();
         myDatesTestList1.add(LocalDate.now());
         myDatesTestList1.add(LocalDate.parse("2023-09-08"));
-        SchoolTest3=new SchoolModel(3L, "School3", "email3@school.com", "PhoneSchool3", myDatesTestList1, myUsersTestList1);
+        SchoolTest3=new SchoolModel(3L, "School3", "email3@school.com", "PhoneSchool3", myDatesTestList1,null, SchoolModel.StateCode.AS, myUsersTestList1);
     }
 
     @Test

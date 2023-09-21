@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +36,10 @@ public class UserRequestModel {
     @Column(name = "reason")
     @Enumerated(EnumType.STRING)
     private RequestType userReason;
+
+    @Column(name = "logListId")
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<LogModel> logList;
 
 
     public enum RequestType

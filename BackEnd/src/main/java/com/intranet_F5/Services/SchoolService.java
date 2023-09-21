@@ -1,13 +1,37 @@
 package com.intranet_F5.Services;
 
+import com.intranet_F5.Model.SchoolModel;
 import com.intranet_F5.Repository.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SchoolService {
     @Autowired
     SchoolRepository schoolRepository;
 
+    public List<SchoolModel> getAllSchools(){
+        return schoolRepository.findAll();
+    }
 
+    public String createSchool(SchoolModel newSchool) {
+        try{
+            if (schoolRepository.findDuplicatedSchool(newSchool) == null) {
+                schoolRepository.save(newSchool);
+                return "La escuela de "+newSchool.getSchoolName()+" se guardó satisfactoriamente";
+            } else return "La escuela de "+newSchool.getSchoolName()
+                    +" con el email "+newSchool.getSchoolEmail()+" ya existe. No se guardó.";
+        }
+        catch(Exception e){
+            return "Hubo un error al procesar la solicitud";
+        }
+    }
+
+    public SchoolModel getOneSchoolById(long id) {
+        return schoolRepository.findById(id).orElse(null);
+    }
+
+    //public String getBankHldayFrom
 }

@@ -25,24 +25,24 @@ class UserModelTest {
     @BeforeEach
     public void initEach(){
         //TestDummy 1: User without StarDate, no School, no Requests
-        myTestUser1= new UserModel(1L, "userName1","userSurname1", "userNif1", "user1@email.com", "userPhone1", null, LocalDate.now().plusDays(30), 30, "pass1", UserModel.UserType.Employee, null, null );
+        myTestUser1= new UserModel(1L, "userName1","userSurname1", "userNif1", "user1@email.com", "userPhone1",null, null,LocalDate.now().plusDays(30), 30, "pass1", UserModel.UserType.Employee,null, null, null );
 
         //TestDummy 2: User less than a year old, null holiday days, no School, no Requests
-        myTestUser2= new UserModel(2L, "userName2","userSurname2", "userNif2", "user2@email.com", "userPhone2", LocalDate.parse("2023-01-01"), LocalDate.parse("2023-07-31"), null, "pass2", UserModel.UserType.Employee, null, null );
+        myTestUser2= new UserModel(2L, "userName2","userSurname2", "userNif2", "user2@email.com", "userPhone2",null, LocalDate.parse("2023-01-01"), LocalDate.parse("2023-07-31"), null, "pass2", UserModel.UserType.Employee,null, null, null );
 
         //TestDummy 3: User less than a year old, 15 holiday days, no School, no Requests
-        myTestUser3= new UserModel(3L, "userName3","userSurname3", "userNif3", "user3@email.com", "userPhone3", LocalDate.parse("2020-01-01"), LocalDate.parse("2023-01-31"), 15, "pass3", UserModel.UserType.Employee, null, null );
+        myTestUser3= new UserModel(3L, "userName3","userSurname3", "userNif3", "user3@email.com", "userPhone3",null, LocalDate.parse("2020-01-01"), LocalDate.parse("2023-01-31"), 15, "pass3", UserModel.UserType.Employee,null, null, null );
 
         //TestDummy 4: User more than a year old, no School, no Requests
-        SchoolTest1=new SchoolModel(1L, "School1", "email1@school.com", "PhoneSchool1", null, null);
-        myTestUser4= new UserModel(4L, "userName4","userSurname4", "userNif4", "user4@email.com", "userPhone4", LocalDate.parse("2023-01-01"), LocalDate.parse("2023-01-31"), 30, "pass4", UserModel.UserType.Employee, SchoolTest1, null );
+        SchoolTest1=new SchoolModel(1L, "School1", "email1@school.com", "PhoneSchool1", null,null, SchoolModel.StateCode.AS, null);
+        myTestUser4= new UserModel(4L, "userName4","userSurname4", "userNif4", "user4@email.com", "userPhone4",null, LocalDate.parse("2023-01-01"), LocalDate.parse("2023-01-31"), 30, "pass4", UserModel.UserType.Employee,null, SchoolTest1, null );
 
         //TestDummy 5: User more than a year old, with School, with Requests
-        requestTest1 = new UserRequestModel(1L, myTestUser5, LocalDate.parse("2023-04-02"), LocalDate.parse("2023-04-10"), false, UserRequestModel.RequestType.Holidays);
+        requestTest1 = new UserRequestModel(1L, myTestUser5, LocalDate.parse("2023-04-02"), LocalDate.parse("2023-04-10"), false, UserRequestModel.RequestType.Holidays, null);
         UserRequestModelList1=new ArrayList<>();
         UserRequestModelList1.add(requestTest1);
 
-        myTestUser5= new UserModel(5L, "userName5","userSurname5", "userNif5", "user5@email.com", "userPhone5", LocalDate.parse("2023-01-01"), LocalDate.parse("2023-01-31"), 30, "pass5", UserModel.UserType.Employee, SchoolTest1, UserRequestModelList1 );
+        myTestUser5= new UserModel(5L, "userName5","userSurname5", "userNif5", "user5@email.com", "userPhone5",null, LocalDate.parse("2023-01-01"), LocalDate.parse("2023-01-31"), 30, "pass5", UserModel.UserType.Employee,null, SchoolTest1, UserRequestModelList1 );
 
     }
     @Test

@@ -42,6 +42,9 @@ public class UserModel {
     @Column(name = "Phone")
     private String userPhone;
 
+    @Column(name = "BirthDate")
+    private LocalDate userBirthDate;
+
     @Column(name = "StartDate")
     private LocalDate userStartDate;
 
@@ -57,6 +60,9 @@ public class UserModel {
     @Column(name = "Type")
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    @Column(name = "userPhoto")
+    private String userImage;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "School_Id")
