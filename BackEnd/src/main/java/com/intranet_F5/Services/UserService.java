@@ -16,7 +16,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public String addnewUser(UserModel newUser) {
+    public String addNewUser(UserModel newUser) {
         try{
             if ( userRepository.findByUserNif(newUser.getUserNif()) == null) {
                 userRepository.save(newUser);
@@ -28,5 +28,9 @@ public class UserService {
         catch(Exception e){
             return "Hubo un error al procesar la solicitud";
         }
+    }
+
+    public UserModel getUserById(long id) {
+        return userRepository.findById(id).orElse(null);
     }
 }
