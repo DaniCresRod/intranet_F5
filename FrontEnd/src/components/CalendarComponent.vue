@@ -213,7 +213,7 @@ table.calendar th {
 
 table.calendar td {
     border: 2px solid #f3f3f3;
-    color: red;
+    color: #fabada;
     font-size: 14px;
     font-weight: bold;
     height: 14px;
@@ -226,17 +226,17 @@ table.calendar td {
 
 .asturias .calendar th,
 .asturias .calendar td {
-    border-color: blue;
+    border-color: lightskyblue;
 }
 
 .madrid .calendar th,
 .madrid .calendar td {
-    border-color: red;
+    border-color: lightcoral;
 }
 
 .barcelona .calendar th,
 .barcelona .calendar td {
-    border-color: yellow;
+    border-color: lightgreen;
 }
 
 
