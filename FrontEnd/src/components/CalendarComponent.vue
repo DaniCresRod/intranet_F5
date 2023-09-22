@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 
+const escuelaSeleccionada = ref('');
 const mesSeleccionado = ref('');
 const meses = {
     enero: 31,
@@ -59,7 +60,15 @@ onMounted(() => {
 <template>
     <div class="calendar_container">
         <h2>Calendario</h2>
-        <select class="custom-select" v-model="mesSeleccionado" @change="actualizarCalendario">
+        <label for="escuela">Selecciona Escuela:</label>
+        <select id="escuela" class="custom-select" v-model="escuelaSeleccionada" @change="actualizarCalendario">
+            <option value="">Selecciona Escuela</option>
+            <option value="asturias">Asturias</option>
+            <option value="barcelona">Barcelona</option>
+            <option value="madrid">Madrid</option>
+            </select>
+            <label for="mes">Selecciona Mes:</label>
+            <select id="mes" class="custom-select" v-model="mesSeleccionado" @change="actualizarCalendario">
             <option value="">Selección mes</option>
             <option value="enero">Enero</option>
             <option value="febrero">Febrero</option>
@@ -314,6 +323,8 @@ onMounted(() => {
 .custom-select {
     background-color: #FFA37F;
     padding: 5px;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .calendario_vista {
@@ -351,4 +362,22 @@ table.calendar td {
     text-transform: uppercase;
     vertical-align: middle;
     width: 14px;
-}</style>
+}
+
+.asturias .calendar th,
+.asturias .calendar td {
+    border-color: blue;
+}
+
+.madrid .calendar th,
+.madrid .calendar td {
+    border-color: red;
+}
+
+.barcelona .calendar th,
+.barcelona .calendar td {
+    border-color: yellow;
+}
+
+
+</style>
