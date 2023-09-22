@@ -1,7 +1,8 @@
 <script setup>
 import NavbarComponent from '../components/NavbarComponent.vue'
+import CalendarComponent from '../components/CalendarComponent.vue'
 import FooterComponent from '../components/FooterComponent.vue';
-import CalendarComponent from '../components/CalendarComponent.vue';
+import CardInfoComponent from '../components/CardInfoComponent.vue';
 
 
 </script>
@@ -9,7 +10,8 @@ import CalendarComponent from '../components/CalendarComponent.vue';
 <template>
   <main>
     <NavbarComponent />
-    <FooterComponent />
+    <CardInfoComponent />
     <CalendarComponent/>
+    <FooterComponent />
   </main>
 </template>
