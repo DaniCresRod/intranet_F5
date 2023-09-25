@@ -1,7 +1,17 @@
-<script setup></script>
+<script setup>
+import NavbarComponent from '../components/NavbarComponent.vue'
+import FooterComponent from '../components/FooterComponent.vue';
+// import CalendarComponent from '../components/CalendarComponent.vue'
+import CalendarHolidaysComponent from '../components/CalendarHolidaysComponent.vue';
+
+</script>
 
 <template>
-<div>
-    <h1>Holi!</h1>
-</div>
+  <main>
+    <NavbarComponent />
+    <!-- <CalendarComponent/> -->
+    <CalendarHolidaysComponent/>
+    <FooterComponent />
+  
+  </main>
 </template>
