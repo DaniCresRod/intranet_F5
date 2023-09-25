@@ -4,6 +4,14 @@ import CalendarHolidaysComponent from '../components/CalendarHolidaysComponent.v
 </script>
 
 <template>
+    
     <!-- <CalendarComponent/> -->
     <CalendarHolidaysComponent/>
 </template>
+
+<style>
+/* PRUEBA PARA COLOCACIÓN FOOTER */
+main {
+    height: 900rem;
+}
+</style>
