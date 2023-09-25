@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <header>
+  <header class="header">
     <ul class="iconsGroup">
       <li>
         <RouterLink to="/">
@@ -63,23 +63,25 @@ import { RouterLink } from 'vue-router';
 </template>
 
 <style>
-header {
+.header {
   height: 12vh;
+  width: 100%;
 }
 .iconsGroup {
   display: flex;
-  gap: 1.5rem;
-  list-style: none;
-  align-items: center;
-  padding: 1rem;
-  margin: 0;
   justify-content: end;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  margin: 0 15rem;
+  list-style: none;
 }
 .navbar{
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
   align-items: center;
+  padding: 1rem;
+  margin: 0 15rem;
   transition: 0.5s;
 }
 .navbar__img{
