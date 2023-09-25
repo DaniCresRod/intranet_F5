@@ -6,7 +6,7 @@
 <template>
     <div id="banner">
         <img src="/img_banner.png" alt="networking">
-        <h1>¡Somos <span class="destacat">ágiles, creativos/as</span> y comprometidos/as!</h1>
+        <h1>¡Somos <span :class="destacat">ágiles, creativos/as</span> y comprometidos/as!</h1>
     </div>
     <!-- <CalendarComponent/> -->
     <!-- <CalendarHolidaysComponent/> -->

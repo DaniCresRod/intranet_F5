@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AuthoriserView from '../views/AuthoriserView.vue'
-import WorkerView from '../views/WorkerView.vue'
+import AuthoriserView from '../views/AuthorizerView.vue'
+import WorkerView from '../views/EmployeeView.vue'
 import HomeView from '../views/HomeView.vue'
 
 
@@ -13,13 +13,13 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/AuthoriserView',
-      name: 'Authoriser',
+      path: '/AuthorizerView',
+      name: 'authorizer',
       component: AuthoriserView
     },
     {
-      path: '/WorkerView',
-      name: 'Worker',
+      path: '/EmployeeView',
+      name: 'employee',
       component: WorkerView
     },
   ]
