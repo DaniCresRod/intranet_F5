@@ -10,4 +10,5 @@ import FooterComponent from '../components/FooterComponent.vue';
     <NavbarComponent />
     <FooterComponent />
   </main>
+<div></div>
 </template>
