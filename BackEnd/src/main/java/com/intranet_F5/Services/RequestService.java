@@ -32,4 +32,9 @@ public class RequestService {
     public UserRequestModel getOneRequestById(long id) {
         return requestRepository.findById(id).orElse(null);
     }
+
+
+    public List<UserRequestModel> getOneRequestBySchoolId(long SchoolId) {
+        return requestRepository.findBySchoolId(SchoolId);
+    }
 }

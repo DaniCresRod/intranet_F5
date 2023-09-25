@@ -30,20 +30,21 @@ public class UserRequestModel {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Column(name = "approved", columnDefinition = "boolean default false")
-    private boolean approved;
+    @Column(name = "status", columnDefinition = "boolean default false")
+    private int status;
 
     @Column(name = "reason")
     @Enumerated(EnumType.STRING)
     private RequestType userReason;
 
+    //Relacion unidireccional
     @Column(name = "logListId")
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_request")
     private List<LogModel> logList;
-
 
     public enum RequestType
     {
         Holidays
-    }
+    };
 }

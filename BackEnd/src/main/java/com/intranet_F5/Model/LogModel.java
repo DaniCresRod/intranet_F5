@@ -20,7 +20,7 @@ public class LogModel {
     private long id;
 
     @Column(name = "id_request")
-    private long RequestId;
+    private long requestId;
 
     @Column(name = "log_date")
     private LocalDate logDate;

@@ -26,6 +26,11 @@ public class RequestController {
         return requestService.getOneRequestById(id);
     }
 
+    @GetMapping(path = "/school/{id}")
+    public List<UserRequestModel> getOneRequestBySchoolId(@PathVariable long id){
+        return requestService.getOneRequestBySchoolId(id);
+    }
+
     @PostMapping
     public String newRequest(@RequestBody UserRequestModel newRequest){
         return requestService.newRequest(newRequest);

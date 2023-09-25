@@ -1,5 +1,6 @@
 package com.intranet_F5.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -65,8 +66,8 @@ public class UserModel {
     private String userImage;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "School_Id")
-    @JsonIgnoreProperties("schoolsList")
+    @JoinColumn(name = "school_Id")
+    @JsonIgnoreProperties("schoolUserList")
     private SchoolModel SchoolID;
 
     @OneToMany(mappedBy = "userId",cascade = CascadeType.ALL, orphanRemoval = true)
