@@ -4,34 +4,40 @@
 </script>
 
 <template>
-    <div id="banner">
+<div id="banner">
         <img src="/img_banner.png" alt="networking">
-        <h1>¡Somos <span :class="destacat">ágiles, creativos/as</span> y comprometidos/as!</h1>
+        <h1>¡Somos <span class="destacat">ágiles, creativos/as</span> y comprometidos/as!</h1>
     </div>
     <!-- <CalendarComponent/> -->
     <!-- <CalendarHolidaysComponent/> -->
 </template>
 
 <style scoped>
-/* PRUEBA PARA COLOCACIÓN FOOTER */
-main {
-    height: 900rem;
+#banner {
+    width: 100%;
+    background-color: var(--orange);
+    padding: 0 0 3% 0;
 }
 
-#banner {
-    position: relative;
-    text-align: center;
-    color: #000;
+#banner img {
+    background-size: cover;
+}
+
+h1 {
     text-align: center;
     font-family: Poppins;
     font-size: 2.5rem;
-    font-style: normal;
-    font-weight: normal; 
-    line-height: normal;
-    background-color: #FF4700;
-    margin-bottom: 2rem;
+    font-weight: normal;
+    margin-top: 2%;
 }
-.destacat{
-    font-weight:bolder;
+
+.destacat {
+    font-weight: bold;
+}
+
+.login_form{
+    width: 29.75rem;
+    height: 20.25rem;
+    background-color: var(--orange);
 }
 </style>
