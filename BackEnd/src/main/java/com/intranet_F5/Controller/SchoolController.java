@@ -24,7 +24,7 @@ public class SchoolController {
         return schoolService.getOneSchoolById(id);
     }
 
-    @PostMapping
+    @PostMapping//(value = "/add")
     public String createSchool(@RequestBody SchoolModel newSchool){
         return schoolService.createSchool(newSchool);
     }
