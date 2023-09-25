@@ -1,6 +1,9 @@
 import './assets/main.css'
+import './assets/base.css'
+
 import VCalendar from 'v-calendar';
 import 'v-calendar/style.css';
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
