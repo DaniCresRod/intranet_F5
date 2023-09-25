@@ -96,16 +96,39 @@ import { RouterLink } from 'vue-router';
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.1rem;
+  display: table-cell; 
+  position: relative; 
+  padding: 15px 0;
 }
 .navbar__menu--item a{
-  text-decoration: none;
   color: black;
-  transition: 0.4ms;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  display: inline-block;
+  padding: 15px 20px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.navbar__menu--item a:after {    
+  background: none repeat scroll 0 0 var(--orange);
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 4px;
+  left: 50%;
+  position: absolute;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
 }
 .navbar__menu--item a:hover{
   color: var(--orange);
 }
-
+.navbar__menu--item a:hover:after { 
+  width: 100%; 
+  left: 0; 
+}
 
 @media (max-width: 1000px) {
   
