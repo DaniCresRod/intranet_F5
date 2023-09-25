@@ -9,8 +9,9 @@
 
 main {
     margin-top: 10vh;
-    background-color: var(--orange);
-}.button {
+}
+
+.button {
     width: 8.6875rem;
     height: 2.3125rem;
     border-radius: 0.625rem;

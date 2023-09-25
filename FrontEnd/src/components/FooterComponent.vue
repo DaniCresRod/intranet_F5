@@ -1,9 +1,15 @@
+<script setup>
+
+</script>
+
 <template>
-  <v-app>
-    <v-btn>Hola, soy FOOTER!</v-btn>
-  </v-app>
+  <footer class="footer">
+    <h1>hola</h1>
+  </footer>
 </template>
 
-<style scoped>
-
+<style>
+.footer {
+  background-color: var(--orange);
+}
 </style>
