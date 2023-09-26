@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -33,10 +34,46 @@ public class SchoolModel {
     @Column(name = "Phone")
     private String schoolPhone;
 
-    @Column(name = "City")
-    private String schoolCity;
+    @Column(name = "BankHolidays")
+    private List<LocalDate> schoolBankHs;
+
+    @Column(name = "StateHolidays")
+    @ManyToMany
+    @JoinTable(
+            name = "school_schooldate",
+            joinColumns = @JoinColumn(name = "school_id"),
+            inverseJoinColumns = @JoinColumn(name = "school_date_id")
+    )
+    private List<SchoolDateModel> schoolStateHolidays;
+
+    @Column(name = "State")
+    @Enumerated(EnumType.STRING)
+    private StateCode schoolStateCode;
 
     @OneToMany(mappedBy = "SchoolID",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("SchoolID")
-    private List<UserModel> schoolsList;
+    private List<UserModel> schoolUserList;
+
+    public enum StateCode{
+       AN,// Andalucía
+       AR,// Aragón
+       AS,// Asturias
+       CB,// Cantabria
+       CE,// Ciudad de Ceuta
+       CL,// Castilla y León
+       CM,// Castile-La Mancha
+       CN,// Islas Canarias
+       CT,// Cataluña
+       EX,// Extremadura
+       GA,// Galicia
+       IB,// Illes Balears
+       MC,// Murcia Region
+       MD,// Comunidad de Madrid
+       ML,// Ciudad de Melilla
+       NC,// Comunidad Foral de Navarra
+       PV,// País Vasco
+       RI,// La Rioja
+       VC,// Comunitat Valenciana               
+    }
+
 }
