@@ -2,9 +2,10 @@
 </script>
 
 <template>
-    <div id="banner">
+<div id="banner">
         <img src="/img_banner.png" alt="networking">
         <h1>¡Somos <span class="destacat">ágiles, creativos/as</span> y comprometidos/as!</h1>
+
     </div>
 
     <div class="login_form">
@@ -48,6 +49,7 @@ h1 {
 .destacat {
     font-weight: bold;
 }
+
 
 .login_form {
     width: 29.75rem;
@@ -95,5 +97,11 @@ input[type="password"] {
     font-weight: 400;
     line-height: normal;
     padding: 1%;
+
+.login_form{
+    width: 29.75rem;
+    height: 20.25rem;
+    background-color: var(--orange);
+
 }
 </style>
