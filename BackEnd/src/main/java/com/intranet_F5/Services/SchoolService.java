@@ -15,8 +15,6 @@ import java.util.List;
 public class SchoolService {
     @Autowired
     SchoolRepository schoolRepository;
-<<<<<<< HEAD
-
     @Autowired
     private SchoolDateRepository schoolDateRepository;
 
@@ -58,6 +56,4 @@ public class SchoolService {
     }
 
     //public String getBankHldayFrom
-=======
->>>>>>> 43bb38037123abe26bc5bd83f2289ebfdfa996ea
 }
