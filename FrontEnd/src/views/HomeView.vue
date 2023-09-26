@@ -1,4 +1,6 @@
 <script setup>
+import CardInfoComponent from '../components/CardInfoComponent.vue';
+
 </script>
 
 <template>
@@ -21,10 +23,8 @@
             </div>
             <button class="button" type="submit">LOGIN</button>
         </form>
-
-
-
     </div>
+    <CardInfoComponent/>
 </template>
 
 <style scoped>
