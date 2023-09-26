@@ -14,6 +14,7 @@ getWorkerData();
 </script>
 
 <template>
+  <h1>HOLI</h1>
   <v-card>
     <h1>prueba</h1>
     <v-card-title>
