@@ -1,6 +1,5 @@
 package com.intranet_F5.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,7 +38,13 @@ public class SchoolModel {
     private List<LocalDate> schoolBankHs;
 
     @Column(name = "StateHolidays")
-    private List<LocalDate> schoolStateHolidays;
+    @ManyToMany
+    @JoinTable(
+            name = "school_schooldate",
+            joinColumns = @JoinColumn(name = "school_id"),
+            inverseJoinColumns = @JoinColumn(name = "school_date_id")
+    )
+    private List<SchoolDateModel> schoolStateHolidays;
 
     @Column(name = "State")
     @Enumerated(EnumType.STRING)
