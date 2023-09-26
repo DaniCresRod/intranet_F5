@@ -21,9 +21,6 @@
             </div>
             <button class="button" type="submit">LOGIN</button>
         </form>
-
-
-
     </div>
 </template>
 

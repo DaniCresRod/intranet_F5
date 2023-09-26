@@ -14,6 +14,7 @@ getWorkerData();
 </script>
 
 <template>
+  <h1>HOLI</h1>
   <v-card>
     <v-card-title>
       <v-avatar size="60">
