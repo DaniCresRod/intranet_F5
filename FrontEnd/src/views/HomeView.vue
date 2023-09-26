@@ -97,6 +97,7 @@ input[type="password"] {
     font-weight: 400;
     line-height: normal;
     padding: 1%;
+}
 
 .login_form{
     width: 29.75rem;
