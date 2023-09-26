@@ -16,11 +16,14 @@ getWorkerData();
 <template>
   <h1>HOLI</h1>
   <v-card>
+    <h1>prueba</h1>
     <v-card-title>
       <v-avatar size="60">
-        <v-img :src="data.value.image" />
+        <!-- <v-img :src="data.value.image" /> -->
+        <v-img class="card_info_img" src="/img_prueba.jpg"/>
       </v-avatar>
       <v-card-subtitle>
+        <h1>Subtitulo</h1>
         {{ data.value.name }}
       </v-card-subtitle>
     </v-card-title>
@@ -49,3 +52,7 @@ getWorkerData();
     </v-card-text>
   </v-card>
 </template>
+<style scope>
+.card_info_img{border-radius: 50px;
+}
+</style>
