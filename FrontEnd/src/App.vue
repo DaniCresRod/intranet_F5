@@ -1,19 +1,15 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
+import NavbarComponent from './components/NavbarComponent.vue';
+// import FooterComponent from './components/FooterComponent.vue';
 </script>
 
 <template>
-  <header>
-    <div>
-      <HelloWorld msg="You did it!" />
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <NavbarComponent />
+  <main>
+    <RouterView />
+  </main>
+  <!-- <FooterComponent /> -->
 </template>
 
 <style scoped>

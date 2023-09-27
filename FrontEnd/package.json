@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@mdi/font": "^7.2.96",
+    "@popperjs/core": "^2.11.8",
+    "axios": "^1.5.0",
     "pinia": "^2.1.6",
+    "v-calendar": "^3.0.3",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
     "vuetify": "^3.4.0-alpha.1"
