@@ -1,21 +1,34 @@
 <script setup>
 import { ref } from 'vue';
-import { VCard, VCardTitle, VCardSubtitle, VCardText } from "vuetify/dist/vuetify.min";
+import { defineProps } from 'vue';
 import CardInfoService from '../services/CardInfoService';
 
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true
+  }
+});
+
 const data = ref(null);
+const loading = ref(true);
 
 async function getWorkerData() {
+  loading.value = true;
   const response = await CardInfoService.getWorkerData(props.id);
   data.value = response.data;
+  loading.value = false;
 }
 
 getWorkerData();
 </script>
 
+
 <template>
-  <h1>HOLI</h1>
-  <v-card>
+  <div v-if="loading" class="loading-message">
+    Cargando datos...
+  </div>
+  <v-card v-else>
     <h1>prueba</h1>
     <v-card-title>
       <v-avatar size="60">
@@ -52,7 +65,9 @@ getWorkerData();
     </v-card-text>
   </v-card>
 </template>
+
 <style scope>
 .card_info_img{border-radius: 50px;
 }
 </style>
+
