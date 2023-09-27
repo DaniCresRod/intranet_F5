@@ -29,5 +29,14 @@ public class SchoolController {
         return schoolService.createSchool(newSchool);
     }
 
+    @DeleteMapping(path="/delete/{id}")
+    public String deleteSchool(@PathVariable long id){
+        return schoolService.deleteSchool(id);
+    }
+
+    @PutMapping(path="/update/{id}")
+    public SchoolModel updateSchool(@RequestBody SchoolModel updatedSchool, @PathVariable long id){
+        return schoolService.upgradeSchool(id, updatedSchool);
+    }
 
 }
