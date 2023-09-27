@@ -28,8 +28,6 @@ public class AccessBankHolidaysAPI {
 //        ObjApi.fetchHolidays(SchoolModel.StateCode.AS);
 //    }
 
-
-
     //Este metodo Accede a la API que devuelve los festivos en una determinada Comunidad autonoma.
     private List<LocalDate> fetchHolidays(SchoolModel.StateCode state) {
         HttpClient myClient = HttpClient.newHttpClient();
@@ -48,7 +46,6 @@ public class AccessBankHolidaysAPI {
 
             List<DTOBankHolidays> myBHDysList = mapper.readValue(respuesta.body(),
                     new TypeReference<List<DTOBankHolidays>>() {});
-
 
             // Ahora tienes la lista de DTOBankHolidays para trabajar con ella
             List<LocalDate> myBHDYList = new ArrayList<>();

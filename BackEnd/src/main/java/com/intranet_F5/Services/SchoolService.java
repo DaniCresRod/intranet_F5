@@ -7,8 +7,6 @@ import com.intranet_F5.Repository.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,14 +28,6 @@ public class SchoolService {
                 //Traer los festivos para completar el log
                 AccessBankHolidaysAPI accessBankHolidaysAPI=new AccessBankHolidaysAPI();
                 List<SchoolDateModel>schoolDateModels=accessBankHolidaysAPI.getSchoolDateModelList(newSchool);
-//                List<LocalDate> holidays = accessBankHolidaysAPI.fetchHolidays(newSchool.getSchoolStateCode());
-//
-//                List<SchoolDateModel> schoolDateModels = new ArrayList<>();
-//                for (LocalDate date : holidays) {
-//                    SchoolDateModel schoolDateModel = new SchoolDateModel();
-//                    schoolDateModel.setDate(date);
-//                    schoolDateModels.add(schoolDateModel);
-//                }
 
                 schoolDateRepository.saveAll(schoolDateModels);
                 newSchool.setSchoolStateHolidays(schoolDateModels);
@@ -66,11 +56,11 @@ public class SchoolService {
             return "La escuela se borró correctamente";
         }
         catch(Exception e){
-            return "Hubo un error al procesar la solicitud de borrado";
+            return "Hubo un error al procesar la solicitud de borrado escuela";
         }
     }
 
-    public SchoolModel upgradeSchool(long id, SchoolModel updatedSchool) {
+    public SchoolModel updateSchool(long id, SchoolModel updatedSchool) {
         try{
             if(schoolRepository.existsById(id)){
                 SchoolModel mySchool=schoolRepository.findById(id).get();
