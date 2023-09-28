@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import { defineProps } from 'vue';
 import CardInfoService from '../services/CardInfoService';
 
@@ -21,23 +21,19 @@ async function getWorkerData() {
   loading.value = false;
 }
 
-getWorkerData();
+onBeforeMount(getWorkerData);
 
 </script>
 <template>
   <v-card>
-    <h1>prueba</h1>
+    <v-card-subtitle v-if="data">
+        <h1>{{ data.userName }}</h1>
+      </v-card-subtitle>
     <v-card-title>
-      <v-avatar size="60">
-        <!-- <v-img :src="data.value.image" /> -->
+      <v-avatar size="150">
         <v-img class="card_info_img" src="/img_prueba.jpg"/>
       </v-avatar>
-      <v-card-subtitle>
-        <h1>Subtitulo</h1>
-        {{ data && data.userName }}
-      </v-card-subtitle>
     </v-card-title>
-    <!-- Resto del código -->
   </v-card>
 </template>
 
@@ -46,4 +42,3 @@ getWorkerData();
 .card_info_img{border-radius: 50px;
 }
 </style>
-
