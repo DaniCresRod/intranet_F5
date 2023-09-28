@@ -62,7 +62,7 @@ import { RouterLink } from 'vue-router';
   </header>
 </template>
 
-<style>
+<style scoped>
 .header {
   height: 12vh;
   width: 100%;

@@ -1,7 +1,7 @@
 <script setup>
-import CardInfoComponent from '../components/CardInfoComponent.vue';
+import CardInfoWorkerComponent from "../components/CardInfoWorkerComponent.vue"
 </script>
 
 <template>
-  <CardInfoComponent />
+  <CardInfoWorkerComponent />
 </template>
