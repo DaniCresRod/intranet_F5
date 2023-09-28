@@ -1,6 +1,8 @@
 package com.intranet_F5.Services;
 
+import com.intranet_F5.Model.SchoolModel;
 import com.intranet_F5.Model.UserModel;
+import com.intranet_F5.Repository.SchoolRepository;
 import com.intranet_F5.Repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,11 @@ import java.util.List;
 @Service
 public class UserService {
 
-//    @Autowired
-//    EntityManager entityManager;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SchoolRepository schoolRepository;
 
     public List<UserModel> getAllUsers() {
         return userRepository.findAll();
@@ -72,9 +75,18 @@ public class UserService {
                     myUser.setUserImage(newUser.getUserImage());
                     myUser.setSchoolID(newUser.getSchoolID());
 
+                    //Actualizar la info de la escuela para enviar, para saltarme el cache de Hibernate
+                    //No funcionó con entityManager.refresh(myUser);
+                    SchoolModel updatedSchool=schoolRepository.findById(myUser.getSchoolID().getId()).get();
+
+                    myUser.getSchoolID().setSchoolName(updatedSchool.getSchoolName());
+                    myUser.getSchoolID().setSchoolEmail(updatedSchool.getSchoolEmail());
+                    myUser.getSchoolID().setSchoolPhone(updatedSchool.getSchoolPhone());
+                    myUser.getSchoolID().setSchoolBankHs(updatedSchool.getSchoolBankHs());
+                    myUser.getSchoolID().setSchoolStateHolidays(updatedSchool.getSchoolStateHolidays());
+                    myUser.getSchoolID().setSchoolStateCode(updatedSchool.getSchoolStateCode());
 
                     userRepository.save(myUser);
-                    //entityManager.refresh(myUser);
                     return myUser;
                 }
                 return null;
