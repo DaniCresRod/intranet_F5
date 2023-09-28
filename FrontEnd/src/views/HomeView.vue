@@ -1,4 +1,5 @@
 <script setup>
+import EmployeeViewVue from './EmployeeView.vue';
 </script>
 
 <template>
@@ -20,11 +21,10 @@
                 <input type="password" id="password" v-model="password" required :placeholder="'CONTRASEÑA'" class="custom-placeholder">
             </div>
             <button class="button" type="submit">LOGIN</button>
-        </form>
-
-
-
+          </form>
     </div>
+
+    <EmployeeViewVue/>
 </template>
 
 <style scoped>
