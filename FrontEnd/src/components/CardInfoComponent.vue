@@ -25,7 +25,7 @@ onBeforeMount(getWorkerData);
 
 </script>
 <template>
-  <h2>Autorizando a</h2>
+ 
   <div class="cardInfo">
     <v-card class="custom-card">
       <div class="card-content">
@@ -109,7 +109,7 @@ h
   flex-direction: row;
   gap:10rem;
   padding: 1rem 7rem 1rem 5rem;
-  padding-right:15rem ;
+  padding-right:15rem;
   }
 
 </style>
