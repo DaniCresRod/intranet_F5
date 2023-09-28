@@ -36,4 +36,9 @@ public class RequestController {
         return requestService.newRequest(newRequest);
     }
 
+    @PutMapping(path="/update/{id}")
+    public UserRequestModel updateRequest(@PathVariable long id, @RequestBody UserRequestModel updatedRequest){
+        return requestService.updateRequest(id, updatedRequest);
+    }
+
 }

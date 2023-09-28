@@ -16,6 +16,7 @@ public class RequestService {
         return requestRepository.findAll();
     }
 
+    //Faltaria filtro para evitar estatus incorrectos
     public String newRequest(UserRequestModel newRequest) {
         try{
             if (requestRepository.findRepeatedDateRequests(newRequest) == null) {
@@ -36,5 +37,25 @@ public class RequestService {
 
     public List<UserRequestModel> getOneRequestBySchoolId(long SchoolId) {
         return requestRepository.findBySchoolId(SchoolId);
+    }
+
+    //Un request solo permitira cambiar fechas, status y userReason.
+    public UserRequestModel updateRequest(long id, UserRequestModel updatedRequest) {
+        try{
+            if(requestRepository.existsById(id)){
+                UserRequestModel myRequest=requestRepository.findById(id).get();
+                myRequest.setStartDate(updatedRequest.getStartDate());
+                myRequest.setEndDate(updatedRequest.getEndDate());
+                myRequest.setStatus(updatedRequest.getStatus()); //Faltaria filtro para evitar estatus incorrectos
+                myRequest.setUserReason(updatedRequest.getUserReason());
+
+                requestRepository.save(myRequest);
+                return myRequest;
+            }
+            else return null;
+        }
+        catch(Exception e){
+            return null;
+        }
     }
 }

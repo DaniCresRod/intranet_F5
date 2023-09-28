@@ -28,10 +28,8 @@ public class AccessBankHolidaysAPI {
 //        ObjApi.fetchHolidays(SchoolModel.StateCode.AS);
 //    }
 
-
-
     //Este metodo Accede a la API que devuelve los festivos en una determinada Comunidad autonoma.
-    public List<LocalDate> fetchHolidays(SchoolModel.StateCode state) {
+    private List<LocalDate> fetchHolidays(SchoolModel.StateCode state) {
         HttpClient myClient = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.generadordni.es/v2/holidays/holidays?year=2023&country=ES&state="+state))
@@ -49,7 +47,6 @@ public class AccessBankHolidaysAPI {
             List<DTOBankHolidays> myBHDysList = mapper.readValue(respuesta.body(),
                     new TypeReference<List<DTOBankHolidays>>() {});
 
-
             // Ahora tienes la lista de DTOBankHolidays para trabajar con ella
             List<LocalDate> myBHDYList = new ArrayList<>();
             for (DTOBankHolidays holiday : myBHDysList) {
@@ -61,5 +58,18 @@ public class AccessBankHolidaysAPI {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<SchoolDateModel> getSchoolDateModelList(SchoolModel newSchool){
+        AccessBankHolidaysAPI accessBankHolidaysAPI=new AccessBankHolidaysAPI();
+        List<LocalDate> holidays = accessBankHolidaysAPI.fetchHolidays(newSchool.getSchoolStateCode());
+
+        List<SchoolDateModel> schoolDateModels = new ArrayList<>();
+        for (LocalDate date : holidays) {
+            SchoolDateModel schoolDateModel = new SchoolDateModel();
+            schoolDateModel.setDate(date);
+            schoolDateModels.add(schoolDateModel);
+        }
+        return schoolDateModels;
     }
 }
