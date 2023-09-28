@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface LogRepository extends JpaRepository<LogModel, Long> {
-    @Query(value="SELECT * FROM user_request WHERE user_id=:id", nativeQuery = true)
+    @Query(value="SELECT * FROM logs WHERE id_request=:id", nativeQuery = true)
     List<LogModel> findAllByRequestId(@Param("id") long id);
 }
