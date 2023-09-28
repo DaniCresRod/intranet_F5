@@ -25,38 +25,55 @@ onBeforeMount(getWorkerData);
 
 </script>
 <template>
-  <h2>    Autorizando a</h2>
+  <h2>Autorizando a</h2>
   <div class="cardInfo">
     <v-card class="custom-card">
       <div class="card-content">
       <div class="card-image-container">
-        <v-avatar size="150">
+        <v-avatar class="card_avatar" size="150">
           <v-img class="card_info_img" src="/img_prueba.jpg"/>
         </v-avatar>
       </div>
-      <div class="card-info-content">
+      
     <v-card-title class="card_data" v-if="data">
-      <h1>{{ data.userName }}</h1>
+      <div class="card-info-content">
+      <h2>{{ data.userName }}</h2>
       <div class="info-line">
-      <p> {{ data.userType }}</p> 
-      <p>School Name: {{ data.schoolID.schoolName }}</p>
+        <p> {{ data.userType }}</p> 
+        <p>{{ data.schoolID.schoolName }}</p>
       </div>
       <div class="info-line">
-      <p>Start Date: {{ data.userStartDate }}</p> 
+        <p>Fecha de inicio: {{ data.userStartDate }}</p> 
+      </div>
     </div>
-      
     </v-card-title>
     
-    </div>
+    
     </div>
   </v-card>
 </div>
 </template>
 
 <style scoped>
+
+*{
+  font-family: Poppins;
+}
+h
 .card_info_img {
   border-radius: 50px;
-  border: 1px solid var(--orange);
+}
+
+.card_avatar{
+  border: 2px solid var(--orange);
+  position: absolute;
+  left: -10px; 
+  top: -10px; 
+  width: 150px; 
+  height: 150px; 
+  z-index: 500;
+  border-radius: 50%;
+  border: 2px solid var(--orange); 
 }
 
 .cardInfo {
@@ -67,6 +84,7 @@ onBeforeMount(getWorkerData);
   position: relative;
   background-color: #D9D9D9;
   border: 2px solid var(--orange);
+  z-index: -500;
 }
 
 .card-content {
@@ -75,18 +93,23 @@ onBeforeMount(getWorkerData);
 }
 
 .card-image-container {
-  width: 150px; /* Ancho de la imagen */
-  height: 150px; /* Altura de la imagen */
+  width: 150px; 
+  height: 150px; 
   border-radius: 50%;
-  margin-right: 20px; /* Ajusta el espacio a la derecha de la imagen */
+  margin-right: 20px; 
 }
 .card-data{
+  padding-left: 5rem;
   display: inline-flex;
+  flex-wrap: wrap;
 }
 .info-line {
   flex-grow: 1;
   display: flex;
-  flex-direction: column;
-}
+  flex-direction: row;
+  gap:10rem;
+  padding: 1rem 7rem 1rem 5rem;
+  padding-right:15rem ;
+  }
 
 </style>
