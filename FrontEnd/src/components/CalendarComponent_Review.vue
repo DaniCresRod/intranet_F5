@@ -171,7 +171,7 @@ onMounted(() => {
 
 </template>
 
-<style scoped>.
+<style scoped>
 calendario-container {
     max-width: 100%;
     overflow: auto;
