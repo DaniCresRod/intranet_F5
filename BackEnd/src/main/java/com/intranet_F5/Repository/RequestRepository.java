@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<UserRequestModel, Long> {
-    @Query(value="SELECT * FROM user_request WHERE user_id=:#{#myRequest.getUserId().getId()} start_date BETWEEN :#{#myRequest.getStartDate()} " +
+    @Query(value="SELECT * FROM user_request WHERE user_id=:#{#myRequest.getUserId().getId()} AND start_date BETWEEN :#{#myRequest.getStartDate()} " +
             "AND :#{#myRequest.getEndDate()} LIMIT 1", nativeQuery = true)
     UserRequestModel findRepeatedDateRequests(@Param("myRequest") UserRequestModel myRequest);
 
