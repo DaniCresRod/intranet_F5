@@ -20,8 +20,6 @@ const selectDragAttribute = computed(() => ({
 }));
 
 const dragValue = ref(null);
-const isSelectionActive = ref(false); 
-
 const userId = 2;
 
 async function getData() {
@@ -51,10 +49,6 @@ const dayStyle = (date) => {
     
     const dayStyles = {};
 
-    if (isSelectionActive.value) {
-        return selectDragAttribute.value.popover;
-    }
-
     holidaysData.userRequests.forEach((request) => {
         const startDate = new Date(request.startDate);
         const endDate = new Date(request.endDate);
@@ -71,59 +65,38 @@ const dayStyle = (date) => {
         }
          currentDate.setDate(currentDate.getDate() + 1);
     });
-
     return dayStyles;
 };
 
-
 const eventHandler = (value) => {
+    console.log('Rango seleccionado:', value.start, ' - ', value.end);
     dragValue.value = value;
-    isSelectionActive.value = !!value;
 };
 
-</script>
+const requestHolidays = async () => {
+  try {
+    const request = {
+      startDate: range.value.start,
+      endDate: range.value.end,
+      status: 1,
+      userReason: "Holidays",
+      userId: { id:userId }
+    };
+
+    const response = await RequestServices.post(request);
+
+    console.log('Solicitud exitosa:', response.data);
+
+    range.value.start = today;
+    range.value.end = today;
+  } catch (error) {
+    console.error('Error al solicitar días:', error);
+  }
+};
 
 
-<template>
-   
-
-   <div class="calendarContainer">
-    <VDatePicker v-model.range="range"
-        v-model:start="range.start"
-        v-model:end="range.end"
-        :select-attribute="selectDragAttribute" 
-        :drag-attribute="selectDragAttribute"
-        @drag="eventHandler()"
-       
-       >
-        <template #day-popover="{ format }" :day-style="dayStyle">
-            <div class="text-sm">
-                {{ format(dragValue ? dragValue.start : range.start, 'MMM D') }}
-                {{ format(dragValue ? dragValue.end : range.end, 'MMM D') }}
-            </div>
-        </template>
-
-    </VDatePicker>
-</div>
-</template>
-
-
-<style scoped>
-.custom-select{
-    background-color: #fabada;
-}
-
-.calendarContainer{
-    display: flex;
-    justify-content: center;
-}
-
-</style>
-
-
-<!-- 
-
- try{
+/* 
+try{
         const response = await RequestServices.getById(userId);
         const holidaysData = response.data;
         console.log(holidaysData);
@@ -144,7 +117,7 @@ const selectedSchool = ref(null);
 const approvedHolidays = ref([]);
 const pendingHolidays = ref([]);
 
-/* const schoolHandler = (schoolId) => {
+const schoolHandler = (schoolId) => {
     console.log(schoolId);
     selectedSchool.value=schoolId;
     } 
@@ -164,4 +137,44 @@ const eventHandler =(event) => {
         log_id: null,
     }
     holidaysData.value=dateHolidays;
-}  -->
+}   */
+</script>
+
+
+<template>
+   <div class="calendarContainer">
+    <VDatePicker v-model.range="range"
+        v-model:start="range.start"
+        v-model:end="range.end"
+        :select-attribute="selectDragAttribute" 
+        :drag-attribute="selectDragAttribute"
+        @drag="eventHandler($event)"
+       
+       >
+        <template #day-popover="{ format }" :day-style="dayStyle">
+            <div class="text-sm">
+                {{ format(dragValue ? dragValue.start : range.start, 'MMM D') }}
+                {{ format(dragValue ? dragValue.end : range.end, 'MMM D') }}
+            </div>
+        </template>
+    </VDatePicker>
+    <v-btn class="me-2" @click="requestHolidays">Solicitar días</v-btn> 
+
+</div>
+</template>
+
+
+<style scoped>
+.custom-select{
+    background-color: #fabada;
+}
+
+.calendarContainer{
+    display: flex;
+    justify-content: center;
+}
+
+
+</style>
+
+
