@@ -1,10 +1,4 @@
 <script setup>
-
-import EmployeeViewVue from './EmployeeView.vue';
-
-import CardInfoComponent from '../components/CardInfoComponent.vue';
-
-
 </script>
 
 <template>
@@ -29,13 +23,6 @@ import CardInfoComponent from '../components/CardInfoComponent.vue';
 
           </form>
     </div>
-
-    <EmployeeViewVue/>
-
-        </form>
-    </div>
-    <CardInfoComponent/>
-
 </template>
 
 <style scoped>

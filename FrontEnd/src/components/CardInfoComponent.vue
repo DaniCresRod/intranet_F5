@@ -1,58 +1,52 @@
 <script setup>
-import { ref } from 'vue';
-import { VCard, VCardTitle, VCardSubtitle, VCardText } from "vuetify/dist/vuetify.min";
+import { ref, onBeforeMount } from 'vue';
+import { defineProps } from 'vue';
 import CardInfoService from '../services/CardInfoService';
 
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true
+  }
+});
+
 const data = ref(null);
+const loading = ref(true);
 
 async function getWorkerData() {
+  loading.value = true;
   const response = await CardInfoService.getWorkerData(props.id);
-  data.value = response.data;
+  data.value = await response.data;
+  console.log(response.data)
+  loading.value = false;
 }
 
-getWorkerData();
-</script>
+onBeforeMount(getWorkerData);
 
+</script>
 <template>
-  <h1>HOLI</h1>
+  <div class="cardInfo">
   <v-card>
-    <h1>prueba</h1>
     <v-card-title>
-      <v-avatar size="60">
-        <!-- <v-img :src="data.value.image" /> -->
+      <v-avatar size="150">
         <v-img class="card_info_img" src="/img_prueba.jpg"/>
       </v-avatar>
-      <v-card-subtitle>
-        <h1>Subtitulo</h1>
-        {{ data.value.name }}
-      </v-card-subtitle>
     </v-card-title>
-    <v-card-text>
-      <v-row>
-        <v-col cols="6">
-          <strong>Puesto:</strong> {{ data.value.position }}
-        </v-col>
-        <v-col cols="6">
-          <strong>Fecha de inicio:</strong> {{ data.value.start_date }}
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6">
-          <strong>Departamento:</strong> {{ data.value.department }}
-        </v-col>
-        <v-col cols="6">
-          <strong>Escuela de procedencia:</strong> {{ data.value.school }}
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <strong>Supervisor:</strong> {{ data.value.supervisor }}
-        </v-col>
-      </v-row>
-    </v-card-text>
+    <v-card-subtitle v-if="data">
+        <h1>User Name: {{ data.userName }}</h1>
+        <p>User Type: {{ data.userType }}</p> 
+        <p>Start Date: {{ data.userStartDate }}</p> 
+        <p>School Name: {{ data.schoolID.schoolName }}</p> 
+      </v-card-subtitle>
   </v-card>
+</div>
 </template>
+
 <style scope>
-.card_info_img{border-radius: 50px;
+.card_info_img{border-radius: 50px;}
+
+.cardInfo{
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
+
 </style>
