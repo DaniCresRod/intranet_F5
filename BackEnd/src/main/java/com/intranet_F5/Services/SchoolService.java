@@ -16,9 +16,6 @@ public class SchoolService {
     @Autowired
     SchoolRepository schoolRepository;
 
-    @Autowired
-    private SchoolDateRepository schoolDateRepository;
-
     public List<SchoolModel> getAllSchools(){
         return schoolRepository.findAll();
     }
