@@ -3,6 +3,7 @@ import AuthorizerView from '../views/AuthorizerView.vue'
 import EmployeeView from '../views/EmployeeView.vue'
 import HomeView from '../views/HomeView.vue'
 import HrGeneral from '../views/HrGeneral.vue'
+import CreateSchoolView from '../views/CreateSchoolView.vue'
 
 
 const router = createRouter({
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/HrGeneral',
       name: 'hr',
       component: HrGeneral
+    },
+    {
+      path: '/createschool',
+      name: 'createschool',
+      component: CreateSchoolView
     },
   ]
 })
