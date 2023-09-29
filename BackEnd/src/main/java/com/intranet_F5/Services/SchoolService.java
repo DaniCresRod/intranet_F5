@@ -13,7 +13,6 @@ import java.util.List;
 public class SchoolService {
     @Autowired
     SchoolRepository schoolRepository;
-
     @Autowired
     private SchoolDateRepository schoolDateRepository;
 

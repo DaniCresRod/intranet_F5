@@ -1,6 +1,4 @@
 <script setup>
-import CardInfoComponent from '../components/CardInfoComponent.vue';
-
 </script>
 
 <template>
@@ -22,9 +20,9 @@ import CardInfoComponent from '../components/CardInfoComponent.vue';
                 <input type="password" id="password" v-model="password" required :placeholder="'CONTRASEÑA'" class="custom-placeholder">
             </div>
             <button class="button" type="submit">LOGIN</button>
-        </form>
+
+          </form>
     </div>
-    <CardInfoComponent/>
 </template>
 
 <style scoped>

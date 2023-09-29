@@ -1,7 +1,9 @@
 <script setup>
-import CardInfoComponent from '../components/CardInfoComponent.vue';
+import CardInfoWorkerComponent from '../components/CardInfoWorkerComponent.vue';
+import CalendarComponent_Request from '../components/CalendarComponent_Request.vue';
 </script>
 
 <template>
-  <CardInfoComponent />
+  <CardInfoWorkerComponent />
+  <CalendarComponent_Request/>
 </template>
