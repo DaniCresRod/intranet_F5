@@ -77,7 +77,7 @@ public class UserModel {
     public enum UserType
     {
         Supervisor,
-        HHRR,
+        HR,
         Employee,
     }
 
