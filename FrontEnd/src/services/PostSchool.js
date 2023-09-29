@@ -3,8 +3,8 @@ import http from '../httpCommon';
 export default({
 
     
-    post(FormData) {
-        return http.post(`/schools`,FormData);
+    post(Data) {
+        return http.post(`/schools`, Data);
     },
     
 });

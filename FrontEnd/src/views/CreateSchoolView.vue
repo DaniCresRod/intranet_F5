@@ -13,9 +13,9 @@ const createSchool = async () => {
     try {
         const postData = {
             schoolName: schoolName.value,
-            email: email.value,
-            phoneNumber: phoneNumber.value,
-            stateCode: stateCode.value,
+            schoolEmail: email.value,
+            schoolPhone: phoneNumber.value,
+            schoolStateCode: stateCode.value,
         };
 
         // Llamar al servicio para crear la escuela
