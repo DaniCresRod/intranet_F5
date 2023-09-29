@@ -111,7 +111,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <h2> Dar de alta una nueva escuela</h2>
+    <h2> Dar de alta una nuevo usuario</h2>
 
     <section class="newUser">
         <form id="userForm" @submit.prevent="handleSubmit">
