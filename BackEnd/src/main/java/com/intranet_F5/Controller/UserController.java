@@ -26,7 +26,7 @@ public class UserController {
 
     @PostMapping
     public String addNewUser(@RequestBody UserModel newUser){
-        return userService.addNewUser(newUser);
+            return userService.addNewUser(newUser);
     }
 
     @DeleteMapping(path="/delete/{id}")
@@ -38,6 +38,4 @@ public class UserController {
     public UserModel upgradeUser(@PathVariable long id, @RequestBody UserModel newUser){
         return userService.upgradeUser(id, newUser);
     }
-
-
 }

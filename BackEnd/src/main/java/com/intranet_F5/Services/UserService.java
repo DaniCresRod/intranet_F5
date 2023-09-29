@@ -33,7 +33,7 @@ public class UserService {
             else return "Ya existe un usuario con NIF "+newUser.getUserNif();
         }
         catch(Exception e){
-            return "Hubo un error al procesar la solicitud de creacion";
+            return "Hubo un error al procesar la solicitud de creacion: "+e.getMessage();
         }
     }
 

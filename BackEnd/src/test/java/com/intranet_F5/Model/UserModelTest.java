@@ -38,7 +38,7 @@ class UserModelTest {
         myTestUser4= new UserModel(4L, "userName4","userSurname4", "userNif4", "user4@email.com", "userPhone4",null, LocalDate.parse("2023-01-01"), LocalDate.parse("2023-01-31"), 30, "pass4", UserModel.UserType.Employee,null, SchoolTest1, null );
 
         //TestDummy 5: User more than a year old, with School, with Requests
-        requestTest1 = new UserRequestModel(1L, myTestUser5, LocalDate.parse("2023-04-02"), LocalDate.parse("2023-04-10"), 1, UserRequestModel.RequestType.Holidays, null);
+        requestTest1 = new UserRequestModel(1L, myTestUser5,LocalDate.now(), LocalDate.parse("2023-04-02"), LocalDate.parse("2023-04-10"), 1, UserRequestModel.RequestType.Holidays, null);
         UserRequestModelList1=new ArrayList<>();
         UserRequestModelList1.add(requestTest1);
 
@@ -226,8 +226,8 @@ class UserModelTest {
 
     @Test
     void setUserType() {
-        myTestUser1.setUserType(UserModel.UserType.HHRR);
-        assertEquals( UserModel.UserType.HHRR, myTestUser1.getUserType());
+        myTestUser1.setUserType(UserModel.UserType.HR);
+        assertEquals( UserModel.UserType.HR, myTestUser1.getUserType());
     }
 
     @Test
