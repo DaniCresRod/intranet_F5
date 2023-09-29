@@ -10,40 +10,40 @@ const stateCode = ref('');
 
 // Función para manejar el envío del formulario
 const createSchool = async () => {
-  try {
-    const postData = {
-      schoolName: schoolName.value,
-      email: email.value,
-      phoneNumber: phoneNumber.value,
-      stateCode: stateCode.value,
-    };
+    try {
+        const postData = {
+            schoolName: schoolName.value,
+            email: email.value,
+            phoneNumber: phoneNumber.value,
+            stateCode: stateCode.value,
+        };
 
-    // Llamar al servicio para crear la escuela
-    const response = await PostSchool.post(postData);
+        // Llamar al servicio para crear la escuela
+        const response = await PostSchool.post(postData);
 
-    // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
-    console.log('Escuela creada con éxito:', response.data);
+        // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
+        console.log('Escuela creada con éxito:', response.data);
 
-    // Restablecer los campos del formulario después de crear la escuela
-    schoolName.value = '';
-    email.value = '';
-    phoneNumber.value = '';
-    stateCode.value = '';
-  } catch (error) {
-    // Manejar cualquier error que ocurra durante la creación de la escuela
-    console.error('Error al crear la escuela:', error);
-  }
+        // Restablecer los campos del formulario después de crear la escuela
+        schoolName.value = '';
+        email.value = '';
+        phoneNumber.value = '';
+        stateCode.value = '';
+    } catch (error) {
+        // Manejar cualquier error que ocurra durante la creación de la escuela
+        console.error('Error al crear la escuela:', error);
+    }
 };
 
 // Manejar el envío del formulario cuando se presiona el botón "Crear Escuela"
 const handleSubmit = (event) => {
-  event.preventDefault();
-  createSchool();
+    event.preventDefault();
+    createSchool();
 };
 
 // Ejecutar alguna lógica adicional si es necesario cuando la vista se monta
 onMounted(() => {
-  // Por ejemplo, cargar datos iniciales o configurar eventos
+    // Por ejemplo, cargar datos iniciales o configurar eventos
 });
 
 </script>
@@ -56,13 +56,13 @@ onMounted(() => {
         <form id="schoolFrom">
             <label for="schoolName">Nombre de la Escuela:</label>
             <input type="text" id="schoolName" name="schoolName" v-model="schoolName" required>
-            
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" v-model="email" required>
-            
+
             <label for="phoneNumber">Número de Teléfono:</label>
             <input type="tel" id="phoneNumber" name="phoneNumber" v-model="phoneNumber" required>
-            
+
             <label for="stateCode">Código de Estado:</label>
             <select id="stateCode" name="stateCode" v-model="stateCode">
                 <option value="AN">Andalucía</option>
