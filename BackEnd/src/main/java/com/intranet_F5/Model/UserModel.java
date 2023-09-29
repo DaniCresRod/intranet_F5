@@ -77,7 +77,7 @@ public class UserModel {
     public enum UserType
     {
         Supervisor,
-        HHRR,
+        HR,
         Employee,
     }
 
@@ -105,13 +105,16 @@ public class UserModel {
             this.userStartDate = LocalDate.now();
         }
 
-        if(this.userStartDate.isAfter(this.userEndDate)){
-            throw new Exception();
+        if(userEndDate==null) this.userDays=30;
+        else{
+            if(this.userStartDate.isAfter(this.userEndDate)){
+                throw new Exception("Hubo un error calculando fechas");
+            }
+            // if((this.userDays == null)){
+            int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
+            this.userDays = calculatedDays;
+            // }
         }
-        // if((this.userDays == null)){
-        int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
-        this.userDays = calculatedDays;
-        // }
     }
 
     private int calcularDiasDeVacaciones(LocalDate userStartDate, LocalDate userEndDate) {

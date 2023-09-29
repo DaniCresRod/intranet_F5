@@ -24,6 +24,14 @@ public class UserRequestModel {
     @JsonIgnoreProperties("userRequests")
     private UserModel userId;
 
+    @PrePersist
+    public void prePersist() {
+        this.requestDate = LocalDate.now();
+    }
+
+    @Column(name = "request_date")
+    private LocalDate requestDate;
+
     @Column(name = "start_date")
     private LocalDate startDate;
 
