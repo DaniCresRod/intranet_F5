@@ -14,6 +14,7 @@ const range = ref({
 let holidaysData = null;
 const showConfirmation = ref(false);
 const dragValue = ref(null);
+const currentDate = ref();
 
 const selectDragAttribute = computed(() => ({
     popover: {
@@ -21,6 +22,26 @@ const selectDragAttribute = computed(() => ({
         isInteractive: false,
     },
 }));
+
+const attributes = ref([
+    {
+        key: 'approved',
+        highlight:{
+            color: 'orange',
+            fillmode: 'solid',
+        },
+        date: new Date(currentDate),
+    },
+    {
+        key: 'pending',
+        highlight:{
+            color: 'green',
+            fillmode: 'light',
+            contentClass: 'italic',
+        },
+        date: new Date(currentDate),
+    },
+]);
 
 const startDate = ref(); 
 const endDate = ref();
@@ -70,17 +91,21 @@ const dayStyle = (date) => {
             startDate <= currentDate &&
             endDate >= currentDate
         ) {
-            if (request.status === 0) {
-                dayStyles[currentDate.getDate()] = { backgroundColor: 'orange', cursor: 'not-allowed' };
-            } else if (request.status === 1) {
-                dayStyles[currentDate.getDate()] = { backgroundColor: 'green', cursor: 'not-allowed' };
+            console.log('Status:', request.status);
+
+            if (request.status === 1) {
+                dayStyles[currentDate.getDate()] = { key:'approved', cursor: 'not-allowed' };
+            } else if (request.status === 2) {
+                dayStyles[currentDate.getDate()] = { key: 'pending', cursor: 'not-allowed' };
             }
         }
         currentDate.setDate(currentDate.getDate() + 1);
     });
-
+    console.log('dayStyles:', dayStyles);
     return dayStyles;
 };
+
+
 
 const eventHandler = (value) => {
     console.log('Rango seleccionado:', value.start, ' - ', value.end);
@@ -95,10 +120,12 @@ const eventHandler = (value) => {
             v-model:start="range.start"
             v-model:end="range.end"
             :select-attribute="selectDragAttribute" 
+            :attributes="attributes"
+            :day-style="dayStyle"
             :drag-attribute="selectDragAttribute"
             @drag="eventHandler($event)"
         >
-            <template #day-popover="{ format }" :day-style="dayStyle">
+            <template #day-popover="{ format }">
                 <div class="text-sm">
                     {{ format(dragValue ? dragValue.start : range.start, 'MMM D') }}
                     {{ format(dragValue ? dragValue.end : range.end, 'MMM D') }}
