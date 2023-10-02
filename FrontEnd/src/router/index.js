@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue'
 import HrGeneral from '../views/HrGeneral.vue'
 import CreateSchoolView from '../views/CreateSchoolView.vue'
 import CreateUserView from '../views/CreateUserView.vue'
+import EditUserView from '../views/EditUserView.vue'
 
 
 const router = createRouter({
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/createuser',
       name: 'createuser',
       component: CreateUserView
+    },
+    {
+      path: '/edituser',
+      name: 'edituser',
+      component: EditUserView
     },
   ]
 })
