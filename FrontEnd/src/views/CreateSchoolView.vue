@@ -70,7 +70,7 @@ onMounted(() => {
             </div>
 
             <div class="form-group">
-            <label for="stateCode">Código de Estado:</label>
+            <label for="stateCode">Provincia:</label>
             <select id="stateCode" name="stateCode" v-model="stateCode">
                 <option value="AN">Andalucía</option>
                 <option value="AR">Aragón</option>

@@ -1,7 +1,11 @@
 <script setup>
+import RequesReviewComponent from '../components/RequesReviewComponent.vue';
+
 
 </script>
 
 <template>
-  <div></div>
+  <div>
+    <RequesReviewComponent />
+  </div>
 </template>
