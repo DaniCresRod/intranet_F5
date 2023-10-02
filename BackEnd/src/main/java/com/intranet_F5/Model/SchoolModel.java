@@ -28,8 +28,8 @@ public class SchoolModel {
     @Column(name = "Name")
     private String schoolName;
 
-    @Column(name = "Email")
-    private String schoolEmail;
+    @Column(name = "Address")
+    private String schoolAddress;
 
     @Column(name = "Phone")
     private String schoolPhone;

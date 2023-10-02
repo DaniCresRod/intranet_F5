@@ -45,7 +45,7 @@ public class LogService  {
                     " de "+
                     (requestRepository.findById(newLog.getRequestId())).get().getUserReason()+
                     " de "+
-                    (requestRepository.findById(newLog.getRequestId())).get().getUserId().getUserName();
+                    (requestRepository.findById(newLog.getRequestId())).get().getUserId().getUsername();
         }
         return "No existe una petición a la que añadir el log";
     }

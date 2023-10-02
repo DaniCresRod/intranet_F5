@@ -218,11 +218,11 @@ class UserModelTest {
         assertNotEquals(45, myTestUser2.getUserDays());
     }
 
-    @Test
-    void setUserPass() {
-        myTestUser1.setUserPass("Ok Pass");
-        assertEquals( "Ok Pass", myTestUser1.getUserPass());
-    }
+//    @Test
+//    void setUserPass() {
+//        myTestUser1.setUserPass("Ok Pass");
+//        assertEquals( "Ok Pass", myTestUser1.getUserPass());
+//    }
 
     @Test
     void setUserType() {

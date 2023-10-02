@@ -7,9 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.MONTHS;
@@ -21,7 +25,7 @@ import static java.time.temporal.ChronoUnit.MONTHS;
 @NoArgsConstructor
 @Table(name = "users")
 @CrossOrigin(origins = "*")
-public class UserModel {
+public class UserModel implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,6 +77,41 @@ public class UserModel {
     @OneToMany(mappedBy = "userId",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("userId")
     private List<UserRequestModel> userRequests;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.userPass;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     public enum UserType
     {

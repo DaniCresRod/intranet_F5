@@ -34,7 +34,7 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
-    @PutMapping(path="upgrade/{id}")
+    @PutMapping(path="/upgrade/{id}")
     public UserModel upgradeUser(@PathVariable long id, @RequestBody UserModel newUser){
         return userService.upgradeUser(id, newUser);
     }

@@ -6,6 +6,7 @@ import com.intranet_F5.Repository.SchoolRepository;
 import com.intranet_F5.Repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class UserService {
     @Autowired
     SchoolRepository schoolRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     public List<UserModel> getAllUsers() {
         return userRepository.findAll();
     }
@@ -26,8 +30,12 @@ public class UserService {
     public String addNewUser(UserModel newUser) {
         try{
             if ( userRepository.findByUserNif(newUser.getUserNif()) == null) {
+                //Encriptar contraseña
+                String encodedPassword = passwordEncoder.encode(newUser.getUserPass());
+                newUser.setUserPass(encodedPassword);
+
                 userRepository.save(newUser);
-                return "El usuario "+newUser.getUserName()+" "+newUser.getUserSurName()+
+                return "El usuario "+newUser.getUsername()+" "+newUser.getUserSurName()+
                         " se guardó satisfactoriamente.";
             }
             else return "Ya existe un usuario con NIF "+newUser.getUserNif();
@@ -61,7 +69,7 @@ public class UserService {
                 if(myUser.getId() == newUser.getId()){
                     myUser=userRepository.findById(id).get();
 
-                    myUser.setUserName(newUser.getUserName());
+                    myUser.setUserName(newUser.getUsername());
                     myUser.setUserSurName(newUser.getUserSurName());
                     myUser.setUserNif(newUser.getUserNif());
                     myUser.setUserEmail(newUser.getUserEmail());
@@ -80,7 +88,7 @@ public class UserService {
                     SchoolModel updatedSchool=schoolRepository.findById(myUser.getSchoolID().getId()).get();
 
                     myUser.getSchoolID().setSchoolName(updatedSchool.getSchoolName());
-                    myUser.getSchoolID().setSchoolEmail(updatedSchool.getSchoolEmail());
+                    myUser.getSchoolID().setSchoolAddress(updatedSchool.getSchoolAddress());
                     myUser.getSchoolID().setSchoolPhone(updatedSchool.getSchoolPhone());
                     myUser.getSchoolID().setSchoolBankHs(updatedSchool.getSchoolBankHs());
                     myUser.getSchoolID().setSchoolStateHolidays(updatedSchool.getSchoolStateHolidays());

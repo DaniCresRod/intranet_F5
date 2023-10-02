@@ -34,7 +34,7 @@ public class SchoolService {
 
                 return "La escuela de "+newSchool.getSchoolName()+" se guardó satisfactoriamente";
             } else return "La escuela de "+newSchool.getSchoolName()
-                    +" con el email "+newSchool.getSchoolEmail()+" ya existe. No se guardó.";
+                    +" con el email "+newSchool.getSchoolAddress()+" ya existe. No se guardó.";
         }
         catch(Exception e){
             return "Hubo un error al procesar la solicitud de guardado";
@@ -69,7 +69,7 @@ public class SchoolService {
                 //Si lo permitira si solo uno de los dos datos coincide (modificar??)
                 if(schoolRepository.findDuplicatedSchool(updatedSchool).getId() == mySchool.getId()){
                     mySchool.setSchoolName(updatedSchool.getSchoolName());
-                    mySchool.setSchoolEmail(updatedSchool.getSchoolEmail());
+                    mySchool.setSchoolAddress(updatedSchool.getSchoolAddress());
                     mySchool.setSchoolPhone(updatedSchool.getSchoolPhone());
                     mySchool.setSchoolBankHs(updatedSchool.getSchoolBankHs());
                     if(mySchool.getSchoolStateCode()!=updatedSchool.getSchoolStateCode()){
