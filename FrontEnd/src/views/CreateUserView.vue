@@ -18,15 +18,19 @@ const user_img = ref('');
 const user_school = ref('');
 
 const showPassword = ref(false);
+user_email.value = "@factoriaf5.com";
+
 
 // Función para manejar el envío del formulario
 const createUser = async () => {
     try {
+        const email = user_email.value; // Valor ingresado por el usuario
+        const fullEmail = email + "@factoriaf5.com"; // Email completo con el dominio
         const postData = {
             userName: user_name.value,
             userSurName: user_surname.value,
             userNif: user_nif.value,
-            userEmail: user_email.value,
+            userEmail: fullEmail, // Utiliza el email completo en el objeto de datos
             userPhone: user_phone.value,
             userBirthDate: user_birthday.value,
             userStartDate: user_startDate.value,
@@ -42,7 +46,6 @@ const createUser = async () => {
 
         // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
         console.log('Empleado con éxito:', response.data);
-       
 
         // Restablecer los campos del formulario después de crear la escuela
         user_name.value = '';
@@ -64,26 +67,39 @@ const createUser = async () => {
 
 
 // Validación del DNI
-const validateSpanishDNI = (dni) => {
+const validateSpanishDNIOrNIE = (dniOrNIE) => {
     const dniRegex = /^[0-9]{8}[A-Z]$/;
-    if (!dniRegex.test(dni)) {
+    const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
+    
+    if (dniRegex.test(dniOrNIE)) {
+        // DNI format
+        const letter = dniOrNIE.charAt(8);
+        const number = parseInt(dniOrNIE.substr(0, 8), 10);
+        const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        const expectedLetter = letters.charAt(number % 23);
+        return letter === expectedLetter;
+    } else if (nieRegex.test(dniOrNIE)) {
+        // NIE format (starting with X, Y, or Z)
+        const nieLetterMapping = { X: 0, Y: 1, Z: 2 };
+        const firstChar = dniOrNIE.charAt(0);
+        const number = parseInt(dniOrNIE.substr(1, 7), 10);
+        const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        const expectedLetter = letters.charAt((nieLetterMapping[firstChar] + number) % 23);
+        return dniOrNIE.charAt(8) === expectedLetter;
+    } else {
+        // Neither DNI nor NIE format
         return false;
     }
-    const letter = dni.charAt(8);
-    const number = parseInt(dni.substr(0, 8), 10);
-    const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    const expectedLetter = letters.charAt(number % 23);
-    return letter === expectedLetter;
 };
 
 // Watch the user_nif value for changes and validate it
 watch(user_nif, (newValue) => {
-    if (validateSpanishDNI(newValue)) {
-        // The DNI is valid
+    if (validateSpanishDNIOrNIE(newValue)) {
+        // The DNI or NIE is valid
         document.getElementById('dniValidationError').textContent = '';
     } else {
-        // The DNI is not valid
-        document.getElementById('dniValidationError').textContent = '';
+        // The DNI or NIE is not valid
+        document.getElementById('dniValidationError').textContent = 'El DNI o NIE no es válido';
     }
 });
 
@@ -127,19 +143,19 @@ onMounted(() => {
             </div>
 
             <div class="form-group">
-                <label for="user_nif">Documento Identidad:</label>
+                <label for="user_nif">Documento Identidad(DNI o NIE):</label>
                 <input type="text" id="user_nif" name="user_nif" v-model="user_nif" required>
                 <span id="dniValidationError"></span>
             </div>
             <div class="form-group warning">
         <span id="dniValidationError">
-            {{ validateSpanishDNI(user_nif) ? '' : 'El DNI  no es válido' }}
+            {{ validateSpanishDNIOrNIE(user_nif) ? '' : 'El documento no es válido' }}
         </span>
     </div>
 
             <div class="form-group">
             <label for="user_email">Email:</label>
-            <input type="email" id="user_email" name="user_email" v-model="user_email" required>
+            <input type="email" id="user_email" name="user_email" v-model="user_email" required class="correito">
             </div>
 
             <div class="form-group">
@@ -290,5 +306,9 @@ select:focus {
     font-size: smaller;
     color: var(--orange);
     text-decoration: underline;
+    }
+
+    .correito{
+        text-align: right;
     }
 </style>
