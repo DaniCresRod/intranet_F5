@@ -18,15 +18,19 @@ const user_img = ref('');
 const user_school = ref('');
 
 const showPassword = ref(false);
+user_email.value = "@factoriaf5.com";
+
 
 // Función para manejar el envío del formulario
 const createUser = async () => {
     try {
+        const email = user_email.value; // Valor ingresado por el usuario
+        const fullEmail = email + "@factoriaf5.com"; // Email completo con el dominio
         const postData = {
             userName: user_name.value,
             userSurName: user_surname.value,
             userNif: user_nif.value,
-            userEmail: user_email.value,
+            userEmail: fullEmail, // Utiliza el email completo en el objeto de datos
             userPhone: user_phone.value,
             userBirthDate: user_birthday.value,
             userStartDate: user_startDate.value,
@@ -42,7 +46,6 @@ const createUser = async () => {
 
         // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
         console.log('Empleado con éxito:', response.data);
-       
 
         // Restablecer los campos del formulario después de crear la escuela
         user_name.value = '';
@@ -127,7 +130,7 @@ onMounted(() => {
             </div>
 
             <div class="form-group">
-                <label for="user_nif">Documento Identidad:</label>
+                <label for="user_nif">Documento Identidad(DNI o NIE):</label>
                 <input type="text" id="user_nif" name="user_nif" v-model="user_nif" required>
                 <span id="dniValidationError"></span>
             </div>
@@ -139,7 +142,7 @@ onMounted(() => {
 
             <div class="form-group">
             <label for="user_email">Email:</label>
-            <input type="email" id="user_email" name="user_email" v-model="user_email" required>
+            <input type="email" id="user_email" name="user_email" v-model="user_email" required class="correito">
             </div>
 
             <div class="form-group">
@@ -290,5 +293,9 @@ select:focus {
     font-size: smaller;
     color: var(--orange);
     text-decoration: underline;
+    }
+
+    .correito{
+        text-align: right;
     }
 </style>
