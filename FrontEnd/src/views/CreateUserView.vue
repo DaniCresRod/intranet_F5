@@ -67,26 +67,39 @@ const createUser = async () => {
 
 
 // Validación del DNI
-const validateSpanishDNI = (dni) => {
+const validateSpanishDNIOrNIE = (dniOrNIE) => {
     const dniRegex = /^[0-9]{8}[A-Z]$/;
-    if (!dniRegex.test(dni)) {
+    const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
+    
+    if (dniRegex.test(dniOrNIE)) {
+        // DNI format
+        const letter = dniOrNIE.charAt(8);
+        const number = parseInt(dniOrNIE.substr(0, 8), 10);
+        const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        const expectedLetter = letters.charAt(number % 23);
+        return letter === expectedLetter;
+    } else if (nieRegex.test(dniOrNIE)) {
+        // NIE format (starting with X, Y, or Z)
+        const nieLetterMapping = { X: 0, Y: 1, Z: 2 };
+        const firstChar = dniOrNIE.charAt(0);
+        const number = parseInt(dniOrNIE.substr(1, 7), 10);
+        const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        const expectedLetter = letters.charAt((nieLetterMapping[firstChar] + number) % 23);
+        return dniOrNIE.charAt(8) === expectedLetter;
+    } else {
+        // Neither DNI nor NIE format
         return false;
     }
-    const letter = dni.charAt(8);
-    const number = parseInt(dni.substr(0, 8), 10);
-    const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    const expectedLetter = letters.charAt(number % 23);
-    return letter === expectedLetter;
 };
 
 // Watch the user_nif value for changes and validate it
 watch(user_nif, (newValue) => {
-    if (validateSpanishDNI(newValue)) {
-        // The DNI is valid
+    if (validateSpanishDNIOrNIE(newValue)) {
+        // The DNI or NIE is valid
         document.getElementById('dniValidationError').textContent = '';
     } else {
-        // The DNI is not valid
-        document.getElementById('dniValidationError').textContent = '';
+        // The DNI or NIE is not valid
+        document.getElementById('dniValidationError').textContent = 'El DNI o NIE no es válido';
     }
 });
 
@@ -136,7 +149,7 @@ onMounted(() => {
             </div>
             <div class="form-group warning">
         <span id="dniValidationError">
-            {{ validateSpanishDNI(user_nif) ? '' : 'El DNI  no es válido' }}
+            {{ validateSpanishDNIOrNIE(user_nif) ? '' : 'El documento no es válido' }}
         </span>
     </div>
 
