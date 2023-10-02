@@ -70,7 +70,9 @@ onBeforeMount(getWorkerData);
 .cardInfo {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
   width: 45rem;
-  height: 75%; 
+  height: 75%;
+  margin-top: 3rem;
+  margin-bottom: 4rem; 
 }
 
 .card-content {
@@ -94,8 +96,9 @@ onBeforeMount(getWorkerData);
   padding-right: 15%;
 }
 
-.info.holidays{
-  margin-top: 3rem;
+.info-holidays{
+  margin-top: 2rem;
+  margin-left: 1rem;
   font-style: italic;
   color: black;
 
