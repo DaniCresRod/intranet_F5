@@ -10,7 +10,7 @@ const props = defineProps({
     }
 });
 
-const data = ref(null);
+const data = ref();
 const loading = ref(true);
 
 async function getWorkerData() {
@@ -32,11 +32,11 @@ onBeforeMount(getWorkerData);
         </div>
         <div class="content-container">
             <ul class="ul-title">
-                <li class="title">{{ data.userName }}</li>
+                <li class="title">{{data && data.userName}}</li>
                 <ul class="line2">
                     <li>
                     <img class="icon" src="public/role.png" />
-                    {{ data.userType }}
+                    {{ data && data.userType }}
                     </li>
                     <li>
                     <img class="icon" src="public/organigram.png" />
@@ -44,17 +44,17 @@ onBeforeMount(getWorkerData);
                     </li>
                     <li>
                     <img class="icon" src="public/pin.png" />
-                    {{ data.schoolID.schoolName }}
+                    {{ data && data.schoolID.schoolName }}
                     </li>
                 </ul>
                 <ul class="line3">
                 <li>
                     <img class="icon" src="public/start_date.png" />
-                    Fecha de inicio: {{ data.userStartDate }}
+                    Fecha de inicio: {{ data && data.userStartDate }}
                 </li>
                 <li>
                     <img class="icon" src="public/supervisor.png" />
-                    Supervisor: {{ data.userType }}
+                    Supervisor: {{ data && data.userType }}
                 </li>
                 </ul>
             </ul>

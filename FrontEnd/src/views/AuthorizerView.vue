@@ -1,13 +1,11 @@
 <script setup>
-import NewCardInfoComponent from '../components/NewCardInfoComponent.vue';
-import RequestListComponent from '../components/RequestListComponent.vue';
 
+import RequestListComponent from '../components/RequestListComponent.vue';
+import NewCardInfoComponent from '../components/NewCardInfoComponent.vue';
 
 </script>
 
 <template>
-  <div>
-    <NewCardInfoComponent/>
-    <RequestListComponent/>
-  </div>
+  <NewCardInfoComponent />
+  <RequestListComponent />
 </template>

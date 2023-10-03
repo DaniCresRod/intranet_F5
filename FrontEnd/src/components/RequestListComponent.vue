@@ -66,7 +66,6 @@ const sortRequests = () => {
 
 <style scoped>
 .requestList{
-    float: right;
     margin-top: 50px;
     color: orangered;
     padding: 20px;
