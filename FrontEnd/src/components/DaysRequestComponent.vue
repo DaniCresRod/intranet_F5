@@ -6,7 +6,7 @@ const showConfirmation = ref(true);
 const showSendForm = ref(false);
 const { startDate, endDate } = defineProps(['startDate', 'endDate']);
 
-const userId = 2;
+const userId = 5;
 const today=new Date();
 
 let dayStart = startDate.getDate();
@@ -28,12 +28,12 @@ const confirmRequest = async () => {
         userId: { id:userId }
       };
   
-      const response = await RequestServices.post(request);
+    const response = await RequestServices.post(request);
   
     console.log('Solicitud exitosa:', response.data);
     startDate.value = today;
     endDate.value = today;
-  
+
     } catch (error) {
       console.error('Error al solicitar días:', error);
     }
@@ -63,12 +63,12 @@ const cancelRequest = () => {
       </v-card>
     </v-dialog>
     <v-dialog v-model="showSendForm" class="customDialog">
-      <v-card>
-        <div class="py-2 text-center">
-            <p style="font-weight: bold;">¡Solicitud enviada!</p>
-        </div>
+        <v-card>
+            <div class="py-2 text-center">
+                <p style="font-weight: bold;">¡Solicitud enviada!</p>
+            </div>
         </v-card>
-        </v-dialog>
+    </v-dialog>
 </template>
 
 

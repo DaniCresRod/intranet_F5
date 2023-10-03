@@ -4,7 +4,7 @@ import RequestServices from '../services/RequestServices'
 import DaysRequestComponent from './DaysRequestComponent.vue';
 
 const today=new Date();
-const userId = 2;
+const userId = 5;
 
 const range = ref({
     start: today,
@@ -63,7 +63,7 @@ function statusHolidays() {
         ) {
             const currentDate = new Date(startDate);
             while(currentDate <= endDate){
-            if (userRequest.status === 1) {
+            if (userRequest.status === 2) {
                 attributes.value.push({
                     key: 'approved',
                     highlight: {
@@ -72,7 +72,7 @@ function statusHolidays() {
                     },
                     date: new Date(currentDate),
                 });
-            } else if (userRequest.status === 2) {
+            } else if (userRequest.status === 1) {
                 attributes.value.push({
                     key: 'pending',
                     highlight: {
@@ -106,7 +106,7 @@ const eventHandler = (value) => {
             :drag-attribute="selectDragAttribute"
             @drag="eventHandler($event)"
         >
-            <template #day-popover="{ format }" >
+            <template #day-popover="{ format }">
                 <div class="text-sm">
                     {{ format(dragValue ? dragValue.start : range.start, 'MMM D') }}
                     {{ format(dragValue ? dragValue.end : range.end, 'MMM D') }}
