@@ -90,8 +90,9 @@ public class WebSecurityConfig{
                             csrf.disable())
                     .authorizeHttpRequests(authRequest ->
                             authRequest
-                                    //.requestMatchers("/auth/**").permitAll()
+                                    .requestMatchers("/auth/**").permitAll()
                                     .requestMatchers("/schools/**").permitAll()
+                                    .requestMatchers("/**").permitAll()
                                     //.requestMatchers("/request/**").permitAll()
                                     .anyRequest().authenticated()
                     )

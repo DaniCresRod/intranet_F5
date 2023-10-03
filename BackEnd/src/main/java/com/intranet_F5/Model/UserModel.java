@@ -1,6 +1,6 @@
 package com.intranet_F5.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +23,7 @@ import static java.time.temporal.ChronoUnit.MONTHS;
 @NoArgsConstructor
 @Table(name = "users")
 @CrossOrigin(origins = "*")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UserModel implements UserDetails {
 
     @Id
@@ -73,18 +74,23 @@ public class UserModel implements UserDetails {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "school_Id")
+//    @JsonIgnoreProperties({"schoolUserList", "SchoolSupervisor" })
+//    @JsonIgnoreProperties("SchoolID")
     @JsonIgnoreProperties("schoolUserList")
     private SchoolModel SchoolID;
 
     @OneToMany(mappedBy = "userId",cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("userId")
+    //@JsonIgnoreProperties("userId")
+    @JsonIgnoreProperties("userRequests")
     private List<UserRequestModel> userRequests;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return this.userPass;
@@ -95,21 +101,25 @@ public class UserModel implements UserDetails {
         return this.userName;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

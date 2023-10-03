@@ -63,16 +63,17 @@ public class SchoolService {
         try{
             if(schoolRepository.existsById(id)){
                 SchoolModel mySchool=schoolRepository.findById(id).get();
-                //Si existe OTRA escuela con el mismo email y telefono, pero diferente id
+                //Si existe OTRA escuela con el mismo nombre y direccion, pero diferente id
                 //Querra decir que no es la que queremos modificar, si no otra que ya existe
                 //y no debemos dejar que se modifique para no tener dos escuelas con los mismos datos
                 //Si lo permitira si solo uno de los dos datos coincide (modificar??)
-                if(schoolRepository.findDuplicatedSchool(updatedSchool).getId() == mySchool.getId()){
-                    mySchool.setSchoolName(updatedSchool.getSchoolName());
-                    mySchool.setSchoolAddress(updatedSchool.getSchoolAddress());
-                    mySchool.setSchoolPhone(updatedSchool.getSchoolPhone());
-                    mySchool.setSchoolBankHs(updatedSchool.getSchoolBankHs());
-                    if(mySchool.getSchoolStateCode()!=updatedSchool.getSchoolStateCode()){
+                SchoolModel duplicatedSchool=schoolRepository.findDuplicatedSchool(updatedSchool);
+                if((duplicatedSchool==null)||(duplicatedSchool.getId() == mySchool.getId())){
+                    mySchool.setSchoolName(updatedSchool.getSchoolName() != null ? updatedSchool.getSchoolName() : mySchool.getSchoolName());
+                    mySchool.setSchoolAddress(updatedSchool.getSchoolAddress() != null ? updatedSchool.getSchoolAddress() : mySchool.getSchoolAddress());
+                    mySchool.setSchoolPhone(updatedSchool.getSchoolPhone() != null ? updatedSchool.getSchoolPhone() : mySchool.getSchoolPhone());
+                    mySchool.setSchoolBankHs(updatedSchool.getSchoolBankHs() != null ? updatedSchool.getSchoolBankHs() : mySchool.getSchoolBankHs());
+                    if((updatedSchool.getSchoolStateCode()!=null) && (mySchool.getSchoolStateCode()!=updatedSchool.getSchoolStateCode())){
                         mySchool.setSchoolStateCode(updatedSchool.getSchoolStateCode());
 
                         //Traer los festivos para completar el log
