@@ -4,7 +4,7 @@ import RequestServices from '../services/RequestServices'
 import DaysRequestComponent from './DaysRequestComponent.vue';
 
 const today=new Date();
-const userId = 2;
+const userId = 5;
 
 const range = ref({
     start: today,
@@ -22,6 +22,7 @@ const selectDragAttribute = computed(() => ({
     },
 }));
 
+const attributes = ref([]);
 const startDate = ref(); 
 const endDate = ref();
 
@@ -36,51 +37,57 @@ async function getData() {
         const response = await RequestServices.getById(userId);
         holidaysData = response.data;
         console.log(holidaysData);
+        statusHolidays();
     } catch (error) {
         console.log(error);
     }
+    
 }
 onBeforeMount(getData);
 
-const dayStyle = (date) => {
+function statusHolidays() {
+    attributes.value = [];
     if (!holidaysData || !holidaysData.userRequests) {
-        return {}; 
+        return;
     }
-    
-    const dayHoliday = range.value.start.getDate();
-    const monthHoliday = range.value.start.getMonth() + 1; // Sumar 1 para ajustar a 1-12
-    const fullYearHoliday = range.value.start.getFullYear();
-    console.log(dayHoliday);
-    // Clonar la fecha para no modificar la original
-    const currentDate = new Date(date);
+    const currentMonth = range.value.start.getMonth();
+    const currentYear = range.value.start.getFullYear();
 
-    // Configurar la fecha al primer día del mes
-    currentDate.setDate(1);
-
-    const dayStyles = {};
-
-    holidaysData.userRequests.forEach((request) => {
-        const startDate = new Date(request.startDate);
-        const endDate = new Date(request.endDate);
+    holidaysData.userRequests.forEach((userRequest) => {
+        const startDate = new Date(userRequest.startDate);
+        const endDate = new Date(userRequest.endDate);
 
         if (
-            currentDate.getFullYear() === fullYearHoliday && 
-            currentDate.getMonth() + 1 === monthHoliday &&  
-            currentDate.getDate() === dayHoliday && 
-            startDate <= currentDate &&
-            endDate >= currentDate
+            startDate.getFullYear() === currentYear &&
+            startDate.getMonth() === currentMonth 
         ) {
-            if (request.status === 0) {
-                dayStyles[currentDate.getDate()] = { backgroundColor: 'orange', cursor: 'not-allowed' };
-            } else if (request.status === 1) {
-                dayStyles[currentDate.getDate()] = { backgroundColor: 'green', cursor: 'not-allowed' };
+            const currentDate = new Date(startDate);
+            while(currentDate <= endDate){
+            if (userRequest.status === 2) {
+                attributes.value.push({
+                    key: 'approved',
+                    highlight: {
+                        color: 'orange',
+                        fillmode: 'solid',
+                    },
+                    date: new Date(currentDate),
+                });
+            } else if (userRequest.status === 1) {
+                attributes.value.push({
+                    key: 'pending',
+                    highlight: {
+                        color: 'green',
+                        fillmode: 'light',
+                        contentClass: 'italic',
+                    },
+                    date: new Date(currentDate),
+                });
             }
+            currentDate.setDate(currentDate.getDate() + 1);
         }
-        currentDate.setDate(currentDate.getDate() + 1);
+        }
     });
-
-    return dayStyles;
-};
+}
 
 const eventHandler = (value) => {
     console.log('Rango seleccionado:', value.start, ' - ', value.end);
@@ -95,10 +102,11 @@ const eventHandler = (value) => {
             v-model:start="range.start"
             v-model:end="range.end"
             :select-attribute="selectDragAttribute" 
+            :attributes="attributes"
             :drag-attribute="selectDragAttribute"
             @drag="eventHandler($event)"
         >
-            <template #day-popover="{ format }" :day-style="dayStyle">
+            <template #day-popover="{ format }">
                 <div class="text-sm">
                     {{ format(dragValue ? dragValue.start : range.start, 'MMM D') }}
                     {{ format(dragValue ? dragValue.end : range.end, 'MMM D') }}
