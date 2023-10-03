@@ -6,7 +6,7 @@ import HrGeneral from '../views/HrGeneral.vue'
 import CreateSchoolView from '../views/CreateSchoolView.vue'
 import CreateUserView from '../views/CreateUserView.vue'
 import EditUserView from '../views/EditUserView.vue'
-
+import AuthorizerCheckView from "../views/AuthorizerCheckView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +45,11 @@ const router = createRouter({
       path: '/edituser',
       name: 'edituser',
       component: EditUserView
+    },
+    {
+      path: '/AuthorizerCheckView',
+      name: 'AuthorizerCheckView',
+      component: AuthorizerCheckView
     },
   ]
 })

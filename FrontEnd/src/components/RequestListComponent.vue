@@ -1,6 +1,5 @@
 <script setup>
-import axios from 'axios';
-import RequestService from '@/services/RequestService'; // Ajusta la ruta según tu proyecto
+import RequestService from '@/services/RequestService'; 
 
 const requests = ref([]);
 
