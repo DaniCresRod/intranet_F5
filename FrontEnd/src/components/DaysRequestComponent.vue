@@ -6,7 +6,7 @@ const showConfirmation = ref(true);
 const showSendForm = ref(false);
 const { startDate, endDate } = defineProps(['startDate', 'endDate']);
 
-const userId = 2;
+const userId = 5;
 const today=new Date();
 
 let dayStart = startDate.getDate();
@@ -28,12 +28,12 @@ const confirmRequest = async () => {
         userId: { id:userId }
       };
   
-      const response = await RequestServices.post(request);
+    const response = await RequestServices.post(request);
   
     console.log('Solicitud exitosa:', response.data);
     startDate.value = today;
     endDate.value = today;
-  
+
     } catch (error) {
       console.error('Error al solicitar días:', error);
     }
@@ -50,10 +50,8 @@ const cancelRequest = () => {
     <v-dialog v-model="showConfirmation" class="customDialog">
       <v-card>
         <div class="py-2 text-center">
-          <!--Aquí, (endDate - startDate) te dará la diferencia en milisegundos entre las dos fechas. 
-            Luego, dividimos ese valor por (1000 * 60 * 60 * 24) para convertirlo en días.-->
             <p style="font-weight: bold;">
-                Vas a solicitar {{ Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) === 1 ? " 1 día" : (Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + " días") }} </p>
+                Vas a solicitar {{ Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)+1) === 1 ? " 1 día" : (Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)+1) + " días") }} </p>
             <p style="font-weight: bold;">¿Confirmar?</p>
         </div>
         <v-card-actions class="d-flex justify-center">
@@ -63,12 +61,12 @@ const cancelRequest = () => {
       </v-card>
     </v-dialog>
     <v-dialog v-model="showSendForm" class="customDialog">
-      <v-card>
-        <div class="py-2 text-center">
-            <p style="font-weight: bold;">¡Solicitud enviada!</p>
-        </div>
+        <v-card>
+            <div class="py-2 text-center">
+                <p style="font-weight: bold;">¡Solicitud enviada!</p>
+            </div>
         </v-card>
-        </v-dialog>
+    </v-dialog>
 </template>
 
 

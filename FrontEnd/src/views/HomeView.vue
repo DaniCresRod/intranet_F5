@@ -21,7 +21,7 @@
             </div>
             <button class="button" type="submit">LOGIN</button>
 
-          </form>
+        </form>
     </div>
 </template>
 

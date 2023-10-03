@@ -31,12 +31,10 @@ async function getHoldData() {
 onBeforeMount(getHoldData);
 
 async function approveRequest() {
-  // Aquí va tu código para aprobar la solicitud
   await RequestService.updateUserRequestStatus(props.id, 2);
 }
 
 async function rejectRequest() {
-  // Aquí va tu código para rechazar la solicitud
   await RequestService.updateUserRequestStatus(props.id, 3);
 }
 </script>

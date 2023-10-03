@@ -106,5 +106,6 @@ onBeforeMount(getWorkerData);
   background-color: #D9D9D9;
   border: 2px solid var(--orange);
   z-index: -500;
+  margin: 50px;
 }
 </style>
