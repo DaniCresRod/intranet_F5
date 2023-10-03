@@ -1,11 +1,11 @@
 <script setup>
-import RequesReviewComponent from '../components/RequesReviewComponent.vue';
+import RequestListComponent from '../components/RequestListComponent.vue';
 
 
 </script>
 
 <template>
   <div>
-    <RequesReviewComponent />
+    <RequestListComponent/>
   </div>
 </template>
