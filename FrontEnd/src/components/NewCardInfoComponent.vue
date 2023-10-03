@@ -32,48 +32,49 @@ onBeforeMount(getWorkerData);
         </div>
         <div class="content-container">
             <ul class="ul-title">
-                <li class="title">{{data && data.userName}}</li>
+                <li class="title">{{ data && data.userName }}</li>
                 <ul class="line2">
                     <li>
-                    <img class="icon" src="public/role.png" />
-                    {{ data && data.userType }}
+                        <img class="icon" src="public/role.png" />
+                        {{ data && data.userType }}
                     </li>
                     <li>
-                    <img class="icon" src="public/organigram.png" />
-                    Dpto pedagogico
+                        <img class="icon" src="public/organigram.png" />
+                        Dpto pedagogico
                     </li>
                     <li>
-                    <img class="icon" src="public/pin.png" />
-                    {{ data && data.schoolID.schoolName }}
+                        <img class="icon" src="public/pin.png" />
+                        {{ data && data.schoolID.schoolName }}
                     </li>
                 </ul>
                 <ul class="line3">
-                <li>
-                    <img class="icon" src="public/start_date.png" />
-                    Fecha de inicio: {{ data && data.userStartDate }}
-                </li>
-                <li>
-                    <img class="icon" src="public/supervisor.png" />
-                    Supervisor: {{ data && data.userType }}
-                </li>
+                    <li>
+                        <img class="icon" src="public/start_date.png" />
+                        Fecha de inicio: {{ data && data.userStartDate }}
+                    </li>
+                    <li>
+                        <img class="icon" src="public/supervisor.png" />
+                        Supervisor: {{ data && data.userType }}
+                    </li>
                 </ul>
             </ul>
 
         </div>
     </div>
 </template>
-  
+
 <style scoped>
 .card-container {
-  display: flex;
-  border: 2px solid #ccc;
-  padding: 10px;
-  background-color:rgba(217, 217, 217, 0.3);
-  border: 2px solid var(--orange);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  position: relative; 
+    display: flex;
+    border: 2px solid #ccc;
+    padding: 10px;
+    background-color: rgba(217, 217, 217, 0.3);
+    border: 2px solid var(--orange);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
-ul{
+
+ul {
     list-style: none;
     margin-left: 5rem;
     padding: 5px;
@@ -86,38 +87,45 @@ ul{
     font-weight: 600;
     line-height: normal;
     padding-left: 4rem;
-    
+
 }
-li{
+
+li {
     padding-left: 3rem;
 }
 
 .image-container {
-  flex: 1;
-  max-width: 15.5%; /* 1/7 del ancho total */
-  position: absolute; /* Permite la superposición */
-  top: -10px; /* Superposición hacia arriba */
-  left: -10px; /* Superposición hacia la izquierda */
-  bottom: -10px; /* Superposición hacia abajo */
+    flex: 1;
+    max-width: 15.5%;
+    /* 1/7 del ancho total */
+    position: absolute;
+    /* Permite la superposición */
+    top: -10px;
+    /* Superposición hacia arriba */
+    left: -10px;
+    /* Superposición hacia la izquierda */
+    bottom: -10px;
+    /* Superposición hacia abajo */
 }
 
 .image-container img {
     width: 100%;
     border-radius: 50%;
     border: 2px solid var(--orange);
-   }
+}
 
 .content-container {
     flex: 6;
     padding-left: 20px;
 }
-.line2, .line3 {
-  display: flex; 
+
+.line2,
+.line3 {
+    display: flex;
 }
 
-.line2 li,.line3 li {
-  margin-right: 20px; 
-}
-
-</style>
+.line2 li,
+.line3 li {
+    margin-right: 20px;
+}</style>
 
