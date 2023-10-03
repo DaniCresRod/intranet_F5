@@ -1,9 +1,12 @@
 <script setup>
 import CardInfoComponent from '../components/CardInfoComponent.vue'
+import NewCard from '../components/NewCard.vue';
+
 </script>
 
 <template>
     <CardInfoComponent />
+    <NewCard/>
     <div>
         <div class="container-options">
             <router-link to="/" class="item"><button>Revisar solicitudes</button></router-link>
