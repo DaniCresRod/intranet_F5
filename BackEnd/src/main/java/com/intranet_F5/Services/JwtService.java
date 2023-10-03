@@ -23,23 +23,28 @@ public class JwtService {
 
 
     public String getTokenService(UserDetails user){
+        System.out.println("Entro en getTokenService en JwtService");
+        System.out.println("Traigo usuario: "+user.getUsername());
+        System.out.println("Traigo contraseña: "+user.getPassword());
         return getToken(new HashMap<>(),user);
     }
 
     public String getToken(Map<String, Object> claims, UserDetails user){
-
+        System.out.println("Entro en getToken en JwtService");
         return Jwts
                 .builder()
                 .setClaims(claims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                .signWith(SignatureAlgorithm.ES256, getKey())
+                .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     private Key getKey(){
+        System.out.println("Entro en getKey en JwtService");
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        System.out.println("No doy Excepcion aun: "+keyBytes.toString());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

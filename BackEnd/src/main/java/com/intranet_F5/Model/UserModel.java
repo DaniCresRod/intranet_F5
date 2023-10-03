@@ -1,6 +1,5 @@
 package com.intranet_F5.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
@@ -66,6 +64,10 @@ public class UserModel implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    @Column(name = "Dept")
+    @Enumerated(EnumType.STRING)
+    private UserDept userDept;
+
     @Column(name = "userPhoto")
     private String userImage;
 
@@ -117,7 +119,13 @@ public class UserModel implements UserDetails {
     {
         Supervisor,
         HR,
-        Employee,
+        Formador,
+    }
+    public enum UserDept
+    {
+        RRHH,
+        Pedagógico,
+        Supervisor,
     }
 
     //Checks if the End date is before the Start date (wrong date)

@@ -21,16 +21,25 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse login(LoginRequest login){
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
 
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        login.getUsername(),
+                        login.getPassword()
+                )
+        );
+
+        System.out.println("Paso el authenticatorManager en AuthService");
         //UserModel myUser=userRepository.findByUsername(login.getUsername()).orElseThrow();
         UserDetails user = (UserDetails) userRepository.findByUsername(login.getUsername()).orElseThrow();
 
-        String token = jwtService.getTokenService(user);
+        System.out.println("Paso el UserDetails en AuthService");
 
+        String myToken = jwtService.getTokenService(user);
+        System.out.println("Paso el jwtService en AuthService");
         return AuthResponse
                 .builder()
-                .token(token)
+                .token(myToken)
                 .build();
     }
 

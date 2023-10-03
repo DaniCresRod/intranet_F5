@@ -37,6 +37,10 @@ public class SchoolModel {
     @Column(name = "BankHolidays")
     private List<LocalDate> schoolBankHs;
 
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "SchoolSupervisorId", referencedColumnName = "Id")
+    private UserModel SchoolSupervisor;
+
     @Column(name = "StateHolidays")
     @ManyToMany
     @JoinTable(

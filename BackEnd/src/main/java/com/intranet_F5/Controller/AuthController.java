@@ -18,11 +18,19 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping(value = "login")
+    @PostMapping(value = "/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request)
     {
-        System.out.println("hola");
-        return ResponseEntity.ok(authService.login(request));
+        try{
+            System.out.println("Entra en /login en AuthController");
+            return ResponseEntity.ok(authService.login(request));
+        }
+        catch(Exception e){
+            System.out.println("Excepcion en AuthController");
+            System.out.println(e.getMessage());
+            return null;
+        }
+
     }
 //
 //    @PostMapping(value = "register")

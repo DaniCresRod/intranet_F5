@@ -35,8 +35,8 @@ public class UserService {
                 newUser.setUserPass(encodedPassword);
 
                 userRepository.save(newUser);
-                return "El usuario "+newUser.getUsername()+" "+newUser.getUserSurName()+
-                        " se guardó satisfactoriamente.";
+                return "El usuario "+newUser.getUsername()+" "
+                        +newUser.getUserSurName()+" se guardó satisfactoriamente.";
             }
             else return "Ya existe un usuario con NIF "+newUser.getUserNif();
         }

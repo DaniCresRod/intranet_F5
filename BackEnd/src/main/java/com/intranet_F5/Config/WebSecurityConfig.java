@@ -57,10 +57,10 @@ public class WebSecurityConfig{
         http
                 .csrf(csrf -> csrf.disable()) //Para que funcionen los POST
                 .authorizeHttpRequests((authz) -> authz
-                        //.anyRequest().permitAll()//.authenticated()
-                        //.requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/schools/").permitAll()
+                        //.anyRequest().authenticated()
+
                 )
                 .httpBasic(withDefaults());
 //        http
@@ -73,33 +73,11 @@ public class WebSecurityConfig{
         http
                 .formLogin(myLog->myLog
                 .loginPage("/")
-                .defaultSuccessUrl("/EmployeeView")
-                .failureUrl("/login?error=true")
+                //.defaultSuccessUrl("/EmployeeView")
+                //.failureUrl("/login?error=true")
                 .permitAll());
+
 
         return http.build();
     }
-
-    /**
-     * Define los roles.
-     * Coge de la base de datos todos los usuarios y prepara la lista de roles
-     */
-//    @Bean
-//    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
-//        List<UserDetails> myUserDetailsList=new ArrayList<>();
-//        //myUserDetailsList.add(User.withUsername("Employee").password("1234").roles("Employee").build());
-//
-//        List<UserModel>listOfUsers = userRepository.findAll();
-//
-//        for(UserModel eachUser : listOfUsers){
-//            myUserDetailsList.add
-//                    (User
-//                    .withUsername(eachUser.getUserName())
-//                    .password(eachUser.getUserPass())
-//                    .roles(String.valueOf(eachUser.getUserType())
-//                    ).build());
-//        }
-//        return new InMemoryUserDetailsManager(myUserDetailsList);
-//    }
-
 }
