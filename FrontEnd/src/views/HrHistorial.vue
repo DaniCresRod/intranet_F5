@@ -1,9 +1,9 @@
 <script setup>
-import NewCardInfoComponent from '../components/NewCardInfoComponent.vue';
+import CardInfoComponent from '../components/CardInfoComponent.vue';
 import RequestListComponent from '../components/RequestListComponent.vue';
 
 </script>
 <template>
-    <NewCardInfoComponent/>
+    <CardInfoComponent/>
     <RequestListComponent/>
 </template>
