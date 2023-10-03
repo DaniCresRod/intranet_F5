@@ -1,6 +1,8 @@
 package com.intranet_F5.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +41,8 @@ public class SchoolModel {
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "SchoolSupervisorId", referencedColumnName = "Id")
+    @JsonIgnoreProperties("SchoolID")
+    @JsonBackReference
     private UserModel SchoolSupervisor;
 
     @Column(name = "StateHolidays")

@@ -3,10 +3,12 @@ package com.intranet_F5.Config;
 
 import com.intranet_F5.Model.UserModel;
 import com.intranet_F5.Repository.UserRepository;
+import com.intranet_F5.jwt.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,6 +27,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig{
+
+    private final AuthenticationProvider authenticationProvider;
+    private final AuthTokenFilter authTokenFilter;
 
     @Autowired
     UserRepository userRepository;
@@ -54,30 +59,47 @@ public class WebSecurityConfig{
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable()) //Para que funcionen los POST
-                .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/schools/").permitAll()
-                        //.anyRequest().authenticated()
-
-                )
-                .httpBasic(withDefaults());
+//        http
+//                .csrf(csrf -> csrf.disable()) //Para que funcionen los POST
+//                .authorizeHttpRequests((authz) -> authz
+//                        .requestMatchers("/auth/login").permitAll()
+//                        .requestMatchers("/schools/").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                .httpBasic(withDefaults());
 //        http
 //                .sessionManagement(sessionManager->
 //                        sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 //                .authenticationProvider(authenticationProvider)
 //                .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
-//                .build();
+//                ;
+//
+//        http
+//                .formLogin(myLog->myLog
+//                .loginPage("/")
+//                //.defaultSuccessUrl("/EmployeeView")
+//                //.failureUrl("/login?error=true")
+//                .permitAll());
+//
+//
+//        return http.build();
 
-        http
-                .formLogin(myLog->myLog
-                .loginPage("/")
-                //.defaultSuccessUrl("/EmployeeView")
-                //.failureUrl("/login?error=true")
-                .permitAll());
 
-
-        return http.build();
+            return http
+                    .csrf(csrf ->
+                            csrf.disable())
+                    .authorizeHttpRequests(authRequest ->
+                            authRequest
+                                    //.requestMatchers("/auth/**").permitAll()
+                                    .requestMatchers("/schools/**").permitAll()
+                                    //.requestMatchers("/request/**").permitAll()
+                                    .anyRequest().authenticated()
+                    )
+                    .sessionManagement(sessionManager->
+                        sessionManager
+                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                            .authenticationProvider(authenticationProvider)
+                            .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                    .build();
     }
 }
