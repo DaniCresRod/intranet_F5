@@ -1,4 +1,5 @@
 <script setup>
+import NewCardInfoComponent from '../components/NewCardInfoComponent.vue';
 import RequestListComponent from '../components/RequestListComponent.vue';
 
 
@@ -6,6 +7,7 @@ import RequestListComponent from '../components/RequestListComponent.vue';
 
 <template>
   <div>
+    <NewCardInfoComponent/>
     <RequestListComponent/>
   </div>
 </template>
