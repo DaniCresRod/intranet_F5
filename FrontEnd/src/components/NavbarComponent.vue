@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <template>
+  
   <header class="header">
     <ul class="iconsGroup">
       <li>
@@ -60,11 +61,19 @@ import { RouterLink } from 'vue-router';
       </ul>
     </nav>
   </header>
+<hr class="underline">
 </template>
 
 <style scoped>
 .header {
-  height: 12vh;
+  height: 19vh;
+  width: 100vw;
+  }
+  
+hr {
+  border: none;
+  height: 2px;
+  background-color: #d9d9d9;
   width: 100%;
 }
 .iconsGroup {
