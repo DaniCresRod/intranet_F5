@@ -4,108 +4,132 @@ import { defineProps } from 'vue';
 import CardInfoService from '../services/CardInfoService';
 
 const props = defineProps({
-  id: {
-    type: Number,
-    required: true
-  }
+    id: {
+        type: Number,
+        required: true
+    }
 });
 
-const data = ref(null);
+const data = ref();
 const loading = ref(true);
 
 async function getWorkerData() {
-  loading.value = true;
-  const response = await CardInfoService.getWorkerData(props.id);
-  data.value = await response.data;
-  console.log(response.data)
-  loading.value = false;
+    loading.value = true;
+    const response = await CardInfoService.getWorkerData(props.id);
+    data.value = await response.data;
+    console.log(response.data)
+    loading.value = false;
 }
 
 onBeforeMount(getWorkerData);
 
 </script>
+
 <template>
-  <v-card class="custom-card">
-    <div class="card-content">
-      <div class="card-image-container">
-        <v-avatar class="card_avatar" size="150">
-          <v-img class="card_info_img" src="/img_prueba.jpg" />
-        </v-avatar>
-      </div>
-      
-      <v-card-title class="card_data" v-if="data">
-        <div class="card-info-content">
-          <h2>{{ data.userName }}</h2>
-          <div class="info-line">
-            <p> {{ data.userType }}</p>
-            <p>{{ data.schoolID.schoolName }}</p>
-          </div>
-          <div class="info-line">
-            <p>Fecha de inicio: {{ data.userStartDate }}</p>
-          </div>
+    <div class="card-container">
+        <div class="image-container">
+            <img class="card_info_img" src="/img_prueba.jpg" />
         </div>
-      </v-card-title>
+        <div class="content-container">
+            <ul class="ul-title">
+                <li class="title">{{ data && data.userName }}</li>
+                <ul class="line2">
+                    <li>
+                        <img class="icon" src="public/role.png" />
+                        {{ data && data.userType }}
+                    </li>
+                    <li>
+                        <img class="icon" src="public/organigram.png" />
+                        Dpto pedagogico
+                    </li>
+                    <li>
+                        <img class="icon" src="public/pin.png" />
+                        {{ data && data.schoolID.schoolName }}
+                    </li>
+                </ul>
+                <ul class="line3">
+                    <li>
+                        <img class="icon" src="public/start_date.png" />
+                        Fecha de inicio: {{ data && data.userStartDate }}
+                    </li>
+                    <li>
+                        <img class="icon" src="public/supervisor.png" />
+                        Supervisor: {{ data && data.userType }}
+                    </li>
+                </ul>
+            </ul>
+
+        </div>
     </div>
-  </v-card>
 </template>
 
 <style scoped>
-* {
-  font-family: Poppins;
+.card-container {
+    display: flex;
+    border: 2px solid #ccc;
+    padding: 10px;
+    background-color: rgba(217, 217, 217, 0.3);
+    border: 2px solid var(--orange);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
 
-.card_avatar {
-  border: 2px solid var(--orange);
-  position: absolute;
-  left: -75px;
-  top: -10px;
-  width: 150px;
-  height: 150px;
-  z-index: 500;
-  border-radius: 50%;
-  border: 2px solid var(--orange);
+ul {
+    list-style: none;
+    margin-left: 5rem;
+    padding: 5px;
 }
 
+.title {
+    font-family: Poppins;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding-left: 4rem;
 
-
-.card-content {
-  display: flex;
-  flex-direction: row;
 }
 
-.card-image-container {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  margin-right: 20px;
-  position: relative;
-  /* Ajusta el posicionamiento relativo */
+li {
+    padding-left: 3rem;
 }
 
-.card-data {
-  padding-left: 5rem;
-  display: inline-flex;
-  flex-wrap: wrap;
+.image-container {
+    flex: 1;
+    max-width: 15.5%;
+    /* 1/7 del ancho total */
+    position: absolute;
+    /* Permite la superposición */
+    top: -10px;
+    /* Superposición hacia arriba */
+    left: -10px;
+    /* Superposición hacia la izquierda */
+    bottom: -10px;
+    /* Superposición hacia abajo */
 }
 
-.info-line {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: row;
-  gap: 10rem;
-  padding: 1rem 7rem 1rem 5rem;
-  padding-right: 15rem;
+.image-container img {
+    width: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--orange);
 }
 
-.custom-card {
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  width: 59rem;
-  height: auto;
-  display: flex;
-  position: relative;
-  background-color: #D9D9D9;
-  border: 2px solid var(--orange);
-  z-index: -500;
-  margin: 50px;
+.content-container {
+    flex: 6;
+    padding-left: 20px;
+}
+
+.line2,
+.line3 {
+    display: flex;
+}
+
+.line2 li,
+.line3 li {
+    margin-right: 20px;
+}
+.image-container{
+    padding-top: 2%;
 }
 </style>
+
