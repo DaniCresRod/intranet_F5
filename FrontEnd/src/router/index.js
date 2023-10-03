@@ -8,6 +8,8 @@ import CreateUserView from '../views/CreateUser.vue'
 import EditUserView from '../views/EditUser.vue'
 import AuthorizerCheckView from "../views/AuthorizerCheck.vue"
 import hrHistorial from "../views/hrHistorial.vue"
+import HrReview from '../views/HrReview.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,7 +58,12 @@ const router = createRouter({
       path: '/hrHistorial',
       name: 'hrHistorial',
       component: hrHistorial
-},
+    },
+    {
+      path: '/HrReview',
+      name: 'HrReview',
+      component: HrReview
+    },
   ]
 })
 
