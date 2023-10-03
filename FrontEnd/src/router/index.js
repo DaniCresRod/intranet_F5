@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AuthorizerView from '../views/AuthorizerView.vue'
-import EmployeeView from '../views/EmployeeView.vue'
-import HomeView from '../views/HomeView.vue'
+import AuthorizerView from '../views/Authorizer.vue'
+import EmployeeView from '../views/Employee.vue'
+import HomeView from '../views/Home.vue'
 import HrGeneral from '../views/HrGeneral.vue'
-import CreateSchoolView from '../views/CreateSchoolView.vue'
-import CreateUserView from '../views/CreateUserView.vue'
-import EditUserView from '../views/EditUserView.vue'
-
+import CreateSchoolView from '../views/CreateSchool.vue'
+import CreateUserView from '../views/CreateUser.vue'
+import EditUserView from '../views/EditUser.vue'
+import AuthorizerCheckView from "../views/AuthorizerCheck.vue"
+import hrHistorial from "../views/hrHistorial.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,12 +18,12 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/AuthorizerView',
+      path: '/Authorizer',
       name: 'authorizer',
       component: AuthorizerView
     },
     {
-      path: '/EmployeeView',
+      path: '/Employee',
       name: 'employee',
       component: EmployeeView
     },
@@ -46,6 +47,16 @@ const router = createRouter({
       name: 'edituser',
       component: EditUserView
     },
+    {
+      path: '/AuthorizerCheck',
+      name: 'AuthorizerCheckView',
+      component: AuthorizerCheckView
+    },
+    {
+      path: '/hrHistorial',
+      name: 'hrHistorial',
+      component: hrHistorial
+},
   ]
 })
 

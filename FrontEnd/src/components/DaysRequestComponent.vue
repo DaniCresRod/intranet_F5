@@ -50,8 +50,6 @@ const cancelRequest = () => {
     <v-dialog v-model="showConfirmation" class="customDialog">
       <v-card>
         <div class="py-2 text-center">
-          <!--Aquí, (endDate - startDate) te dará la diferencia en milisegundos entre las dos fechas. 
-            Luego, dividimos ese valor por (1000 * 60 * 60 * 24) para convertirlo en días.-->
             <p style="font-weight: bold;">
                 Vas a solicitar {{ Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)+1) === 1 ? " 1 día" : (Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)+1) + " días") }} </p>
             <p style="font-weight: bold;">¿Confirmar?</p>

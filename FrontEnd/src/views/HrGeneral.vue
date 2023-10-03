@@ -1,10 +1,10 @@
 <script setup>
-import NewCardInfoComponent from '../components/NewCardInfoComponent.vue';
+import CardInfoComponent from '../components/CardInfoComponent.vue';
 
 </script>
 
 <template>
-    <NewCardInfoComponent />
+    <CardInfoComponent />
    
     <div>
         <div class="container-options">
@@ -52,4 +52,5 @@ import NewCardInfoComponent from '../components/NewCardInfoComponent.vue';
     margin-left: auto;
     margin-right: auto;
 }
+
 </style>
