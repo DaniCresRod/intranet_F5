@@ -69,6 +69,7 @@ import { RouterLink } from 'vue-router';
   height: 19vh;
   width: 100vw;
   }
+  
 hr {
   border: none;
   height: 2px;

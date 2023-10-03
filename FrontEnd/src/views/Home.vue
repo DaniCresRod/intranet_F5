@@ -27,13 +27,15 @@
 
 <style scoped>
 #banner {
-    width: 100%;
+    width: 100vw;
     background-color: var(--orange);
     padding: 0 0 3% 0;
 }
 
 #banner img {
     background-size: cover;
+    width: 100vw;
+    height: auto;
 }
 
 h1 {

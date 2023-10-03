@@ -10,7 +10,7 @@ import { RouterLink } from 'vue-router';
       <ul class="footer__iconsGroup">
         <li>
           <RouterLink to="/">
-            <img src="/public/logo-linkedin.png">
+            <img src="/public/icon_lk.png">
           </RouterLink>
         </li>
         <li>
