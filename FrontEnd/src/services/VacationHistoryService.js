@@ -2,7 +2,9 @@ import http from '../httpCommon';
 
 export default {
   
-  getWorkerData(id) {
+    getHolidaysData(id) {
     return http.get(`/users/2`);
   },
+
+
 };

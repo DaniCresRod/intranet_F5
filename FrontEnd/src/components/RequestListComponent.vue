@@ -1,9 +1,7 @@
 <script setup>
 import {ref, onMounted} from 'vue'
 import RequestServices from '@/services/RequestServices'; 
-
 const requests = ref([]);
-
 const getRequests = async () => {
     try {
         const response = await RequestServices.getAll();
