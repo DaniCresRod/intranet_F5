@@ -9,7 +9,8 @@ import NavbarComponent from './components/NavbarComponent.vue';
   <main>
     <RouterView />
   </main>
-  <!-- <FooterComponent /> -->
+  <FooterComponent />
+  
 </template>
 
 <style scoped>
