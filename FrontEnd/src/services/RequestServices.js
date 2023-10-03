@@ -11,4 +11,7 @@ export default({
         return http.post(`/request`, Data);
     },
     
+    getAll(){
+        return http.get(`/request`);
+    },
 });
