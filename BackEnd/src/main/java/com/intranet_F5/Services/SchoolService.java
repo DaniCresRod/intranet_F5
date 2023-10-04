@@ -2,8 +2,10 @@ package com.intranet_F5.Services;
 
 import com.intranet_F5.Model.SchoolDateModel;
 import com.intranet_F5.Model.SchoolModel;
+import com.intranet_F5.Model.UserModel;
 import com.intranet_F5.Repository.SchoolDateRepository;
 import com.intranet_F5.Repository.SchoolRepository;
+import com.intranet_F5.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class SchoolService {
     SchoolRepository schoolRepository;
     @Autowired
     private SchoolDateRepository schoolDateRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<SchoolModel> getAllSchools(){
         return schoolRepository.findAll();
@@ -73,6 +78,12 @@ public class SchoolService {
                     mySchool.setSchoolAddress(updatedSchool.getSchoolAddress() != null ? updatedSchool.getSchoolAddress() : mySchool.getSchoolAddress());
                     mySchool.setSchoolPhone(updatedSchool.getSchoolPhone() != null ? updatedSchool.getSchoolPhone() : mySchool.getSchoolPhone());
                     mySchool.setSchoolBankHs(updatedSchool.getSchoolBankHs() != null ? updatedSchool.getSchoolBankHs() : mySchool.getSchoolBankHs());
+
+                    if(updatedSchool.getSchoolSupervisor() != null){
+                        UserModel mySupervisor = userRepository.findById(updatedSchool.getSchoolSupervisor().getId()).get();
+                        mySchool.setSchoolSupervisor(mySupervisor);
+                    }
+
                     if((updatedSchool.getSchoolStateCode()!=null) && (mySchool.getSchoolStateCode()!=updatedSchool.getSchoolStateCode())){
                         mySchool.setSchoolStateCode(updatedSchool.getSchoolStateCode());
 
