@@ -1,20 +1,22 @@
 <script setup>
-import CardInfoComponent from '../components/CardInfoComponent.vue'
+import CardInfoComponent from '../components/CardInfoComponent.vue';
+
 </script>
 
 <template>
     <CardInfoComponent />
+   
     <div>
         <div class="container-options">
-            <div class="item">Revisar solicitudes</div>
-            <div class="item">Crear Perfil</div>
-            <div class="item">Crear Escuela</div>
-            <div class="item">Administrar Perfiles</div>
-            <div class="item">Historial de vacaciones</div>
+            <router-link to="/hrReview" class="item"><button>Revisar solicitudes</button></router-link>
+            <router-link to="/createuser" class="item"><button>Crear Perfil</button></router-link>
+            <router-link to="/createschool" class="item"><button>Crear Escuela</button></router-link>
+            <router-link to="/edituser" class="item"><button>Administrar Perfiles</button></router-link>
+            <router-link to="/hrhistorial" class="item"><button>Historial de vacaciones</button></router-link>
         </div>
     </div>
 </template>
-  
+
 <style scoped>
 .container-options {
     display: flex;
@@ -33,11 +35,16 @@ import CardInfoComponent from '../components/CardInfoComponent.vue'
     text-align: center;
     font-family: Poppins;
     font-size: 0.9375rem;
-    font-weight: 400;
+    font-weight: 600;
     border: 1px solid var(--orange);
     margin-bottom: 4rem;
     box-sizing: border-box;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    color: black;
+
+
+
 
 }
 
@@ -45,4 +52,5 @@ import CardInfoComponent from '../components/CardInfoComponent.vue'
     margin-left: auto;
     margin-right: auto;
 }
+
 </style>

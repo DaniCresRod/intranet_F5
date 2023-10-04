@@ -21,19 +21,22 @@
             </div>
             <button class="button" type="submit">LOGIN</button>
 
-          </form>
+        </form>
     </div>
 </template>
 
 <style scoped>
 #banner {
-    width: 100%;
+    margin-top: -5%;
+    width: 100vw;
     background-color: var(--orange);
     padding: 0 0 3% 0;
 }
 
 #banner img {
     background-size: cover;
+    width: 100vw;
+    height: auto;
 }
 
 h1 {
@@ -47,7 +50,6 @@ h1 {
 .destacat {
     font-weight: bold;
 }
-
 
 .login_form {
     width: 29.75rem;
@@ -101,6 +103,37 @@ input[type="password"] {
     width: 29.75rem;
     height: 20.25rem;
     background-color: var(--orange);
+}
 
+@media screen and (max-width: 768px) {
+#banner {
+        padding: 0 0 1.5% 0;
+}
+
+#banner img {
+        width: 100%;
+}
+
+h1 {
+        font-size: 1.5rem;
+        margin-top: 1%;
+}
+
+.login_form {
+        width: 80%;
+        height:auto; 
+        margin :2% auto; 
+}
+
+input[type="text"],
+input[type="password"] {
+        width :80%; 
+        height :2rem; 
+}
+
+.button{
+        margin-top :5%; 
+        margin-left :30%; 
+}
 }
 </style>

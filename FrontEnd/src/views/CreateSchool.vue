@@ -4,7 +4,7 @@ import PostSchool from '../services/PostSchool';
 
 // Define refs para los campos del formulario
 const schoolName = ref('');
-const email = ref('');
+const adress = ref('');
 const phoneNumber = ref('');
 const stateCode = ref('');
 
@@ -13,7 +13,7 @@ const createSchool = async () => {
     try {
         const postData = {
             schoolName: schoolName.value,
-            schoolEmail: email.value,
+            schoolAdress: adress.value,
             schoolPhone: phoneNumber.value,
             schoolStateCode: stateCode.value,
         };
@@ -26,7 +26,7 @@ const createSchool = async () => {
 
         // Restablecer los campos del formulario después de crear la escuela
         schoolName.value = '';
-        email.value = '';
+        adress.value = '';
         phoneNumber.value = '';
         stateCode.value = '';
     } catch (error) {
@@ -60,8 +60,8 @@ onMounted(() => {
             </div>
 
             <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" v-model="email" required>
+            <label for="adress">Dirección:</label>
+            <input type="adress" id="adress" name="adress" v-model="adress" required>
             </div>
 
             <div class="form-group">
@@ -70,7 +70,7 @@ onMounted(() => {
             </div>
 
             <div class="form-group">
-            <label for="stateCode">Código de Estado:</label>
+            <label for="stateCode">Provincia:</label>
             <select id="stateCode" name="stateCode" v-model="stateCode">
                 <option value="AN">Andalucía</option>
                 <option value="AR">Aragón</option>

@@ -36,7 +36,8 @@ onBeforeMount(getWorkerData);
             <p class="info-text"><span class="bold-text">D.N.I:</span> {{ data.userNif }}</p> 
             <p class="info-text"><span class="bold-text">Fecha de nacimiento:</span> {{ data.userBirthDate }}</p>
             <p class="info-text"><span class="bold-text">E-mail:</span> {{ data.userEmail }}</p>
-            <p class="info-text"><span class="bold-text">Fecha de inicio:</span> {{ data.userStartDate }}</p>  
+            <p class="info-text"><span class="bold-text">Fecha de inicio:</span> {{ data.userStartDate }}</p>
+            <p class="info-holidays">*Revisa <a href="..\assets\Thymeleaf.pdf" download="Thymeleaf.pdf">aquí</a> la política de vacaciones.</p> 
           </v-card-subtitle>
         </div>
         <div class="image-content">
@@ -69,7 +70,9 @@ onBeforeMount(getWorkerData);
 .cardInfo {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
   width: 45rem;
-  height: 75%; 
+  height: 75%;
+  margin-top: 3rem;
+  margin-bottom: 4rem; 
 }
 
 .card-content {
@@ -84,11 +87,21 @@ onBeforeMount(getWorkerData);
   flex: 2;
 }
 
+
+
 .image-content {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-right: 15%;
+}
+
+.info-holidays{
+  margin-top: 2rem;
+  margin-left: 1rem;
+  font-style: italic;
+  color: black;
+
 }
 
 @media (max-width: 600px) {
