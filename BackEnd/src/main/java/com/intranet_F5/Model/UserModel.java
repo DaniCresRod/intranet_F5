@@ -7,12 +7,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
+
 
 import static java.time.temporal.ChronoUnit.MONTHS;
 
@@ -63,11 +66,11 @@ public class UserModel implements UserDetails {
 
     @Column(name = "Type")
     @Enumerated(EnumType.STRING)
-    private UserType userType;
+    private UserType userType=UserType.Formador;
 
     @Column(name = "Dept")
     @Enumerated(EnumType.STRING)
-    private UserDept userDept;
+    private UserDept userDept=UserDept.Pedagógico;
 
     @Column(name = "userPhoto")
     private String userImage;
@@ -84,10 +87,16 @@ public class UserModel implements UserDetails {
     @JsonIgnoreProperties("userRequests")
     private List<UserRequestModel> userRequests;
 
-    @JsonIgnore
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        String myRol=UserType.Formador.toString();
+        if(this.getUserType()!=null){
+            myRol= this.getUserType().toString();
+        }
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority(myRol));
+        return roles;
     }
 
     @JsonIgnore

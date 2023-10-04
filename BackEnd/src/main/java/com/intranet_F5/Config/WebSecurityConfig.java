@@ -17,10 +17,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.antlr.v4.runtime.atn.SemanticContext.and;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -59,48 +63,54 @@ public class WebSecurityConfig{
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http
+                .csrf(csrf -> csrf.disable()) //Para que funcionen los POST
+                .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/schools").hasRole("Supervisor")
+                        .anyRequest().authenticated()
+
+                )
+                .httpBasic(withDefaults());
 //        http
-//                .csrf(csrf -> csrf.disable()) //Para que funcionen los POST
-//                .authorizeHttpRequests((authz) -> authz
-//                        .requestMatchers("/auth/login").permitAll()
-//                        .requestMatchers("/schools/").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .httpBasic(withDefaults());
-//        http
-//                .sessionManagement(sessionManager->
-//                        sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
-//                ;
-//
-//        http
-//                .formLogin(myLog->myLog
-//                .loginPage("/")
-//                //.defaultSuccessUrl("/EmployeeView")
-//                //.failureUrl("/login?error=true")
-//                .permitAll());
-//
-//
-//        return http.build();
+//                .logout((mylogOut)->mylogOut.logoutSuccessUrl("http://localhost:5173/"));
+
+        http
+                .sessionManagement(sessionManager->
+                        sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http
+                .formLogin(myLog->myLog
+                .loginPage("/")
+                //.defaultSuccessUrl("/EmployeeView")
+                //.failureUrl("/login?error=true")
+                .permitAll());
 
 
-            return http
-                    .csrf(csrf ->
-                            csrf.disable())
-                    .authorizeHttpRequests(authRequest ->
-                            authRequest
-                                    .requestMatchers("/auth/**").permitAll()
-                                    .requestMatchers("/schools/**").permitAll()
-                                    .requestMatchers("/**").permitAll()
-                                    //.requestMatchers("/request/**").permitAll()
-                                    .anyRequest().authenticated()
-                    )
-                    .sessionManagement(sessionManager->
-                        sessionManager
-                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                            .authenticationProvider(authenticationProvider)
-                            .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                    .build();
+        return http.build();
+
+
+//            return http
+//                    .csrf(csrf ->
+//                            csrf.disable())
+//                    .authorizeHttpRequests(authRequest ->
+//                            authRequest
+//                                    .requestMatchers("/auth/**").permitAll()
+////                                    .requestMatchers("/request/**").permitAll()
+////                                    .requestMatchers("/users/**").permitAll()
+////                                    .requestMatchers("/**").permitAll()
+//                                    //.requestMatchers("/request/**").permitAll()
+//                                    .anyRequest().authenticated()
+//                    )
+//                    .sessionManagement(sessionManager->
+//                        sessionManager
+//                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                            .authenticationProvider(authenticationProvider)
+//                            .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
+//
+//                    .build();
     }
 }

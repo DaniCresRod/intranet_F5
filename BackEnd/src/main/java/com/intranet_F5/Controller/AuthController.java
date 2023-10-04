@@ -30,12 +30,5 @@ public class AuthController {
             System.out.println(e.getMessage());
             return null;
         }
-
     }
-//
-//    @PostMapping(value = "register")
-//    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request)
-//    {
-//        return ResponseEntity.ok(authService.register(request));
-//    }
 }
