@@ -48,9 +48,9 @@ const sortRequests = () => {
                 <th> Fecha de solicitud </th>
             </thead>
             <tbody v-for="(request, index) in requests" :key="request.id">
-                <tr v-if="index === 0 || request.userId.userName !== requests[index - 1].userId.userName">
+                <tr v-if="index === 0 || request.userId.username !== requests[index - 1].userId.username">
                     <td>{{ request.userId.schoolID.schoolName }}</td>
-                    <td>{{ request.userId.userName }}</td>
+                    <td>{{ request.userId.username }}</td>
                 </tr>
                 <tr>
                     <td></td> 

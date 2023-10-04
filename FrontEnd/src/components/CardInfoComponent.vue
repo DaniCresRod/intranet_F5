@@ -32,7 +32,7 @@ onBeforeMount(getWorkerData);
         </div>
         <div class="content-container">
             <ul class="ul-title">
-                <li class="title">{{ data && data.userName }}</li>
+                <li class="title">{{ data && data.username }}</li>
                 <ul class="line2">
                     <li>
                         <img class="icon" src="public/role.png" />
