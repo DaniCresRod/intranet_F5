@@ -121,7 +121,7 @@ const getPasswordInputType = () => {
 };
 
 
-const handleSubmit = async () => {
+const handleSubmit = async (event) => {
     event.preventDefault();
     createUser();
 };
@@ -135,6 +135,7 @@ const handleSubmit = async () => {
 //         console.error('Error al obtener las escuelas:', error);
 //     }
 // });
+
 onBeforeMount(async () => {
     try {
         // Llama al servicio para obtener las escuelas

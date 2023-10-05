@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, onBeforeMount } from 'vue';
 import { getById } from '../services/EditUser'; 
 import { updateById } from '../services/EditUser';
+import schoolService from '../services/schoolService'
 
 // Define las referencias para los campos del formulario
 const user = ref(null);
@@ -19,16 +20,17 @@ const user_type = ref('');
 const user_img = ref('');
 const user_school = ref('');
 const user_id = ref('');
+const schools = ref([]);
 
 // Carga los datos del usuario
 const loadUserData = async () => {
     try {
-        const userId = 12; // ELIMINAR
+        const userId = 5; // ELIMINAR
         const response = await getById(userId); 
         user.value = response.data; 
         
         user_id.value = user.value.id;
-        user_name.value = user.value.userName;
+        user_name.value = user.value.username;
         user_surname.value = user.value.userSurName;
         user_nif.value = user.value.userNif;
         user_email.value = user.value.userEmail;
@@ -82,7 +84,10 @@ const updateUser = async () => {
             userPass: user_pass.value,
             userType: user_type.value,
             userImage: user_img.value,
-            schoolID: { id: user_school.value }
+            schoolID: {
+                id: user_school.value,
+                userDept: user_dpto.value
+            }
         };
 
         // Llama a la función updateById para actualizar los datos del usuario
@@ -109,10 +114,20 @@ const handleSubmit = async () => {
     updateUser(); // Llama a la función updateUser para actualizar los datos del usuario
 };
 
+onBeforeMount(async () => {
+    try {
+        // Llama al servicio para obtener las escuelas
+        schools.value = await schoolService.getSchools();
+    } catch (error) {
+        console.error('Error al obtener las escuelas:', error);
+    }
+   });
+
 // Carga los datos del usuario cuando se monta el componente
 onMounted(() => {
     loadUserData();
 });
+
 </script>
 
 
