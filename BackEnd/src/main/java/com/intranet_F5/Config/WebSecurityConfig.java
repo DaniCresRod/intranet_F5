@@ -37,9 +37,10 @@ public class WebSecurityConfig{
         http
                 .csrf(csrf -> csrf.disable()) //Para que funcionen los POST
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/schools").hasRole("Supervisor")
-                        .anyRequest().authenticated()
+                        //.requestMatchers("/auth/login").permitAll()
+                        //.requestMatchers("/schools").hasRole("Supervisor")
+                        //.anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic(withDefaults());
 //        http
