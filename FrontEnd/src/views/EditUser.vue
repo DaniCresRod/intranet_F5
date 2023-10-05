@@ -21,6 +21,7 @@ const user_img = ref('');
 const user_school = ref('');
 const user_id = ref('');
 const schools = ref([]);
+const user_dpto = ref('');
 
 // Carga los datos del usuario
 const loadUserData = async () => {
@@ -86,7 +87,7 @@ const updateUser = async () => {
             userImage: user_img.value,
             schoolID: {
                 id: user_school.value,
-                userDept: user_dpto.value
+                userDept: user_dpto.value,
             }
         };
 
