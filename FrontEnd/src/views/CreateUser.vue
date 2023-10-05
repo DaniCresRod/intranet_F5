@@ -20,7 +20,7 @@ const user_school = ref('');
 const user_dpto = ref('');
 
 const showPassword = ref(false);
-user_email.value = "@factoriaf5.com";
+//user_email.value = "@factoriaf5.com";
 const schools = ref([]);
 
 
@@ -127,16 +127,6 @@ const handleSubmit = async (event) => {
     createUser();
 };
 
-//Logica para cargar y actualizar las escuelas
-// onMounted(async () => {
-//     try {
-//         // Llama al servicio para obtener las escuelas
-//         schools.value = await schoolService.getSchools();
-//     } catch (error) {
-//         console.error('Error al obtener las escuelas:', error);
-//     }
-// });
-
 onBeforeMount(async () => {
     try {
         // Llama al servicio para obtener las escuelas
@@ -177,7 +167,7 @@ onBeforeMount(async () => {
 
             <div class="form-group">
                 <label for="user_email">Email:</label>
-                <input type="email" id="user_email" name="user_email" v-model="user_email" required class="correito">
+                <input type="email" id="user_email" name="user_email" v-model="user_email" required class="correito" placeholder="">
             </div>
 
             <div class="form-group">

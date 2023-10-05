@@ -26,7 +26,7 @@ const user_dpto = ref('');
 // Carga los datos del usuario
 const loadUserData = async () => {
     try {
-        const userId = 5; // ELIMINAR
+        const userId = 7; // ELIMINAR
         const response = await getById(userId); 
         user.value = response.data; 
         
@@ -48,18 +48,42 @@ const loadUserData = async () => {
     }
 };
 
-// Validación del DNI 
-const validateSpanishDNI = (dni) => {
+const validateSpanishDNIOrNIE = (dniOrNIE) => {
     const dniRegex = /^[0-9]{8}[A-Z]$/;
-    if (!dniRegex.test(dni)) {
+    const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
+
+    if (dniRegex.test(dniOrNIE)) {
+        // DNI format
+        const letter = dniOrNIE.charAt(8);
+        const number = parseInt(dniOrNIE.substr(0, 8), 10);
+        const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        const expectedLetter = letters.charAt(number % 23);
+        return letter === expectedLetter;
+    } else if (nieRegex.test(dniOrNIE)) {
+        // NIE format (starting with X, Y, or Z)
+        const nieLetterMapping = { X: 0, Y: 1, Z: 2 };
+        const firstChar = dniOrNIE.charAt(0);
+        const number = parseInt(dniOrNIE.substr(1, 7), 10);
+        const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        const expectedLetter = letters.charAt((nieLetterMapping[firstChar] + number) % 23);
+        return dniOrNIE.charAt(8) === expectedLetter;
+    } else {
+        // Neither DNI nor NIE format
         return false;
     }
-    const letter = dni.charAt(8);
-    const number = parseInt(dni.substr(0, 8), 10);
-    const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    const expectedLetter = letters.charAt(number % 23);
-    return letter === expectedLetter;
 };
+
+// Watch the user_nif value for changes and validate it
+watch(user_nif, (newValue) => {
+    if (validateSpanishDNIOrNIE(newValue)) {
+        // The DNI or NIE is valid
+        document.getElementById('dniValidationError').textContent = '';
+    } else {
+        // The DNI or NIE is not valid
+        document.getElementById('dniValidationError').textContent = 'El DNI o NIE no es válido';
+    }
+});
+
 
 // Mostrar/Ocultar contraseña
 const togglePassword = () => {
@@ -97,17 +121,6 @@ const updateUser = async () => {
         console.error('Error al actualizar los datos del usuario:', error);
     }
 };
-
-// Escucha el cambio en user_nif para validar 
-watch(user_nif, (newValue) => {
-    if (validateSpanishDNI(newValue)) {
-        // El DNI es válido
-        document.getElementById('dniValidationError').textContent = '';
-    } else {
-        // El DNI no es válido
-        document.getElementById('dniValidationError').textContent = 'El DNI no es válido';
-    }
-});
 
 // Función para manejar el envío del formulario
 const handleSubmit = async (event) => {
@@ -147,17 +160,16 @@ onMounted(() => {
             <label for="user_surname">Apellidos:</label>
             <input type="text" id="user_surname" name="user_surname" v-model="user_surname">
             </div>
-
             <div class="form-group">
-                <label for="user_nif">Documento Identidad:</label>
-                <input type="text" id="user_nif" name="user_nif" v-model="user_nif">
+                <label for="user_nif">Documento Identidad(DNI o NIE):</label>
+                <input type="text" id="user_nif" name="user_nif" v-model="user_nif" readonly>
                 <span id="dniValidationError"></span>
             </div>
             <div class="form-group warning">
-        <span id="dniValidationError">
-            {{ validateSpanishDNI(user_nif) ? '' : 'El DNI  no es válido' }}
-        </span>
-    </div>
+                <span id="dniValidationError">
+                    {{ validateSpanishDNIOrNIE(user_nif) ? '' : 'El documento no es válido' }}
+                </span>
+            </div>
 
             <div class="form-group">
             <label for="user_email">Email:</label>
@@ -212,8 +224,7 @@ onMounted(() => {
         <option value="" disabled>Selecciona una escuela</option>
         <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
     </select>
-</div>>
-
+</div>
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>
 

@@ -13,7 +13,7 @@ const createSchool = async () => {
     try {
         const postData = {
             schoolName: schoolName.value,
-            schoolAdress: adress.value,
+            schoolAddress: adress.value,
             schoolPhone: phoneNumber.value,
             schoolStateCode: stateCode.value,
         };
@@ -61,7 +61,7 @@ onMounted(() => {
 
             <div class="form-group">
             <label for="adress">Dirección:</label>
-            <input type="adress" id="adress" name="adress" v-model="adress" required>
+            <input type="address" id="adress" name="adress" v-model="adress" required>
             </div>
 
             <div class="form-group">
