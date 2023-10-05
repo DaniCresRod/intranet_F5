@@ -48,7 +48,8 @@ public class ApplicationConfig {
             return User.builder()
                     .username(userModel.getUsername())
                     .password(userModel.getUserPass())
-                    //.roles("YOUR_ROLES_HERE") // Asigna los roles necesarios
+                    .roles(userModel.getUserType().toString())
+                    //.roles(userModel.getAuthorities().toString())
                     .build();
         };
     }

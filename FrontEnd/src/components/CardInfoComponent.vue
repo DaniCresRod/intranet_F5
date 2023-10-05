@@ -128,7 +128,8 @@ li {
 .line3 li {
     margin-right: 20px;
 }
-.image-container{
+
+.image-container {
     padding-top: 2%;
 }
 </style>
