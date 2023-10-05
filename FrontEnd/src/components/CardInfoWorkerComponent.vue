@@ -31,7 +31,7 @@ onBeforeMount(getWorkerData);
       <div class="card-content">
         <div class="text-content">
           <v-card-subtitle v-if="data">
-            <p class="info-text"><span class="bold-text">Nombre:</span> {{ data.userName }}</p>
+            <p class="info-text"><span class="bold-text">Nombre:</span> {{ data.username }}</p>
             <p class="info-text"><span class="bold-text">Puesto:</span> {{ data.userType }}</p> 
             <p class="info-text"><span class="bold-text">D.N.I:</span> {{ data.userNif }}</p> 
             <p class="info-text"><span class="bold-text">Fecha de nacimiento:</span> {{ data.userBirthDate }}</p>
