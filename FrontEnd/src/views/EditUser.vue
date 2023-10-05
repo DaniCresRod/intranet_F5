@@ -110,7 +110,7 @@ watch(user_nif, (newValue) => {
 });
 
 // Función para manejar el envío del formulario
-const handleSubmit = async () => {
+const handleSubmit = async (event) => {
     event.preventDefault();
     updateUser(); // Llama a la función updateUser para actualizar los datos del usuario
 };
@@ -207,13 +207,12 @@ onMounted(() => {
             </div>
 
             <div class="form-group">
-            <label for="user_school">Escuela:</label>
-            <select id="user_school" name="user_school" v-model="user_school">
-                <option value="1">1</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-            </select>
-            </div>
+    <label for="user_school">Escuela:</label>
+    <select id="user_school" name="user_school" v-model="user_school">
+        <option value="" disabled>Selecciona una escuela</option>
+        <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
+    </select>
+</div>>
 
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>
