@@ -1,4 +1,24 @@
 <script setup>
+import { ref } from 'vue'
+import loggear from "../services/LogInService"
+
+const user=ref("");
+const password=ref("");
+
+const payload=ref({
+    "username": "",
+    "password": ""
+});
+
+async function sendInfo(){
+
+    payload.value.username=user.value;
+    payload.value.password=password.value;
+    console.log(payload.value);
+    response=await loggear.doLogIn(payload.value);
+    console.log(response.data);
+}
+
 </script>
 
 <template>
@@ -11,15 +31,16 @@
     <div class="login_form">
         <h2>Acceso Usuarios</h2>
         <form @submit.prevent="submitForm">
+        
             <div class="form-group">
                 <label for="usuario"></label>
-                <input type="text" id="usuario" v-model="user" required :placeholder="'USUARIO'" class="custom-placeholder">
+                <input type="text" id="usuario" v-model="user" required placeholder="USUARIO" class="custom-placeholder">
             </div>
             <div class="form-group">
                 <label for="contrasena"></label>
-                <input type="password" id="password" v-model="password" required :placeholder="'CONTRASEÑA'" class="custom-placeholder">
+                <input type="password" id="password" v-model="password" required placeholder="CONTRASEÑA" class="custom-placeholder">
             </div>
-            <button class="button" type="submit">LOGIN</button>
+            <button class="button" type="submit" @click="sendInfo">LOGIN</button>
 
         </form>
     </div>
@@ -121,19 +142,19 @@ h1 {
 
 .login_form {
         width: 80%;
-        height:auto; 
-        margin :2% auto; 
+        height:auto;
+        margin :2% auto;
 }
 
 input[type="text"],
 input[type="password"] {
-        width :80%; 
-        height :2rem; 
+        width :80%;
+        height :2rem;
 }
 
 .button{
-        margin-top :5%; 
-        margin-left :30%; 
+        margin-top :5%;
+        margin-left :30%;
 }
 }
 </style>

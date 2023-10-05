@@ -5,7 +5,6 @@ package com.intranet_F5.Config;
  * peticiones antes de llegar a los controladores (Servlet)
  */
 
-import com.intranet_F5.Model.UserModel;
 import com.intranet_F5.Repository.UserRepository;
 import com.intranet_F5.jwt.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
@@ -28,23 +27,20 @@ public class WebSecurityConfig{
     private final AuthenticationProvider authenticationProvider;
     private final AuthTokenFilter authTokenFilter;
 
-    @Autowired
-    UserRepository userRepository;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable()) //Para que funcionen los POST
                 .authorizeHttpRequests((authz) -> authz
-                        //.requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
                         //.requestMatchers("/schools").hasRole("Supervisor")
-                        //.anyRequest().authenticated()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
+                        //anyRequest().permitAll()
                 )
                 .httpBasic(withDefaults());
-//        http
-//                .logout((mylogOut)->mylogOut.logoutSuccessUrl("http://localhost:5173/"));
+        http
+                .logout((mylogOut)->mylogOut.logoutSuccessUrl("/"));
 
         http
                 .sessionManagement(sessionManager->
@@ -52,12 +48,12 @@ public class WebSecurityConfig{
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http
-                .formLogin(myLog->myLog
-                .loginPage("/")
-                //.defaultSuccessUrl("/EmployeeView")
-                //.failureUrl("/login?error=true")
-                .permitAll());
+//        http
+//                .formLogin(myLog->myLog
+//                .loginPage("/")
+//                //.defaultSuccessUrl("/EmployeeView")
+//                //.failureUrl("/login?error=true")
+//                .permitAll());
 
         return http.build();
     }
