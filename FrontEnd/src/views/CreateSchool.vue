@@ -35,15 +35,14 @@ const createSchool = async () => {
     }
 };
 
-// Manejar el envío del formulario cuando se presiona el botón "Crear Escuela"
 const handleSubmit = (event) => {
     event.preventDefault();
     createSchool();
 };
 
-// Ejecutar alguna lógica adicional si es necesario cuando la vista se monta
+
 onMounted(() => {
-    // Por ejemplo, cargar datos iniciales o configurar eventos
+    
 });
 
 </script>
