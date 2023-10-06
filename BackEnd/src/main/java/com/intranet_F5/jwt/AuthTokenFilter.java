@@ -30,6 +30,17 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        //response.setHeader("Access-Control-Allow-Origin", "*");
+        // Verificar si la solicitud es de tipo OPTIONS
+        if ("OPTIONS".equals(request.getMethod())) {
+            // Agregar el encabezado 'Access-Control-Allow-Origin' solo a las solicitudes OPTIONS
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+            response.setHeader("Access-Control-Max-Age", "3600");
+            return;
+        }
+
         final String token = getTokenFromRequest(request);
         final String username;
 
