@@ -38,8 +38,8 @@ public class WebSecurityConfig{
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/auth/login").permitAll()
                         //.requestMatchers("/schools").hasRole("Supervisor")
-                        .anyRequest().authenticated()
-                        //anyRequest().permitAll()
+                        //.anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic(withDefaults());
         http
@@ -51,12 +51,12 @@ public class WebSecurityConfig{
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-//        http
-//                .formLogin(myLog->myLog
-//                .loginPage("/")
-//                //.defaultSuccessUrl("/EmployeeView")
-//                //.failureUrl("/login?error=true")
-//                .permitAll());
+        http
+                .formLogin(myLog->myLog
+                .loginPage("/")
+                .defaultSuccessUrl("/EmployeeView")
+                //.failureUrl("/login?error=true")
+                .permitAll());
 
         return http.build();
     }

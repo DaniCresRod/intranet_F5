@@ -15,8 +15,8 @@ async function sendInfo(){
     payload.value.username=user.value;
     payload.value.password=password.value;
     console.log(payload.value);
-    response=await loggear.doLogIn(payload.value);
-    console.log(response.data);
+    let response=await loggear.doLogIn(payload.value);
+    console.log(response);
 }
 
 </script>
