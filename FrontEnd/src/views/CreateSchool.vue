@@ -21,7 +21,7 @@ const createSchool = async () => {
         // Llamar al servicio para crear la escuela
         const response = await PostSchool.post(postData);
 
-        // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
+        
         console.log('Escuela creada con éxito:', response.data);
 
         // Restablecer los campos del formulario después de crear la escuela
