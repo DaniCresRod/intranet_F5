@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, onBeforeMount } from 'vue';
 import { getById } from '../services/EditUser'; 
 import { updateById } from '../services/EditUser';
+import schoolService from '../services/schoolService'
 
 // Define las referencias para los campos del formulario
 const user = ref(null);
@@ -19,16 +20,18 @@ const user_type = ref('');
 const user_img = ref('');
 const user_school = ref('');
 const user_id = ref('');
+const schools = ref([]);
+const user_dpto = ref('');
 
 // Carga los datos del usuario
 const loadUserData = async () => {
     try {
-        const userId = 12; // ELIMINAR
+        const userId = 5; // ELIMINAR
         const response = await getById(userId); 
         user.value = response.data; 
         
         user_id.value = user.value.id;
-        user_name.value = user.value.userName;
+        user_name.value = user.value.username;
         user_surname.value = user.value.userSurName;
         user_nif.value = user.value.userNif;
         user_email.value = user.value.userEmail;
@@ -45,18 +48,42 @@ const loadUserData = async () => {
     }
 };
 
-// Validación del DNI 
-const validateSpanishDNI = (dni) => {
+const validateSpanishDNIOrNIE = (dniOrNIE) => {
     const dniRegex = /^[0-9]{8}[A-Z]$/;
-    if (!dniRegex.test(dni)) {
+    const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
+
+    if (dniRegex.test(dniOrNIE)) {
+        // DNI format
+        const letter = dniOrNIE.charAt(8);
+        const number = parseInt(dniOrNIE.substr(0, 8), 10);
+        const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        const expectedLetter = letters.charAt(number % 23);
+        return letter === expectedLetter;
+    } else if (nieRegex.test(dniOrNIE)) {
+        // NIE format (starting with X, Y, or Z)
+        const nieLetterMapping = { X: 0, Y: 1, Z: 2 };
+        const firstChar = dniOrNIE.charAt(0);
+        const number = parseInt(dniOrNIE.substr(1, 7), 10);
+        const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        const expectedLetter = letters.charAt((nieLetterMapping[firstChar] + number) % 23);
+        return dniOrNIE.charAt(8) === expectedLetter;
+    } else {
+        // Neither DNI nor NIE format
         return false;
     }
-    const letter = dni.charAt(8);
-    const number = parseInt(dni.substr(0, 8), 10);
-    const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    const expectedLetter = letters.charAt(number % 23);
-    return letter === expectedLetter;
 };
+
+// Watch the user_nif value for changes and validate it
+watch(user_nif, (newValue) => {
+    if (validateSpanishDNIOrNIE(newValue)) {
+        // The DNI or NIE is valid
+        document.getElementById('dniValidationError').textContent = '';
+    } else {
+        // The DNI or NIE is not valid
+        document.getElementById('dniValidationError').textContent = 'El DNI o NIE no es válido';
+    }
+});
+
 
 // Mostrar/Ocultar contraseña
 const togglePassword = () => {
@@ -82,7 +109,10 @@ const updateUser = async () => {
             userPass: user_pass.value,
             userType: user_type.value,
             userImage: user_img.value,
-            schoolID: { id: user_school.value }
+            schoolID: {
+                id: user_school.value,
+                userDept: user_dpto.value,
+            }
         };
 
         // Llama a la función updateById para actualizar los datos del usuario
@@ -92,27 +122,26 @@ const updateUser = async () => {
     }
 };
 
-// Escucha el cambio en user_nif para validar 
-watch(user_nif, (newValue) => {
-    if (validateSpanishDNI(newValue)) {
-        // El DNI es válido
-        document.getElementById('dniValidationError').textContent = '';
-    } else {
-        // El DNI no es válido
-        document.getElementById('dniValidationError').textContent = 'El DNI no es válido';
-    }
-});
-
 // Función para manejar el envío del formulario
-const handleSubmit = async () => {
+const handleSubmit = async (event) => {
     event.preventDefault();
     updateUser(); // Llama a la función updateUser para actualizar los datos del usuario
 };
+
+onBeforeMount(async () => {
+    try {
+        // Llama al servicio para obtener las escuelas
+        schools.value = await schoolService.getSchools();
+    } catch (error) {
+        console.error('Error al obtener las escuelas:', error);
+    }
+   });
 
 // Carga los datos del usuario cuando se monta el componente
 onMounted(() => {
     loadUserData();
 });
+
 </script>
 
 
@@ -131,17 +160,16 @@ onMounted(() => {
             <label for="user_surname">Apellidos:</label>
             <input type="text" id="user_surname" name="user_surname" v-model="user_surname">
             </div>
-
             <div class="form-group">
-                <label for="user_nif">Documento Identidad:</label>
-                <input type="text" id="user_nif" name="user_nif" v-model="user_nif">
+                <label for="user_nif">Documento Identidad(DNI o NIE):</label>
+                <input type="text" id="user_nif" name="user_nif" v-model="user_nif" readonly>
                 <span id="dniValidationError"></span>
             </div>
             <div class="form-group warning">
-        <span id="dniValidationError">
-            {{ validateSpanishDNI(user_nif) ? '' : 'El DNI  no es válido' }}
-        </span>
-    </div>
+                <span id="dniValidationError">
+                    {{ validateSpanishDNIOrNIE(user_nif) ? '' : 'El documento no es válido' }}
+                </span>
+            </div>
 
             <div class="form-group">
             <label for="user_email">Email:</label>
@@ -191,14 +219,12 @@ onMounted(() => {
             </div>
 
             <div class="form-group">
-            <label for="user_school">Escuela:</label>
-            <select id="user_school" name="user_school" v-model="user_school">
-                <option value="1">1</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-            </select>
-            </div>
-
+    <label for="user_school">Escuela:</label>
+    <select id="user_school" name="user_school" v-model="user_school">
+        <option value="" disabled>Selecciona una escuela</option>
+        <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
+    </select>
+</div>
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>
 

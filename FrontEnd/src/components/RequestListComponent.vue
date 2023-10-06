@@ -49,8 +49,8 @@ const sortRequests = () => {
             </thead>
             <tbody v-for="(request, index) in requests" :key="request.id">
                 <tr v-if="index === 0 || request.userId.username !== requests[index - 1].userId.username">
-                    <td>{{ request.userId.schoolID.schoolName }}</td>
-                    <td>{{ request.userId.username }}</td>
+                    <td>{{ request.userId && request.userId.schoolID ? request.userId.schoolID.schoolName : 'Escuela no definida' }}</td>
+                    <td>{{ request.userId ? request.userId.username : 'Usuario no definido' }}</td>
                 </tr>
                 <tr>
                     <td></td> 
@@ -61,6 +61,7 @@ const sortRequests = () => {
             </v-table>
     </v-card>
 </template>
+
 
 <style scoped>
 .requestList{
