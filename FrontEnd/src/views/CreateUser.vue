@@ -4,7 +4,7 @@ import PostUser from '../services/PostUser';
 import schoolService from '../services/schoolService'
 
 
-// Define refs para los campos del formulario
+//Define refs para los campos del formulario
 const user_name = ref('');
 const user_surname = ref('');
 const user_nif = ref('');

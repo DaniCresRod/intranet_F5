@@ -4,7 +4,15 @@ import RequestServices from '../services/RequestServices'
 import DaysRequestComponent from './DaysRequestComponent.vue';
 
 const today=new Date();
-const userId = 2;
+
+const props = defineProps({
+    id: {
+        type: Number,
+        required: true
+    },
+    
+});
+const user = ref(null);
 
 const range = ref({
     start: today,
@@ -34,8 +42,9 @@ const openConfirmationDialog = () => {
 
 async function getData() {
     try {
-        const response = await RequestServices.getById(userId);
+        const response = await RequestServices.getById(props.id);
         holidaysData = response.data;
+        user.value = response.data.user;
         console.log(holidaysData);
         statusHolidays();
     } catch (error) {
@@ -118,6 +127,7 @@ const eventHandler = (value) => {
     <DaysRequestComponent v-if="showConfirmation"
     :startDate="range.start"
     :endDate="range.end"
+    :id="id" 
     />
 
 </template>
