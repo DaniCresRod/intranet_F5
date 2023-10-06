@@ -1,6 +1,7 @@
 <script setup>
 import {ref, onMounted} from 'vue'
 import RequestServices from '@/services/RequestServices'; 
+
 const requests = ref([]);
 const getRequests = async () => {
     try {
@@ -18,14 +19,14 @@ onMounted(() => {
 
 const sortRequests = () => {
     requests.value.sort((a, b) => {
-        if (a.userId.schoolID.schoolName !== b.userId.schoolID.schoolName) {
-            return a.userId.schoolID.schoolName.localeCompare(b.userId.schoolID.schoolName);
-        }
+        if (a.userId && b.userId && a.userId.schoolID && b.userId.schoolID) {
+            if (a.userId.schoolID.schoolName !== b.userId.schoolID.schoolName) {
+                return a.userId.schoolID.schoolName.localeCompare(b.userId.schoolID.schoolName);
+            }
 
-        if (a.userId.userName !== b.userId.userName) {
-            return a.userId.userName.localeCompare(b.userId.userName);
-        }
-
+            if (a.userId.userName !== b.userId.userName) {
+                return a.userId.userName.localeCompare(b.userId.userName);
+            }
         const dateA = new Date(a.startDate);
         const dateB = new Date(b.startDate);
 
@@ -34,6 +35,7 @@ const sortRequests = () => {
         } else {
             return a.userId.userName.localeCompare(b.userId.userName);
         }
+    }
     });
 };
 </script>
@@ -47,7 +49,7 @@ const sortRequests = () => {
                 <th> Nombre Empleado </th>
                 <th> Fecha de solicitud </th>
             </thead>
-            <tbody v-for="(request, index) in requests" :key="request.id">
+            <tbody v-for="(request, index) in requests" :key="request.Id">
                 <tr v-if="index === 0 || request.userId.username !== requests[index - 1].userId.username">
                     <td>{{ request.userId && request.userId.schoolID ? request.userId.schoolID.schoolName : 'Escuela no definida' }}</td>
                     <td>{{ request.userId ? request.userId.username : 'Usuario no definido' }}</td>
