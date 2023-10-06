@@ -6,8 +6,6 @@ const showConfirmation = ref(true);
 const showSendForm = ref(false);
 const { startDate, endDate, id } = defineProps(['startDate', 'endDate', 'id']);
 
-//const userId = 2;
-
 const today=new Date();
 
 let dayStart = startDate.getDate();
