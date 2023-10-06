@@ -23,7 +23,8 @@ const user_id = ref('');
 const schools = ref([]);
 const user_dpto = ref('');
 user_email.value = "@factoriaf5.com";
-
+const changes = ref([]);
+const changesWithNewValues = ref([]);
 
 
 // Carga los datos del usuario
@@ -128,13 +129,26 @@ const updateUser = async () => {
                 userDept: user_dpto.value,
             }
         };
+        const modifiedFields = [];
+
+        // Compara los valores antiguos con los nuevos
+        if (user_name.value !== user.value.userName) {
+            modifiedFields.push('Nombre');
+        }
+        if (user_surname.value !== user.value.userSurName) {
+            modifiedFields.push('Apellidos');
+        }
+        // Repite esto para los otros campos que quieras rastrear
+
+        // Actualiza la propiedad changes con los campos modificados
+        changes.value = modifiedFields;
 
         // Llama a la función updateById para actualizar los datos del usuario
         await updateById(user_id.value, updatedUserData);
         // Calcula las modificaciones realizadas y actualiza la propiedad changes
-        } catch (error) {
-    console.error('Error al actualizar los datos del usuario:', error);
-  }
+    } catch (error) {
+        console.error('Error al actualizar los datos del usuario:', error);
+    }
 };
 
 
@@ -143,7 +157,7 @@ const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
     updateUser();
-    
+
 };
 
 
@@ -220,7 +234,7 @@ onMounted(() => {
                 <input :type="getPasswordInputType()" id="user_pass" name="user_pass" v-model="user_pass">
             </div>
             <div class="form-group user_pass">
-                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar                   contraseña' }}</button>
+                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña' }}</button>
             </div>
 
             <div class="form-group">
@@ -245,11 +259,13 @@ onMounted(() => {
                 </select>
             </div>
             <input type="submit" value="Modificar datos" @click="handleSubmit">
-
-
-
         </form>
-
+        <div v-if="changes.length > 0" class="popup">
+            <h3>Campos modificados:</h3>
+            <ul>
+                <li v-for="field in changes" :key="field">{{ field }}</li>
+            </ul>
+        </div>
     </section>
 </template>
 
@@ -352,7 +368,8 @@ select:focus {
     color: var(--orange);
     text-decoration: underline;
 }
-.alert {
+
+.popup {
     background-color: #f8d7da;
     color: #721c24;
     padding: 10px;
