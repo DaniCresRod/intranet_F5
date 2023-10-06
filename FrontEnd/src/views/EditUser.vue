@@ -24,13 +24,13 @@ const schools = ref([]);
 const user_dpto = ref('');
 user_email.value = "@factoriaf5.com";
 const changes = ref([]);
-const changesWithNewValues = ref([]);
+//const changesWithNewValues = ref([]);
 
 
 // Carga los datos del usuario
 const loadUserData = async () => {
     try {
-        const userId = 5; // ELIMINAR
+        const userId = 12; // ELIMINAR
         const response = await getById(userId);
         user.value = response.data;
 
@@ -131,20 +131,45 @@ const updateUser = async () => {
         };
         const modifiedFields = [];
 
-        // Compara los valores antiguos con los nuevos
-        if (user_name.value !== user.value.userName) {
+       // Compara los valores antiguos con los nuevos
+       if (user_name.value !== user.value.userName) {
             modifiedFields.push('Nombre');
         }
         if (user_surname.value !== user.value.userSurName) {
             modifiedFields.push('Apellidos');
         }
-        // Repite esto para los otros campos que quieras rastrear
-
-        // Actualiza la propiedad changes con los campos modificados
-        changes.value = modifiedFields;
+        if (user_nif.value !== user.value.userNif) {
+            modifiedFields.push('Documento Identidad(DNI o NIE)');
+        }
+        if (user_email.value !== user.value.userEmail) {
+            modifiedFields.push('Email');
+        }
+        if (user_phone.value !== user.value.userPhone) {
+            modifiedFields.push('Número de Teléfono');
+        }
+        if (user_birthday.value !== user.value.userBirthDate) {
+            modifiedFields.push('Fecha de nacimiento');
+        }
+        if (user_startDate.value !== user.value.userStartDate) {
+            modifiedFields.push('Fecha de alta');
+        }
+        if (user_endDate.value !== user.value.userEndDate) {
+            modifiedFields.push('Fecha de finalización');
+        }
+        if (user_type.value !== user.value.userType) {
+            modifiedFields.push('Puesto');
+        }
+        if (user_img.value !== user.value.userImage) {
+            modifiedFields.push('Adjuntar foto');
+        }
+        if (user_school.value !== user.value.schoolID.id) {
+            modifiedFields.push('Escuela');
+        }
 
         // Llama a la función updateById para actualizar los datos del usuario
         await updateById(user_id.value, updatedUserData);
+            // Actualiza la propiedad changes con los campos modificados
+            changes.value = modifiedFields;
         // Calcula las modificaciones realizadas y actualiza la propiedad changes
     } catch (error) {
         console.error('Error al actualizar los datos del usuario:', error);
@@ -370,11 +395,34 @@ select:focus {
 }
 
 .popup {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: rgba(255, 163, 127, 0.2);
     padding: 10px;
-    border: 1px solid #f5c6cb;
+    border: 2px solid var(--orange);
     border-radius: 5px;
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+}
+h3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+ul {
+    list-style: none;
+    padding: 0; /* Elimina el padding predeterminado de la lista */
+    margin: 0; /* Elimina el margen predeterminado de la lista */
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos de la lista se envuelvan en varias líneas */
+    justify-content: space-between; /* Espacio entre elementos para formar 4 columnas */
+    width: 100%; /* Asegura que la lista ocupe todo el ancho disponible */
+}
+
+li {
+    flex-basis: calc(25% - 2vw); 
+    margin: 1vw 0; 
 }
 </style>
