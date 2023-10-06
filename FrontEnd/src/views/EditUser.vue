@@ -413,12 +413,12 @@ h3{
 }
 ul {
     list-style: none;
-    padding: 0; /* Elimina el padding predeterminado de la lista */
-    margin: 0; /* Elimina el margen predeterminado de la lista */
+    padding: 0; 
+    margin: 0; 
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos de la lista se envuelvan en varias líneas */
-    justify-content: space-between; /* Espacio entre elementos para formar 4 columnas */
-    width: 100%; /* Asegura que la lista ocupe todo el ancho disponible */
+    flex-wrap: wrap;
+    justify-content: space-between; 
+    width: 100%; 
 }
 
 li {
