@@ -17,7 +17,7 @@ async function getHoldData() {
   loading.value = true;
   const response = await RequestService.getHolidaysData(props.id);
   data.value = await response.data;
-  
+  console.log(response);
   const startDate = new Date(data.value.userRequests[0].startDate);
   const endDate = new Date(data.value.userRequests[0].endDate);
   const diffTime = Math.abs(endDate - startDate);
@@ -32,10 +32,13 @@ onBeforeMount(getHoldData);
 
 async function approveRequest() {
   await RequestService.updateUserRequestStatus(props.id, 2);
+  console.log("solicitud aprobada");
 }
 
 async function rejectRequest() {
   await RequestService.updateUserRequestStatus(props.id, 3);
+  console.log("solicitud rechazada");
+
 }
 </script>
 

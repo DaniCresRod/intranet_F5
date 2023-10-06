@@ -3,8 +3,8 @@ import http from '../httpCommon';
 export default({
 
 
-    getById(Id) {
-        return http.get(`/users/${Id}`);
+    getById(id) {
+        return http.get(`/users/${id}`);
     },
     
     post(Data) {
