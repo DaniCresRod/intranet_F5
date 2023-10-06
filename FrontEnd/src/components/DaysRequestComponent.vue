@@ -4,9 +4,10 @@ import RequestServices  from '../services/RequestServices'
 
 const showConfirmation = ref(true);
 const showSendForm = ref(false);
-const { startDate, endDate } = defineProps(['startDate', 'endDate']);
+const { startDate, endDate, id } = defineProps(['startDate', 'endDate', 'id']);
 
-const userId = 2;
+//const userId = 2;
+
 const today=new Date();
 
 let dayStart = startDate.getDate();
@@ -25,7 +26,7 @@ const confirmRequest = async () => {
         endDate:`${fullYearEnd}-${monthEnd}-${dayEnd}`,
         status: 1,
         userReason: "Holidays",
-        userId: { id:userId }
+        userId: { id:id }
       };
   
     const response = await RequestServices.post(request);

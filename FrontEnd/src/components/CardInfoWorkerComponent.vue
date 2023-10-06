@@ -2,6 +2,7 @@
 import { ref, onBeforeMount } from 'vue';
 import { defineProps } from 'vue';
 import CardInfoService from '../services/CardInfoService';
+import axios from 'axios';
 
 const props = defineProps({
   id: {
@@ -21,7 +22,9 @@ async function getWorkerData() {
   loading.value = false;
 }
 
-onBeforeMount(getWorkerData);
+onBeforeMount(() => {
+  getWorkerData();
+})
 
 </script>
 
