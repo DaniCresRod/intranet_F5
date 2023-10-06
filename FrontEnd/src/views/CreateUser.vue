@@ -20,7 +20,7 @@ const user_school = ref('');
 const user_dpto = ref('');
 
 const showPassword = ref(false);
-//user_email.value = "@factoriaf5.com";
+user_email.value = "@factoriaf5.com";
 const schools = ref([]);
 
 
@@ -28,7 +28,7 @@ const schools = ref([]);
 const createUser = async () => {
     try {
         const email = user_email.value; // Valor ingresado por el usuario
-        const fullEmail = email + "@factoriaf5.com"; // Email completo con el dominio
+        const fullEmail = email; // Email completo con el dominio
         const postData = {
             userName: user_name.value,
             userSurName: user_surname.value,
@@ -106,9 +106,21 @@ watch(user_nif, (newValue) => {
         document.getElementById('dniValidationError').textContent = '';
     } else {
         // The DNI or NIE is not valid
-        document.getElementById('dniValidationError').textContent = 'El DNI o NIE no es válido';
+        document.getElementById('dniValidationError').textContent = '';
     }
 });
+
+// Función para validar y ajustar el campo de correo electrónico
+const validateAndAdjustEmail = () => {
+    let email = user_email.value.toLowerCase();
+
+    // Si el correo electrónico no contiene una "@" o contiene más de una, o si no termina en "factoriaf5.com".
+    if (email.indexOf('@') === -1 || email.indexOf('@') !== email.lastIndexOf('@') || !email.endsWith('@factoriaf5.com')) {
+        // Reemplaza cualquier dominio existente con "factoriaf5.com" y asegura que haya solo una "@".
+        email = email.replace(/@.*$/, '') + '@factoriaf5.com';
+        user_email.value = email;
+    }
+};
 
 // Mostrar/Ocultar contraseña
 // Function to toggle password visibility
@@ -124,6 +136,7 @@ const getPasswordInputType = () => {
 
 const handleSubmit = async (event) => {
     event.preventDefault();
+    validateAndAdjustEmail();
     createUser();
 };
 
@@ -167,8 +180,10 @@ onBeforeMount(async () => {
 
             <div class="form-group">
                 <label for="user_email">Email:</label>
-                <input type="email" id="user_email" name="user_email" v-model="user_email" required class="correito" placeholder="">
+                <input type="email" id="user_email placeholder_mail" name="user_email" v-model="user_email" required
+                    class="correito" placeholder="@factoriaf5.com">
             </div>
+
 
             <div class="form-group">
                 <label for="user_phone">Número de Teléfono:</label>
@@ -222,12 +237,12 @@ onBeforeMount(async () => {
             </div>
 
             <div class="form-group">
-    <label for="user_school">Escuela:</label>
-    <select id="user_school" name="user_school" v-model="user_school">
-        <option value="" disabled>Selecciona una escuela</option>
-        <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
-    </select>
-</div>
+                <label for="user_school">Escuela:</label>
+                <select id="user_school" name="user_school" v-model="user_school">
+                    <option value="" disabled>Selecciona una escuela</option>
+                    <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
+                </select>
+            </div>
 
             <input type="submit" value="Alta Emplead@" @click="handleSubmit">
         </form>
@@ -275,7 +290,7 @@ label {
 
 input,
 select {
-    flex: 2;
+    flex: 3;
     background-color: rgba(255, 163, 127, 0.6);
 
 }
@@ -335,7 +350,11 @@ select:focus {
     text-decoration: underline;
 }
 
-.correito {
+.correito{
+    color:#7b7878;
     text-align: right;
 }
+
+
+
 </style>
