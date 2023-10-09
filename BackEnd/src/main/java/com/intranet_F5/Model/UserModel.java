@@ -61,7 +61,7 @@ public class UserModel implements UserDetails {
     @Column(name = "Spent_Days")
     private Integer userDays;
 
-    @JsonIgnore
+    //@JsonIgnore
     @Column(name = "Password")
     private String userPass;
 

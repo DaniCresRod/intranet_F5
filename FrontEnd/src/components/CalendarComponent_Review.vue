@@ -4,6 +4,7 @@ import schoolService from '../services/schoolService';
 
 const escuelaSeleccionada = ref('');
 const schools = ref([]);
+//const user_school = ref('');
 const mesSeleccionado = ref('');
 const meses = {
     enero: 31,
@@ -72,17 +73,13 @@ function actualizarCalendario() {
 }
 
 onBeforeMount(async () => {
-  try {
-    // Llama al servicio para obtener las escuelas
-    const response = await schoolService.getSchools();
-    
-    // Asigna las escuelas obtenidas a la referencia reactiva
-    schools.value = response.data; // Asumiendo que el servicio devuelve un array de escuelas
-
-    console.log('Escuelas cargadas:', schools.value);
-  } catch (error) {
-    console.error('Error al obtener las escuelas:', error);
-  }
+    try {
+        // Llama al servicio para obtener las escuelas
+        schools.value = await schoolService.getSchools();
+    } catch (error) {
+        console.error('Error al obtener las escuelas:', error);
+    }
+    console.log(schools.value)
 });
 
 onMounted(async () => {
@@ -97,10 +94,10 @@ onMounted(async () => {
     <div class="calendar_container">
         <h2>Calendario</h2>
         <label for="escuela">Selecciona Escuela:</label>
-<select id="escuela" class="custom-select" v-model="escuelaSeleccionada" @change="actualizarCalendario">
-  <option value="">Selecciona Escuela</option>
-  <option v-for="escuela in escuelas" :value="escuela.id">{{ escuela.nombre }}</option>
-</select>
+        <select id="user_school" class="custom-select" name="user_school" v-model="user_school">
+                    <option value="" disabled>Selecciona una escuela</option>
+                    <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
+                </select>
             <label for="mes">Selecciona Mes:</label>
             <select id="mes" class="custom-select" v-model="mesSeleccionado" @change="actualizarCalendario">
             <option value="">Selección mes</option>
