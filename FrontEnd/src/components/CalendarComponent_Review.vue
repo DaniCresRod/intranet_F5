@@ -79,13 +79,13 @@ onBeforeMount(async () => {
     } catch (error) {
         console.error('Error al obtener las escuelas:', error);
     }
-    console.log(schools.value)
+    console.log(schools.value);
 });
 
 onMounted(async () => {
   // Llama a actualizarCalendario() para inicializar el calendario
   actualizarCalendario();
-});
+  });
 
 
 </script>
@@ -94,7 +94,7 @@ onMounted(async () => {
     <div class="calendar_container">
         <h2>Calendario</h2>
         <label for="escuela">Selecciona Escuela:</label>
-        <select id="user_school" class="custom-select" name="user_school" v-model="user_school">
+        <select id="user_school" class="custom-select" name="user_school" v-model="escuelaSeleccionada">
                     <option value="" disabled>Selecciona una escuela</option>
                     <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
                 </select>
@@ -117,9 +117,9 @@ onMounted(async () => {
 
         <div v-if="mesSeleccionado" class="calendario_vista">
             <h4>{{ mesSeleccionado }}</h4>
-            <div v-for="school in schools" :key="school.id">
-                <div v-if="escuelaSeleccionada === school.name" :class="school.name.toLowerCase()">
-                    <h4>{{ school.name }}</h4>
+            <div v-for="school in schools" :key="school.schoolName">
+                <div v-if="escuelaSeleccionada === school.id" :class="school.id">
+                    <h4>{{ school.schoolName }}</h4>
                     <table class="calendar" cellspacing="0">
                         <tbody>
                             <tr title="daysNum">
