@@ -4,7 +4,7 @@ import schoolService from '../services/schoolService';
 
 const escuelaSeleccionada = ref('');
 const schools = ref([]);
-//const user_school = ref('');
+const user_school = ref('');
 const mesSeleccionado = ref('');
 const meses = {
     enero: 31,
@@ -22,11 +22,11 @@ const meses = {
 };
 
 const usuarios = [
-  { nombre: 'User1', eventos: [1, 5, 10, 15] },
-  { nombre: 'User2', eventos: [2, 7, 12, 20] },
-  { nombre: 'User3', eventos: [3, 9, 14, 25] },
-  { nombre: 'User4', eventos: [4, 8, 18, 28] },
-  { nombre: 'User5', eventos: [6, 11, 16, 22] }
+    { nombre: 'User1', eventos: [1, 5, 10, 15] },
+    { nombre: 'User2', eventos: [2, 7, 12, 20] },
+    { nombre: 'User3', eventos: [3, 9, 14, 25] },
+    { nombre: 'User4', eventos: [4, 8, 18, 28] },
+    { nombre: 'User5', eventos: [6, 11, 16, 22] }
 ];
 const diasDelMes = computed(() => {
     return Array.from({ length: meses[mesSeleccionado.value] }, (_, index) =>
@@ -117,72 +117,28 @@ onMounted(async () => {
 
         <div v-if="mesSeleccionado" class="calendario_vista">
             <h4>{{ mesSeleccionado }}</h4>
-            <div v-if="escuelaSeleccionada === 'asturias'" class="asturias">
-            <h4>Asturias</h4>
-            <table class="calendar" cellspacing="0">
-                <tbody>
-                    <tr title="daysNum">
-                        <th></th>
-                        <th v-for="dia in diasDelMes">{{ dia }}</th>
-                    </tr>
+            <div v-for="school in schools" :key="school.id">
+                <div v-if="escuelaSeleccionada === school.name" :class="school.name.toLowerCase()">
+                    <h4>{{ school.name }}</h4>
+                    <table class="calendar" cellspacing="0">
+                        <tbody>
+                            <tr title="daysNum">
+                                <th></th>
+                                <th v-for="dia in diasDelMes">{{ dia }}</th>
+                            </tr>
 
-                    <tr v-for="(usuario, index) in usuarios" :key="index" :title="usuario.nombre">
-              <th>{{ usuario.nombre }}</th>
-              <td v-for="dia in diasDelMes">
-                <!-- Agrega aquí la lógica para mostrar los datos de los usuarios en cada día -->
-                <!-- Por ejemplo, si el usuario tiene un evento en este día, puedes mostrar 'X' -->
-                {{ mostrarEvento(usuario, dia) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                            <tr v-for="(usuario, index) in usuarios" :key="index" :title="usuario.nombre">
+                                <th>{{ usuario.nombre }}</th>
+                                <td v-for="dia in diasDelMes">
+                                    {{ mostrarEvento(usuario, dia) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div v-if="escuelaSeleccionada === 'barcelona'" class="barcelona">
-            <h4>Barcelona</h4>
-            <table class="calendar" cellspacing="0">
-                <tbody>
-                    <tr title="daysNum">
-                        <th></th>
-                        <th v-for="dia in diasDelMes">{{ dia }}</th>
-                    </tr>
-
-                    <tr v-for="(usuario, index) in usuarios" :key="index" :title="usuario.nombre">
-              <th>{{ usuario.nombre }}</th>
-              <td v-for="dia in diasDelMes">
-                <!-- Agrega aquí la lógica para mostrar los datos de los usuarios en cada día -->
-                <!-- Por ejemplo, si el usuario tiene un evento en este día, puedes mostrar 'X' -->
-                {{ mostrarEvento(usuario, dia) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-            </div>
-
-
-            <div v-if="escuelaSeleccionada === 'madrid'" class="madrid">
-            <h4>Madrid</h4>
-            <table class="calendar" cellspacing="0">
-                <tbody>
-                    <tr title="daysNum">
-                        <th></th>
-                        <th v-for="dia in diasDelMes">{{ dia }}</th>
-                    </tr>
-
-                    <tr v-for="(usuario, index) in usuarios" :key="index" :title="usuario.nombre">
-              <th>{{ usuario.nombre }}</th>
-              <td v-for="dia in diasDelMes">
-                <!-- Agrega aquí la lógica para mostrar los datos de los usuarios en cada día -->
-                <!-- Por ejemplo, si el usuario tiene un evento en este día, puedes mostrar 'X' -->
-                {{ mostrarEvento(usuario, dia) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-            </div>
-            
         </div>
     </div>
-
 </template>
 
 <style scoped>
