@@ -26,7 +26,7 @@ const user_dpto = ref('');
 // Carga los datos del usuario
 const loadUserData = async () => {
     try {
-        const userId = 5; // ELIMINAR
+        const userId = 3; // ELIMINAR
         const response = await getById(userId); 
         user.value = response.data; 
         

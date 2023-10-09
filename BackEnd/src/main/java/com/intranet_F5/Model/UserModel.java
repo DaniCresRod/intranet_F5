@@ -61,6 +61,7 @@ public class UserModel implements UserDetails {
     @Column(name = "Spent_Days")
     private Integer userDays;
 
+    @JsonIgnore
     @Column(name = "Password")
     private String userPass;
 
@@ -87,7 +88,7 @@ public class UserModel implements UserDetails {
     @JsonIgnoreProperties("userRequests")
     private List<UserRequestModel> userRequests;
 
-
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String myRol=UserType.Formador.toString();
