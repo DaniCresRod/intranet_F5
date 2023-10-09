@@ -39,30 +39,35 @@ const sortRequests = () => {
     });
 };
 </script>
-
 <template>
     <v-card class="requestList">
-        <v-card-title>Listado de Solicitudes</v-card-title>
-            <v-table class="requestTable">
-            <thead>
-                <th> Escuela </th>
-                <th> Nombre Empleado </th>
-                <th> Fecha de solicitud </th>
-            </thead>
-            <tbody v-for="(request, index) in requests" :key="request.Id">
-                <tr v-if="index === 0 || request.userId.username !== requests[index - 1].userId.username">
-                    <td>{{ request.userId && request.userId.schoolID ? request.userId.schoolID.schoolName : 'Escuela no definida' }}</td>
-                    <td>{{ request.userId ? request.userId.username : 'Usuario no definido' }}</td>
-                </tr>
-                <tr>
-                    <td></td> 
-                    <td></td> 
-                    <td>De {{ request.startDate }} a {{ request.endDate }}</td> 
-                </tr>  
-            </tbody>
-            </v-table>
+      <v-card-title>Listado de Solicitudes</v-card-title>
+      <v-table class="requestTable">
+        <thead>
+          <th> Nombre Empleado </th>
+          <th> Fecha de solicitud </th>
+          <th> Escuela </th> 
+        </thead>
+        <tbody v-for="(request, index) in requests" :key="request.Id">
+          <tr v-if="index === 0 || request.userId.username !== requests[index - 1].userId.username">
+            <td>{{ request.userId ? request.userId.username : 'Usuario no definido' }}</td>
+            <td></td> 
+            <td></td>
+          </tr>
+          <tr>
+            <td></td> 
+            <td>De {{ request.startDate }} a {{ request.endDate }}</td>
+            <td>
+              {{ request.userId && request.userId.schoolID
+                ? request.userId.schoolID.schoolName
+                : 'Escuela no definida' }}
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
     </v-card>
-</template>
+  </template>
+  
 
 
 <style scoped>
