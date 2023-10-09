@@ -21,13 +21,6 @@ const meses = {
     diciembre: 31
 };
 
-const usuarios = [
-    { nombre: 'User1', eventos: [1, 5, 10, 15] },
-    { nombre: 'User2', eventos: [2, 7, 12, 20] },
-    { nombre: 'User3', eventos: [3, 9, 14, 25] },
-    { nombre: 'User4', eventos: [4, 8, 18, 28] },
-    { nombre: 'User5', eventos: [6, 11, 16, 22] }
-];
 const diasDelMes = computed(() => {
     return Array.from({ length: meses[mesSeleccionado.value] }, (_, index) =>
         (index + 1).toString().padStart(2, '0')
@@ -35,47 +28,60 @@ const diasDelMes = computed(() => {
 });
 
 
+
 function mostrarEvento(usuario, dia) {
-  // Comprueba si el día está en el array de eventos del usuario
-  if (usuario.eventos.includes(parseInt(dia))) {
-    return 'X';
-  } else {
-    return ''; // De lo contrario, muestra un espacio en blanco
-  }
+    // Comprueba si el día está en las solicitudes de días libres del usuario
+    const solicitud = usuario.userRequests.find((solicitud) => {
+        const startDate = new Date(solicitud.startDate);
+        const endDate = new Date(solicitud.endDate);
+        const currentDay = new Date(`${mesSeleccionado.value} ${dia}, ${new Date().getFullYear()}`);
+        return currentDay >= startDate && currentDay <= endDate;
+    });
+
+    if (solicitud) {
+        return 'X';
+    } else {
+        return ''; // De lo contrario, muestra un espacio en blanco
+    }
 }
 
 function actualizarCalendario() {
-    //*************************************
-    //  // Obtiene la lista de usuarios para el mes seleccionado (debes reemplazar esto con tu lógica real)
-    //   const usuariosDelMes = obtenerUsuariosDelMes(mesSeleccionado.value); // Supongamos que tienes una función que obtiene los usuarios
-
-    //   // Actualiza las celdas del calendario con los eventos de los usuarios
-    //   usuariosDelMes.forEach((usuario) => {
-    //     const filaUsuario = document.querySelector(`tr[title="${usuario.nombre}"]`);
-    //     if (filaUsuario) {
-    //       const diaEvento = usuario.diaEvento; // Reemplaza con el campo real que indica el día del evento
-    //       const celda = filaUsuario.querySelector(`td:nth-child(${diaEvento + 1})`); // +1 porque el índice comienza en 0
-    //       if (celda) {
-    //         celda.textContent = 'X'; // Puedes mostrar un marcador o información adicional aquí
-    //       }
-    //     }
-    //   });
-
-    //*************************************************
     // Limpia las celdas de la tabla
-    //    const filasUsuarios = document.querySelectorAll('tr[title^="User"]');
-    //   filasUsuarios.forEach((filaUsuario) => {
-    //     const celdas = filaUsuario.querySelectorAll('td');
-    //     celdas.forEach((celda) => {
-    //       celda.textContent = '';
-    //     });
-    //   });
+    const celdas = document.querySelectorAll('td');
+    celdas.forEach((celda) => {
+        celda.textContent = '';
+    });
+
+    // Obtiene la escuela seleccionada
+    const escuelaSeleccionadaObj = schools.value.find((school) => school.id === escuelaSeleccionada.value);
+
+    if (escuelaSeleccionadaObj) {
+        // Itera sobre los usuarios de la escuela seleccionada
+        escuelaSeleccionadaObj.schoolUserList.forEach((usuario) => {
+            const celdasUsuario = document.querySelectorAll(`td[title="${usuario.userSurName}"]`);
+            celdasUsuario.forEach((celda) => {
+                const diaEvento = celda.dataset.dia;
+                // Itera sobre las solicitudes de días libres del usuario
+                usuario.userRequests.forEach((solicitud) => {
+                    const startDate = new Date(solicitud.startDate);
+                    const endDate = new Date(solicitud.endDate);
+                    const currentDay = new Date(`${mesSeleccionado.value} ${dia}, ${new Date().getFullYear()}`);
+                    // Comprueba si el día está en las solicitudes de días libres del usuario
+                    if (currentDay >= startDate && currentDay <= endDate) {
+                        celda.textContent = 'X';
+                    }
+                });
+            });
+        });
+    }
 }
+
 
 onBeforeMount(async () => {
     try {
         // Llama al servicio para obtener las escuelas
         schools.value = await schoolService.getSchools();
+
     } catch (error) {
         console.error('Error al obtener las escuelas:', error);
     }
@@ -83,9 +89,9 @@ onBeforeMount(async () => {
 });
 
 onMounted(async () => {
-  // Llama a actualizarCalendario() para inicializar el calendario
-  actualizarCalendario();
-  });
+    // Llama a actualizarCalendario() para inicializar el calendario
+    actualizarCalendario();
+});
 
 
 </script>
@@ -95,11 +101,11 @@ onMounted(async () => {
         <h2>Calendario</h2>
         <label for="escuela">Selecciona Escuela:</label>
         <select id="user_school" class="custom-select" name="user_school" v-model="escuelaSeleccionada">
-                    <option value="" disabled>Selecciona una escuela</option>
-                    <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
-                </select>
-            <label for="mes">Selecciona Mes:</label>
-            <select id="mes" class="custom-select" v-model="mesSeleccionado" @change="actualizarCalendario">
+            <option value="" disabled>Selecciona una escuela</option>
+            <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
+        </select>
+        <label for="mes">Selecciona Mes:</label>
+        <select id="mes" class="custom-select" v-model="mesSeleccionado" @change="actualizarCalendario">
             <option value="">Selección mes</option>
             <option value="enero">Enero</option>
             <option value="febrero">Febrero</option>
@@ -127,8 +133,9 @@ onMounted(async () => {
                                 <th v-for="dia in diasDelMes">{{ dia }}</th>
                             </tr>
 
-                            <tr v-for="(usuario, index) in usuarios" :key="index" :title="usuario.nombre">
-                                <th>{{ usuario.nombre }}</th>
+                             <!-- Iterar sobre los usuarios de la escuela seleccionada -->
+                             <tr v-for="(usuario, index) in school.schoolUserList" :key="index" :title="usuario.userSurName">
+                                <th>{{ usuario.userSurName }}</th>
                                 <td v-for="dia in diasDelMes">
                                     {{ mostrarEvento(usuario, dia) }}
                                 </td>
@@ -142,7 +149,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-
 .calendario-container {
     max-width: 100%;
     overflow: auto;
@@ -210,6 +216,4 @@ table.calendar td {
 .barcelona .calendar td {
     border-color: lightgreen;
 }
-
-
 </style>
