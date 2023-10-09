@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
 import { defineProps } from 'vue';
-import RequestService from '../services/VacationHistoryService';
+import RequestService from '../services/CardInfoService';
 
 const props = defineProps({
   id: {
@@ -27,7 +27,7 @@ const diffDays = (startDate, endDate) => {
 
 async function getHoldData() {
   loading.value = true;
-    const response = await RequestService.getHolidaysData(props.id);
+    const response = await RequestService.getWorkerData(props.id);
     data.value = await response.data.userRequests;
     years.value = [...new Set(data.value.map(item => new Date(item.startDate).getFullYear()))].map(year => ({ year, show: false }));
     loading.value = false;

@@ -12,7 +12,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <CardInfoWorkerComponent :id="userId"/>
-  <VacationHistoryComponent :id="userId"/>
-  <CalendarRequestComponent :id="userId"/>
+  <CardInfoWorkerComponent  :id="parseInt(userId)"/>
+  <VacationHistoryComponent  :id="parseInt(userId)"/>
+  <CalendarRequestComponent  :id="parseInt(userId)"/>
 </template>

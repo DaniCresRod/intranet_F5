@@ -2,7 +2,6 @@ import http from '../httpCommon';
 
 export default({
 
-
     getById(id) {
         return http.get(`/users/${id}`);
     },
