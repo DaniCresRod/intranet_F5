@@ -1,7 +1,9 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeMount } from 'vue';
+import schoolService from '../services/schoolService';
 
 const escuelaSeleccionada = ref('');
+const schools = ref([]);
 const mesSeleccionado = ref('');
 const meses = {
     enero: 31,
@@ -30,6 +32,7 @@ const diasDelMes = computed(() => {
         (index + 1).toString().padStart(2, '0')
     );
 });
+
 
 function mostrarEvento(usuario, dia) {
   // Comprueba si el día está en el array de eventos del usuario
@@ -68,22 +71,36 @@ function actualizarCalendario() {
     //   });
 }
 
-onMounted(() => {
-    // Llama a actualizarCalendario() para inicializar el calendario
-    actualizarCalendario();
+onBeforeMount(async () => {
+  try {
+    // Llama al servicio para obtener las escuelas
+    const response = await schoolService.getSchools();
+    
+    // Asigna las escuelas obtenidas a la referencia reactiva
+    schools.value = response.data; // Asumiendo que el servicio devuelve un array de escuelas
+
+    console.log('Escuelas cargadas:', schools.value);
+  } catch (error) {
+    console.error('Error al obtener las escuelas:', error);
+  }
 });
+
+onMounted(async () => {
+  // Llama a actualizarCalendario() para inicializar el calendario
+  actualizarCalendario();
+});
+
+
 </script>
 
 <template>
     <div class="calendar_container">
         <h2>Calendario</h2>
         <label for="escuela">Selecciona Escuela:</label>
-        <select id="escuela" class="custom-select" v-model="escuelaSeleccionada" @change="actualizarCalendario">
-            <option value="">Selecciona Escuela</option>
-            <option value="asturias">Asturias</option>
-            <option value="barcelona">Barcelona</option>
-            <option value="madrid">Madrid</option>
-            </select>
+<select id="escuela" class="custom-select" v-model="escuelaSeleccionada" @change="actualizarCalendario">
+  <option value="">Selecciona Escuela</option>
+  <option v-for="escuela in escuelas" :value="escuela.id">{{ escuela.nombre }}</option>
+</select>
             <label for="mes">Selecciona Mes:</label>
             <select id="mes" class="custom-select" v-model="mesSeleccionado" @change="actualizarCalendario">
             <option value="">Selección mes</option>

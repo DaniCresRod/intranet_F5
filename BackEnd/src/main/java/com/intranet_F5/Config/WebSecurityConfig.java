@@ -41,8 +41,8 @@ public class WebSecurityConfig{
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         //.requestMatchers("/schools").hasRole("Supervisor")
-                        .anyRequest().authenticated()
-                        //.anyRequest().permitAll()
+                        //.anyRequest().authenticated()
+                        .anyRequest().permitAll()
 
                 )
                 .httpBasic(withDefaults());
