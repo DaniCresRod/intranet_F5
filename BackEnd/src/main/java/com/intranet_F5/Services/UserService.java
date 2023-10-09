@@ -78,10 +78,13 @@ public class UserService {
                     myUser.setUserStartDate(newUser.getUserStartDate());
                     myUser.setUserEndDate(newUser.getUserEndDate());
                     //myUser.setUserDays(newUser.getUserDays());
-                    myUser.setUserPass(newUser.getUserPass());
+
                     myUser.setUserType(newUser.getUserType());
                     myUser.setUserImage(newUser.getUserImage());
                     myUser.setSchoolID(newUser.getSchoolID());
+                    if(newUser.getUserPass()!=null){
+                        myUser.setUserPass(newUser.getUserPass());
+                    }
 
                     //Actualizar la info de la escuela para enviar, para saltarme el cache de Hibernate
                     //No funcionó con entityManager.refresh(myUser);

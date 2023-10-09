@@ -10,7 +10,7 @@ const props = defineProps({
         type: Number,
         required: true
     },
-    
+
 });
 const user = ref(null);
 
@@ -127,7 +127,7 @@ const eventHandler = (value) => {
     <DaysRequestComponent v-if="showConfirmation"
     :startDate="range.start"
     :endDate="range.end"
-    :id="id" 
+    :id="id"
     />
 
 </template>
