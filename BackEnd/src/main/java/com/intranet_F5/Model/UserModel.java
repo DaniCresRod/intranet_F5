@@ -61,7 +61,7 @@ public class UserModel implements UserDetails {
     @Column(name = "Spent_Days")
     private Integer userDays;
 
-    @JsonIgnore
+    //@JsonIgnore
     @Column(name = "Password")
     private String userPass;
 
@@ -100,7 +100,7 @@ public class UserModel implements UserDetails {
         return roles;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     @Override
     public String getPassword() {
         return this.userPass;
