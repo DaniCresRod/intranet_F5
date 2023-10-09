@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch, onBeforeMount } from 'vue';
+import { ref, watch, onBeforeMount } from 'vue';
 import PostUser from '../services/PostUser';
 import schoolService from '../services/schoolService'
 

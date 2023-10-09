@@ -22,12 +22,16 @@ const user_school = ref('');
 const user_id = ref('');
 const schools = ref([]);
 const user_dpto = ref('');
-
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true
+  }
+});
 // Carga los datos del usuario
 const loadUserData = async () => {
     try {
-        const userId = 5; // ELIMINAR
-        const response = await getById(userId); 
+        const response = await getById(props.id); 
         user.value = response.data; 
         
         user_id.value = user.value.id;

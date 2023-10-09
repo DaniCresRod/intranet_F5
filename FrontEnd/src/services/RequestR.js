@@ -7,8 +7,8 @@ export default {
   },
 
  
-    updateRequest(id) {
-      return http.put(`/request/update/${id}`, {status: b});
-    }
+  updateUserRequestStatus(id, status) {
+      return http.put(`/request/update/${id}`, { status: status });
+  }
 
 };

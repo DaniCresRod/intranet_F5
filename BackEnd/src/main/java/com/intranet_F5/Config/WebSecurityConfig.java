@@ -27,9 +27,6 @@ public class WebSecurityConfig{
     private final AuthenticationProvider authenticationProvider;
     private final AuthTokenFilter authTokenFilter;
 
-    @Autowired
-    UserRepository userRepository;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 

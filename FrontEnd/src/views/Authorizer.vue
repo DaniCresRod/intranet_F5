@@ -13,5 +13,5 @@ onBeforeMount(() => {
 
 <template>
   <CardInfoComponent :id="parseInt(userId)"/>
-  <RequestListComponent/>
+  <RequestListComponent :id="parseInt(userId)"/>
 </template>
