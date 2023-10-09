@@ -1,7 +1,10 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeMount } from 'vue';
+import schoolService from '../services/schoolService';
 
 const escuelaSeleccionada = ref('');
+const schools = ref([]);
+const user_school = ref('');
 const mesSeleccionado = ref('');
 const meses = {
     enero: 31,
@@ -19,17 +22,18 @@ const meses = {
 };
 
 const usuarios = [
-  { nombre: 'User1', eventos: [1, 5, 10, 15] },
-  { nombre: 'User2', eventos: [2, 7, 12, 20] },
-  { nombre: 'User3', eventos: [3, 9, 14, 25] },
-  { nombre: 'User4', eventos: [4, 8, 18, 28] },
-  { nombre: 'User5', eventos: [6, 11, 16, 22] }
+    { nombre: 'User1', eventos: [1, 5, 10, 15] },
+    { nombre: 'User2', eventos: [2, 7, 12, 20] },
+    { nombre: 'User3', eventos: [3, 9, 14, 25] },
+    { nombre: 'User4', eventos: [4, 8, 18, 28] },
+    { nombre: 'User5', eventos: [6, 11, 16, 22] }
 ];
 const diasDelMes = computed(() => {
     return Array.from({ length: meses[mesSeleccionado.value] }, (_, index) =>
         (index + 1).toString().padStart(2, '0')
     );
 });
+
 
 function mostrarEvento(usuario, dia) {
   // Comprueba si el día está en el array de eventos del usuario
@@ -68,22 +72,32 @@ function actualizarCalendario() {
     //   });
 }
 
-onMounted(() => {
-    // Llama a actualizarCalendario() para inicializar el calendario
-    actualizarCalendario();
+onBeforeMount(async () => {
+    try {
+        // Llama al servicio para obtener las escuelas
+        schools.value = await schoolService.getSchools();
+    } catch (error) {
+        console.error('Error al obtener las escuelas:', error);
+    }
+    console.log(schools.value);
 });
+
+onMounted(async () => {
+  // Llama a actualizarCalendario() para inicializar el calendario
+  actualizarCalendario();
+  });
+
+
 </script>
 
 <template>
     <div class="calendar_container">
         <h2>Calendario</h2>
         <label for="escuela">Selecciona Escuela:</label>
-        <select id="escuela" class="custom-select" v-model="escuelaSeleccionada" @change="actualizarCalendario">
-            <option value="">Selecciona Escuela</option>
-            <option value="asturias">Asturias</option>
-            <option value="barcelona">Barcelona</option>
-            <option value="madrid">Madrid</option>
-            </select>
+        <select id="user_school" class="custom-select" name="user_school" v-model="escuelaSeleccionada">
+                    <option value="" disabled>Selecciona una escuela</option>
+                    <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
+                </select>
             <label for="mes">Selecciona Mes:</label>
             <select id="mes" class="custom-select" v-model="mesSeleccionado" @change="actualizarCalendario">
             <option value="">Selección mes</option>
@@ -103,72 +117,28 @@ onMounted(() => {
 
         <div v-if="mesSeleccionado" class="calendario_vista">
             <h4>{{ mesSeleccionado }}</h4>
-            <div v-if="escuelaSeleccionada === 'asturias'" class="asturias">
-            <h4>Asturias</h4>
-            <table class="calendar" cellspacing="0">
-                <tbody>
-                    <tr title="daysNum">
-                        <th></th>
-                        <th v-for="dia in diasDelMes">{{ dia }}</th>
-                    </tr>
+            <div v-for="school in schools" :key="school.schoolName">
+                <div v-if="escuelaSeleccionada === school.id" :class="school.id">
+                    <h4>{{ school.schoolName }}</h4>
+                    <table class="calendar" cellspacing="0">
+                        <tbody>
+                            <tr title="daysNum">
+                                <th></th>
+                                <th v-for="dia in diasDelMes">{{ dia }}</th>
+                            </tr>
 
-                    <tr v-for="(usuario, index) in usuarios" :key="index" :title="usuario.nombre">
-              <th>{{ usuario.nombre }}</th>
-              <td v-for="dia in diasDelMes">
-                <!-- Agrega aquí la lógica para mostrar los datos de los usuarios en cada día -->
-                <!-- Por ejemplo, si el usuario tiene un evento en este día, puedes mostrar 'X' -->
-                {{ mostrarEvento(usuario, dia) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                            <tr v-for="(usuario, index) in usuarios" :key="index" :title="usuario.nombre">
+                                <th>{{ usuario.nombre }}</th>
+                                <td v-for="dia in diasDelMes">
+                                    {{ mostrarEvento(usuario, dia) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div v-if="escuelaSeleccionada === 'barcelona'" class="barcelona">
-            <h4>Barcelona</h4>
-            <table class="calendar" cellspacing="0">
-                <tbody>
-                    <tr title="daysNum">
-                        <th></th>
-                        <th v-for="dia in diasDelMes">{{ dia }}</th>
-                    </tr>
-
-                    <tr v-for="(usuario, index) in usuarios" :key="index" :title="usuario.nombre">
-              <th>{{ usuario.nombre }}</th>
-              <td v-for="dia in diasDelMes">
-                <!-- Agrega aquí la lógica para mostrar los datos de los usuarios en cada día -->
-                <!-- Por ejemplo, si el usuario tiene un evento en este día, puedes mostrar 'X' -->
-                {{ mostrarEvento(usuario, dia) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-            </div>
-
-
-            <div v-if="escuelaSeleccionada === 'madrid'" class="madrid">
-            <h4>Madrid</h4>
-            <table class="calendar" cellspacing="0">
-                <tbody>
-                    <tr title="daysNum">
-                        <th></th>
-                        <th v-for="dia in diasDelMes">{{ dia }}</th>
-                    </tr>
-
-                    <tr v-for="(usuario, index) in usuarios" :key="index" :title="usuario.nombre">
-              <th>{{ usuario.nombre }}</th>
-              <td v-for="dia in diasDelMes">
-                <!-- Agrega aquí la lógica para mostrar los datos de los usuarios en cada día -->
-                <!-- Por ejemplo, si el usuario tiene un evento en este día, puedes mostrar 'X' -->
-                {{ mostrarEvento(usuario, dia) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-            </div>
-            
         </div>
     </div>
-
 </template>
 
 <style scoped>
