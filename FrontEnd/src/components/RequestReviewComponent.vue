@@ -31,12 +31,14 @@ async function getHoldData() {
 onBeforeMount(getHoldData);
 
 async function approveRequest() {
-  await RequestService.updateUserRequestStatus(props.id, 2);
+  //await RequestService.updateUserRequestStatus(props.id, 2);
+  await RequestService.updateUserRequestStatus(data.value.userRequests[0].id, 2);
   console.log("solicitud aprobada");
 }
 
 async function rejectRequest() {
-  await RequestService.updateUserRequestStatus(props.id, 3);
+  //await RequestService.updateUserRequestStatus(props.id, 3);
+  await RequestService.updateUserRequestStatus(data.value.userRequests[0].id, 3);
   console.log("solicitud rechazada");
 
 }
