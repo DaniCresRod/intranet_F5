@@ -58,4 +58,19 @@ public class RequestService {
             return null;
         }
     }
+
+    public UserRequestModel updateRequestStatusOnly(long id, int updatedRequestStatus) {
+        try{
+            if(requestRepository.existsById(id)){
+                UserRequestModel myRequest=requestRepository.findById(id).get();
+                myRequest.setStatus(updatedRequestStatus); //Faltaria filtro para evitar estatus incorrectos
+                requestRepository.save(myRequest);
+                return myRequest;
+            }
+            else return null;
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
 }
