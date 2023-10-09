@@ -30,8 +30,13 @@ public class LogController {
 //        return logService.deleteLog(id);
 //    }
 
-    @PostMapping(path="/add")
-    public String createLog(@RequestBody LogModel newLog){
-        return logService.createLog(newLog);
+//    @PostMapping(path="/add")
+//    public String createLog(@RequestBody LogModel newLog){
+//        return logService.createLog(newLog);
+//    }
+
+    @PostMapping(path="/add/{id}")
+    public String createLog(@RequestBody String newLog, @PathVariable long id){
+        return logService.createLog(newLog, id);
     }
 }
