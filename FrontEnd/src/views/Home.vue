@@ -17,6 +17,10 @@ async function sendInfo(){
     console.log(payload.value);
     let response=await loggear.doLogIn(payload.value);
     console.log(response);
+
+    // if(response==="El token se ha traido y guardado en el LocalStorage"){
+    //     router.push("/Employee");
+    // }
 }
 
 </script>
@@ -39,9 +43,8 @@ async function sendInfo(){
             <div class="form-group">
                 <label for="contrasena"></label>
                 <input type="password" id="password" v-model="password" required placeholder="CONTRASEÑA" class="custom-placeholder">
-            </div>
-            <button class="button" type="submit" @click="sendInfo">LOGIN</button>
-
+            </div>            
+                <button class="button" type="submit" @click="sendInfo">LOGIN</button>            
         </form>
     </div>
 </template>

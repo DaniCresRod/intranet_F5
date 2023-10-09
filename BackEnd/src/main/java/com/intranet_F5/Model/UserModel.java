@@ -100,7 +100,7 @@ public class UserModel implements UserDetails {
         return roles;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     @Override
     public String getPassword() {
         return this.userPass;

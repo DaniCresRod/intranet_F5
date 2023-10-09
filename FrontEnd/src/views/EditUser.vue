@@ -43,7 +43,7 @@ const loadUserData = async () => {
         user_birthday.value = user.value.userBirthDate;
         user_startDate.value = user.value.userStartDate;
         user_endDate.value = user.value.userEndDate;
-        user_pass.value = user.value.userPass;
+        user_pass.value = ""//user.value.userPass;
         user_type.value = user.value.userType;
         user_img.value = user.value.userImage;
         user_school.value = user.value.schoolID.id;
