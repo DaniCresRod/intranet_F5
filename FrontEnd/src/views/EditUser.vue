@@ -30,10 +30,10 @@ const changes = ref([]);
 // Carga los datos del usuario
 const loadUserData = async () => {
     try {
-        const userId = 12; // ELIMINAR
-        const response = await getById(userId);
-        user.value = response.data;
-
+        const userId = 3; // ELIMINAR
+        const response = await getById(userId); 
+        user.value = response.data; 
+        
         user_id.value = user.value.id;
         user_name.value = user.value.username;
         user_surname.value = user.value.userSurName;
