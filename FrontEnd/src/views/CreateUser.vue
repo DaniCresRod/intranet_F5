@@ -71,7 +71,7 @@ const createUser = async () => {
         user_endDate.value = '';
         user_pass.value = '';
         user_type.value = '';
-        user_img.value = '';
+        // user_img.value = '';
         user_dpto.value = '';
     } catch (error) {
         // Manejar cualquier error que ocurra durante la creación de la escuela
@@ -161,8 +161,13 @@ function guardarImagen() {
     const file = input.files[0];
 
     if (file) {
-        // Asigna la imagen seleccionada a selectedImage
-        selectedImage.value = file;
+        // Verificar que el archivo seleccionado sea una imagen (por su tipo MIME)
+        if (file.type.startsWith('image/')) {
+            // Asignar la imagen seleccionada a selectedImage
+            selectedImage.value = file;
+        } else {
+            alert('Por favor, seleccione un archivo de imagen válido.');
+        }
     } else {
         alert('Por favor, seleccione una imagen antes de guardar.');
     }
