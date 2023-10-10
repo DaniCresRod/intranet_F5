@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
-import { defineProps } from 'vue';
 import RequestService from '../services/RequestR';
+import schoolService from '../services/schoolService';
 
 const props = defineProps({
   id: {
@@ -10,12 +10,15 @@ const props = defineProps({
   }
 });
 
+
 const data = ref(null);
 const loading = ref(true);
 const diffDays = ref(0); 
+
 async function getHoldData() {
   loading.value = true;
-  const response = await RequestService.getHolidaysData(props.id);
+  const schoolID = props.id.userId.schoolID.id;
+  const response = await RequestService.getHolidaysData(schoolID);
   data.value = await response.data;
   console.log(response);
   const startDate = new Date(data.value.userRequests[0].startDate);
@@ -30,15 +33,15 @@ async function getHoldData() {
 
 onBeforeMount(getHoldData);
 
-async function approveRequest() {
+async function approveRequest(requestId) {
   //await RequestService.updateUserRequestStatus(props.id, 2);
-  await RequestService.updateUserRequestStatus(data.value.userRequests[0].id, 2);
+  await RequestService.updateUserRequestStatus(requestId, 2);
   console.log("solicitud aprobada");
 }
 
-async function rejectRequest() {
+async function rejectRequest(requestId) {
   //await RequestService.updateUserRequestStatus(props.id, 3);
-  await RequestService.updateUserRequestStatus(data.value.userRequests[0].id, 3);
+  await RequestService.updateUserRequestStatus(requestId, 3);
   console.log("solicitud rechazada");
 
 }
@@ -50,16 +53,18 @@ async function rejectRequest() {
       <v-card-text>
         <div v-if="data" class="container">
           <div class="item">
+            <div v-for="request in data.userRequests" :key="request.id" class="item">
             <p>Fecha de solicitud:</p>
-            <p>{{ data.userRequests[0].startDate }}</p>
+            <p>{{ request.startDate }}</p>
           </div>
           <div class="item">
             <p>La solicitud abarca {{ diffDays }} días.</p>
           </div>
           <div class="item">
-            <p>Solicitud de vacaciones desde el {{ data.userRequests[0].startDate }}</p>
-            <p>Hasta el {{ data.userRequests[0].endDate }}</p>
+            <p>Solicitud de vacaciones desde el {{ request.startDate }}</p>
+            <p>Hasta el {{ request.endDate }}</p>
           </div>
+        </div>
         </div>
       </v-card-text>
     </v-card>
