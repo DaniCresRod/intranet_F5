@@ -51,17 +51,15 @@ function actualizarCalendario() {
     celdas.forEach((celda) => {
         celda.textContent = '';
     });
-
-    // Obtiene la escuela seleccionada
     const escuelaSeleccionadaObj = schools.value.find((school) => school.id === escuelaSeleccionada.value);
 
     if (escuelaSeleccionadaObj) {
-        // Itera sobre los usuarios de la escuela seleccionada
+
         escuelaSeleccionadaObj.schoolUserList.forEach((usuario) => {
             const celdasUsuario = document.querySelectorAll(`td[title="${usuario.userSurName}"]`);
             celdasUsuario.forEach((celda) => {
                 const diaEvento = celda.dataset.dia;
-                // Itera sobre las solicitudes de días libres del usuario
+
                 usuario.userRequests.forEach((solicitud) => {
                     const startDate = new Date(solicitud.startDate);
                     const endDate = new Date(solicitud.endDate);
@@ -133,8 +131,7 @@ onMounted(async () => {
                                 <th v-for="dia in diasDelMes">{{ dia }}</th>
                             </tr>
 
-                             <!-- Iterar sobre los usuarios de la escuela seleccionada -->
-                             <tr v-for="(usuario, index) in school.schoolUserList" :key="index" :title="usuario.userSurName">
+                            <tr v-for="(usuario, index) in school.schoolUserList" :key="index" :title="usuario.userSurName">
                                 <th>{{ usuario.userSurName }}</th>
                                 <td v-for="dia in diasDelMes">
                                     {{ mostrarEvento(usuario, dia) }}
