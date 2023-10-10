@@ -1,5 +1,4 @@
 import http from '../httpCommon';
-//import router from '../router/index'
 
 export default {
   
@@ -13,13 +12,10 @@ export default {
         window.localStorage.setItem("myToken_Key", myToken.data.token.toString());
         
         window.localStorage.setItem("myUser_Key", myToken.data.userId.toString());
-        //return "El token se ha traido y guardado en el LocalStorage"
-        //router.push("/Employee");
         return myToken.data.token;
     }
     catch(error){
         console.log(error);
-        //return "No se ha obtenido Token"
         return null;
     }
   },
@@ -31,6 +27,5 @@ export default {
     console.log(myUser.data);
 
     return myUser.data.userType;
-
   }
 };

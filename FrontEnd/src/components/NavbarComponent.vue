@@ -1,5 +1,34 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { ref, onMounted } from 'vue'
+
+const userId=ref();
+userId.value = window.localStorage.getItem("myUser_Key");
+
+function LogOut(){
+  window.localStorage.clear();
+}
+
+//Funcion que define lo que pasara si hay cambios
+function handleMutations(mutationsList) {
+  for (const mutation of mutationsList) {
+    if (mutation.type === 'childList') {      
+      //console.log('Se ha producido un cambio en el DOM.');
+      userId.value = window.localStorage.getItem("myUser_Key");
+    }
+  }
+}
+
+onMounted(() => {
+  // Crea una instancia de MutationObserver con la función de manejo
+  const observer = new MutationObserver(handleMutations);
+
+  // Configura las opciones para observar los cambios que te interesan
+  const options = { childList: true, attributes: false, subtree: true };
+
+  // Inicia la observación en el documento o elemento que desees
+  observer.observe(document.body, options);
+});
 
 </script>
 
@@ -55,9 +84,13 @@ import { RouterLink } from 'vue-router';
         <li class="navbar__menu--item">
           <RouterLink to="/">CONTACTO</RouterLink>
         </li>
-        <li class="navbar__menu--item">
+        <li v-if="userId!==''" class="navbar__menu--item" @click="LogOut()">
+          <RouterLink to="/">LOGOUT</RouterLink>
+        </li>
+        <li v-else class="navbar__menu--item">
           <RouterLink to="/">USUARIOS</RouterLink>
         </li>
+        
       </ul>
     </nav>
   </header>

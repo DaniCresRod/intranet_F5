@@ -2,77 +2,48 @@
 import { ref } from 'vue'
 import loggear from "../services/LogInService"
 import router from '../router/index'
-import { getToken } from "../services/TokenService";
-import axios from "axios";
 
 window.localStorage.setItem("myToken_Key", "");
 window.localStorage.setItem("myUser_Key", "");
 
-const user=ref("");
-const password=ref("");
-
-const payload=ref({
+const user = ref("");
+const password = ref("");
+const payload = ref({
     "username": "",
     "password": ""
 });
 
-async function sendInfo(){
+//Realiza la peticion HTTP para loggear y recibir el token
+async function sendInfo() {
 
-    payload.value.username=user.value;
-    payload.value.password=password.value;
-    console.log(payload.value);
-    const token=await loggear.doLogIn(payload.value);
-    console.log(token);
-    console.log(getToken());  
-    console.log(window.localStorage.getItem("myToken_Key"));
+    payload.value.username = user.value;
+    payload.value.password = password.value;
 
-    if(token && (window.localStorage.getItem("myUser_Key")>0)){
+    const token = await loggear.doLogIn(payload.value);
+
+    if (token && (window.localStorage.getItem("myUser_Key") > 0)) {
         console.log("El token se ha traido y guardado en el LocalStorage");
-        redirectMe(window.localStorage.getItem("myToken_Key"),parseInt(window.localStorage.getItem("myUser_Key")) );        
+        redirect(window.localStorage.getItem("myToken_Key"), parseInt(window.localStorage.getItem("myUser_Key")));
     }
-    else{
+    else {
         console.log("No se ha obtenido Token");
-    }        
-}
-
-// async function redirect(){
-//     let myRoute=await loggear.whereToGo();
-//         console.log(myRoute);
-//         if(myRoute==="Formador"){
-//             router.push("/Employee");
-//         }
-//         else if(myRoute==="Supervisor"){
-//             router.push("/Authorizer");
-//         }
-//         else if(myRoute==="HR"){
-//             router.push("/HrGeneral");
-//         }  
-// }
-
-async function redirectMe(token, id){
-    const config={
-        headers:{
-            "Content-type": "application/json",
-            'Authorization': `Bearer ${token}`
-        }
     }
-
-    const response=await axios.get(`http://localhost:8080/users/${id}`, config);
-    console.log(response.data);
-
-    let myRoute=response.data.userType;
-
-    if(myRoute==="Formador"){
-            router.push("/Employee");
-        }
-        else if(myRoute==="Supervisor"){
-            router.push("/Authorizer");
-        }
-        else if(myRoute==="HR"){
-            router.push("/HrGeneral");
-        }  
 }
 
+//Redirecciona en funcion del typo de usuario
+async function redirect() {
+    let myRoute = await loggear.whereToGo();
+
+    if (myRoute === "Formador") {
+        router.push("/Employee");
+    }
+    else if (myRoute === "Supervisor") {
+        router.push("/Authorizer");
+    }
+    else if (myRoute === "HR") {
+        router.push("/HrGeneral");
+    }
+}
 
 </script>
 
