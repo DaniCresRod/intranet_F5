@@ -3,7 +3,7 @@ import { ref, onBeforeMount } from 'vue';
 import RequestServices from '../services/RequestServices';
 
 const props = defineProps({
-  userId: {
+  id: {
     type: Number,
     required: true
   }
@@ -15,7 +15,7 @@ const diffDays = ref(0);
 async function getHoldData() {
   loading.value = true;
   try{
-  const response = await RequestServices.getRequestById(props.userId);
+  const response = await RequestServices.getRequestById(props.id);
   data.value = await response.data;
   console.log(response);
   const startDate = new Date(data.value.startDate);

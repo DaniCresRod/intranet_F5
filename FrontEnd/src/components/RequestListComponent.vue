@@ -1,6 +1,7 @@
 <script setup>
 import {ref, onMounted, computed} from 'vue'
 import RequestServices from '@/services/RequestServices'; 
+import RequestReviewComponent from './RequestReviewComponent.vue';
 
 const requests = ref([]);
 const getRequests = async () => {
@@ -20,22 +21,16 @@ onMounted(() => {
 const sortRequests = () => {
     requests.value.sort((a, b) => {
         if (a.userId && b.userId && a.userId.schoolID && b.userId.schoolID) {
-            if (a.userId.schoolID.schoolName !== b.userId.schoolID.schoolName) {
+            if (a.userId.username === b.userId.username) {
                 return a.userId.schoolID.schoolName.localeCompare(b.userId.schoolID.schoolName);
+            } else {
+                const dateA = new Date(a.startDate);
+                const dateB = new Date(b.startDate);
+                return dateA - dateB;
             }
-
-            if (a.userId.username !== b.userId.username) {
-                return a.userId.username.localeCompare(b.userId.username);
-            }
-        const dateA = new Date(a.startDate);
-        const dateB = new Date(b.startDate);
-
-        if (dateA !== dateB) {
-            return dateA - dateB;
         } else {
-            return a.userId.username.localeCompare(b.userId.username);
+            return 0;
         }
-    }
     });
 };
 
@@ -47,10 +42,15 @@ const filteredRequests = computed(() => {
   return requests.value.filter((request) => isRequestWithStatus1(request));
 });
 
+const showReviewComponent = ref(false);
+const selectedRequestId = ref(null);
 
 
 </script>
 <template>
+    <div v-if="showReviewComponent">
+      <RequestReviewComponent :id="selectedRequestId"></RequestReviewComponent>
+    </div>
     <v-card class="requestList">
       <v-card-title>Listado de Solicitudes</v-card-title>
       <v-table class="requestTable">
@@ -60,18 +60,18 @@ const filteredRequests = computed(() => {
           <th> Escuela </th> 
          
         </thead>
-        <tbody v-for="(request, index) in filteredRequests" :key="request.Id">
+        <tbody v-for="(request) in filteredRequests" :key="request.Id">
           <tr>
-          <td>{{ request.userId ? request.userId.username : 'Usuario no definido' }}</td>
+          <td>{{ request.userId ? request.userId.username : '' }}</td>
           <td>De {{ request.startDate }} a {{ request.endDate }}</td>
           <td>
             {{ request.userId && request.userId.schoolID
               ? request.userId.schoolID.schoolName
-              : 'Escuela no definida' }}
+              : '' }}
           </td>
           <td>
-            <RouterLink v-if="request.userId" :to="{ name: 'HrReview', props: { userId: request.Id } }">Revisar</RouterLink>
-            </td>
+            <button @click="selectedRequestId = request.id; showReviewComponent = true">Revisar</button>
+          </td>
           </tr>
         </tbody>
       </v-table>
