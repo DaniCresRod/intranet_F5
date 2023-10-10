@@ -28,7 +28,7 @@ async function sendInfo(){
 
     if(token && (window.localStorage.getItem("myUser_Key")>0)){
         console.log("El token se ha traido y guardado en el LocalStorage");
-        redirectMe(window.localStorage.getItem("myToken_Key"),window.localStorage.getItem("myUser_Key") );        
+        redirectMe(window.localStorage.getItem("myToken_Key"),parseInt(window.localStorage.getItem("myUser_Key")) );        
     }
     else{
         console.log("No se ha obtenido Token");
