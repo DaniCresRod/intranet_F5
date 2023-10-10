@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import RequestServices from '@/services/RequestServices'; 
 
 const requests = ref([]);
@@ -24,8 +24,8 @@ const sortRequests = () => {
                 return a.userId.schoolID.schoolName.localeCompare(b.userId.schoolID.schoolName);
             }
 
-            if (a.userId.userName !== b.userId.userName) {
-                return a.userId.userName.localeCompare(b.userId.userName);
+            if (a.userId.username !== b.userId.username) {
+                return a.userId.username.localeCompare(b.userId.username);
             }
         const dateA = new Date(a.startDate);
         const dateB = new Date(b.startDate);
@@ -33,36 +33,51 @@ const sortRequests = () => {
         if (dateA !== dateB) {
             return dateA - dateB;
         } else {
-            return a.userId.userName.localeCompare(b.userId.userName);
+            return a.userId.username.localeCompare(b.userId.username);
         }
     }
     });
 };
-</script>
 
+const isRequestWithStatus1 = (request) => {
+  return request.status === 1;
+};
+
+const filteredRequests = computed(() => {
+  return requests.value.filter((request) => isRequestWithStatus1(request));
+});
+
+
+
+</script>
 <template>
     <v-card class="requestList">
-        <v-card-title>Listado de Solicitudes</v-card-title>
-            <v-table class="requestTable">
-            <thead>
-                <th> Escuela </th>
-                <th> Nombre Empleado </th>
-                <th> Fecha de solicitud </th>
-            </thead>
-            <tbody v-for="(request, index) in requests" :key="request.Id">
-                <tr v-if="index === 0 || request.userId.username !== requests[index - 1].userId.username">
-                    <td>{{ request.userId && request.userId.schoolID ? request.userId.schoolID.schoolName : 'Escuela no definida' }}</td>
-                    <td>{{ request.userId ? request.userId.username : 'Usuario no definido' }}</td>
-                </tr>
-                <tr>
-                    <td></td> 
-                    <td></td> 
-                    <td>De {{ request.startDate }} a {{ request.endDate }}</td> 
-                </tr>  
-            </tbody>
-            </v-table>
+      <v-card-title>Listado de Solicitudes</v-card-title>
+      <v-table class="requestTable">
+        <thead>
+          <th> Nombre Empleado </th>
+          <th> Fecha de solicitud </th>
+          <th> Escuela </th> 
+         
+        </thead>
+        <tbody v-for="(request, index) in filteredRequests" :key="request.Id">
+          <tr>
+          <td>{{ request.userId ? request.userId.username : 'Usuario no definido' }}</td>
+          <td>De {{ request.startDate }} a {{ request.endDate }}</td>
+          <td>
+            {{ request.userId && request.userId.schoolID
+              ? request.userId.schoolID.schoolName
+              : 'Escuela no definida' }}
+          </td>
+          <td>
+            <RouterLink v-if="request.userId" :to="{ name: 'HrReview', props: { userId: request.Id } }">Revisar</RouterLink>
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
     </v-card>
-</template>
+  </template>
+  
 
 
 <style scoped>

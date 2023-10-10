@@ -1,12 +1,15 @@
 <script setup>
 import CardInfoComponent from '../components/CardInfoComponent.vue';
+import { ref, onBeforeMount } from 'vue';
+const userId=ref();
 
-
-
+onBeforeMount(() => {
+  userId.value=window.localStorage.getItem("myUser_Key");
+})
 </script>
 
 <template>
-    <CardInfoComponent />
+    <CardInfoComponent :id="parseInt(userId)"/>
    
     <div>
         <div class="container-options">
@@ -14,7 +17,6 @@ import CardInfoComponent from '../components/CardInfoComponent.vue';
             <router-link to="/createuser" class="item"><button>Crear Perfil</button></router-link>
             <router-link to="/createschool" class="item"><button>Crear Escuela</button></router-link>
             <router-link to="/edituser" class="item"><button>Administrar Perfiles</button></router-link>
-            <router-link to="/hrhistorial" class="item"><button>Historial de vacaciones</button></router-link>
         </div>
     </div>
 </template>

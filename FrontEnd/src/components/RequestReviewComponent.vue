@@ -1,44 +1,47 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
-import { defineProps } from 'vue';
-import RequestService from '../services/RequestR';
+import RequestServices from '../services/RequestServices';
 
 const props = defineProps({
-  id: {
+  userId: {
     type: Number,
     required: true
   }
 });
-
 const data = ref(null);
 const loading = ref(true);
 const diffDays = ref(0); 
+
 async function getHoldData() {
   loading.value = true;
-  const response = await RequestService.getHolidaysData(props.id);
+  try{
+  const response = await RequestServices.getRequestById(props.userId);
   data.value = await response.data;
   console.log(response);
-  const startDate = new Date(data.value.userRequests[0].startDate);
-  const endDate = new Date(data.value.userRequests[0].endDate);
+  const startDate = new Date(data.value.startDate);
+  const endDate = new Date(data.value.endDate);
   const diffTime = Math.abs(endDate - startDate);
   diffDays.value = Math.ceil(diffTime / (1000 * 60 * 60 * 24))+1; 
   
   console.log(`La solicitud abarca ${diffDays.value} días.`);
-  
-  loading.value = false;
+  } catch (error) {
+    console.error('Error al obtener los datos de la solicitud:', error);
+  } finally {
+    loading.value = false;
+  }
 }
 
 onBeforeMount(getHoldData);
 
-async function approveRequest() {
+async function approveRequest(id) {
   //await RequestService.updateUserRequestStatus(props.id, 2);
-  await RequestService.updateUserRequestStatus(data.value.userRequests[0].id, 2);
+  await RequestServices.updateUserRequestStatus(id, 2);
   console.log("solicitud aprobada");
 }
 
-async function rejectRequest() {
+async function rejectRequest(id) {
   //await RequestService.updateUserRequestStatus(props.id, 3);
-  await RequestService.updateUserRequestStatus(data.value.userRequests[0].id, 3);
+  await RequestServices.updateUserRequestStatus(id, 3);
   console.log("solicitud rechazada");
 
 }
@@ -51,21 +54,21 @@ async function rejectRequest() {
         <div v-if="data" class="container">
           <div class="item">
             <p>Fecha de solicitud:</p>
-            <p>{{ data.userRequests[0].startDate }}</p>
+            <p>{{ data.startDate }}</p>
           </div>
           <div class="item">
             <p>La solicitud abarca {{ diffDays }} días.</p>
           </div>
           <div class="item">
-            <p>Solicitud de vacaciones desde el {{ data.userRequests[0].startDate }}</p>
-            <p>Hasta el {{ data.userRequests[0].endDate }}</p>
+            <p>Solicitud de vacaciones desde el {{ data.startDate }}</p>
+            <p>Hasta el {{ data.endDate }}</p>
           </div>
         </div>
       </v-card-text>
     </v-card>
     <div class="button-container">
-      <v-btn class="btnAcepted"  @click="approveRequest">Aprobar</v-btn>
-      <v-btn class="btnRefuse"  @click="rejectRequest">Rechazar</v-btn>
+      <v-btn class="btnAcepted"  @click="approveRequest(props.userId)">Aprobar</v-btn>
+      <v-btn class="btnRefuse"  @click="rejectRequest(props.userId)">Rechazar</v-btn>
     </div>
   </div>
 </template>
