@@ -15,7 +15,7 @@ const user_startDate = ref('');
 const user_endDate = ref('');
 const user_pass = ref('');
 const user_type = ref('');
-const user_img = ref('');
+const user_img = ref('null');
 const user_school = ref('');
 const user_dpto = ref('');
 
@@ -46,7 +46,13 @@ const createUser = async () => {
                 userDept: user_dpto.value
             }
         };
-        console.log(postData);
+        
+        if (selectedImage.value) {
+            // Convierte la imagen en una cadena Base64
+            const imageBase64 = await fileToBase64(selectedImage.value);
+            // Agrega la imagen Base64 al objeto de datos
+            postData.userImage = imageBase64;
+        }
         // Llamar al servicio para crear la escuela
         const response = await PostUser.post(postData);
 
@@ -72,6 +78,21 @@ const createUser = async () => {
     }
 };
 
+const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            resolve(reader.result.split(',')[1]); // Elimina el encabezado "data:image/jpeg;base64,"
+        };
+
+        reader.onerror = (error) => {
+            reject(error);
+        };
+
+        reader.readAsDataURL(file);
+    });
+};
 
 // Validación del DNI
 const validateSpanishDNIOrNIE = (dniOrNIE) => {
@@ -133,11 +154,26 @@ const getPasswordInputType = () => {
     return showPassword.value ? 'text' : 'password';
 };
 
+function guardarImagen() {
+    // Obtener el elemento de entrada de archivo
+    const input = document.getElementById('imagenInput');
+    const file = input.files[0];
+
+    if (file) {
+        // Asigna la imagen seleccionada a selectedImage
+        selectedImage.value = file;
+    } else {
+        alert('Por favor, seleccione una imagen antes de guardar.');
+    }
+}
+
 
 const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
+    guardarImagen();
     createUser();
+
 };
 
 onBeforeMount(async () => {
@@ -155,7 +191,7 @@ onBeforeMount(async () => {
     <h2> Dar de alta un nuevo usuario</h2>
 
     <section class="newUser">
-        <form id="userForm" @submit.prevent="handleSubmit">
+        <form id="userForm" @submit.prevent="handleSubmit" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label for="user_name">Nombre:</label>
@@ -233,7 +269,8 @@ onBeforeMount(async () => {
 
             <div class="form-group">
                 <label for="user_img">Adjuntar foto:</label>
-                <input type="file" id="user_img" name="user_img" accept="image/*" required>
+                <input type="file" id="imagenInput" accept="image/*">
+                <button onclick="guardarImagen()">Guardar Imagen</button>
             </div>
 
             <div class="form-group">
