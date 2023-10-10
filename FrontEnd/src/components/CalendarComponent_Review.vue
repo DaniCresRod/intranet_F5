@@ -96,7 +96,7 @@ onMounted(async () => {
 
 <template>
     <div class="calendar_container">
-        <h2>Calendario</h2>
+        <h2>Calendario de vacaciones solicitadas</h2>
         <label for="escuela">Selecciona Escuela:</label>
         <select id="user_school" class="custom-select" name="user_school" v-model="escuelaSeleccionada">
             <option value="" disabled>Selecciona una escuela</option>
@@ -120,10 +120,10 @@ onMounted(async () => {
         </select>
 
         <div v-if="mesSeleccionado" class="calendario_vista">
-            <h4>{{ mesSeleccionado }}</h4>
-            <div v-for="school in schools" :key="school.schoolName">
+            <!-- <h4>{{ mesSeleccionado }}</h4> -->
+            <div class="last" v-for="school in schools" :key="school.schoolName">
                 <div v-if="escuelaSeleccionada === school.id" :class="school.id">
-                    <h4>{{ school.schoolName }}</h4>
+                    <h4>Calendario de {{ school.schoolName }}</h4>
                     <table class="calendar" cellspacing="0">
                         <tbody>
                             <tr title="daysNum">
@@ -132,6 +132,7 @@ onMounted(async () => {
                             </tr>
 
                             <tr v-for="(usuario, index) in school.schoolUserList" :key="index" :title="usuario.userSurName">
+                                <!-- <th :class="{ 'orange-column': index !== 25 }">{{ usuario.userSurName }}</th> -->
                                 <th>{{ usuario.userSurName }}</th>
                                 <td v-for="dia in diasDelMes">
                                     {{ mostrarEvento(usuario, dia) }}
@@ -153,6 +154,16 @@ onMounted(async () => {
     flex-direction: column;
     align-items: center;
     text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+h4 {
+    margin: 2.5rem 35%;
+    text-decoration: underline;
+    color: var(--orange);
 }
 
 .custom-select {
@@ -188,7 +199,7 @@ table.calendar th {
 
 table.calendar td {
     border: 2px solid #f3f3f3;
-    color: #fabada;
+    color: var(--orange-light);
     font-size: 14px;
     font-weight: bold;
     height: 14px;
@@ -199,18 +210,12 @@ table.calendar td {
     width: 14px;
 }
 
-.asturias .calendar th,
-.asturias .calendar td {
-    border-color: lightskyblue;
+.last{
+    margin-bottom: 3.5rem;
 }
-
-.madrid .calendar th,
-.madrid .calendar td {
-    border-color: lightcoral;
-}
-
-.barcelona .calendar th,
-.barcelona .calendar td {
-    border-color: lightgreen;
-}
+/* .orange-column {
+    background-color: var(--orange-light); 
+    color: white;
+    
+} */
 </style>

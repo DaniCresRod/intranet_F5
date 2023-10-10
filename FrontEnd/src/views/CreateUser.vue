@@ -18,6 +18,7 @@ const user_type = ref('');
 const user_img = ref('');
 const user_school = ref('');
 const user_dpto = ref('');
+const selectedImage = ref(''); // Agregado
 
 const showPassword = ref(false);
 user_email.value = "@factoriaf5.com";
@@ -40,13 +41,19 @@ const createUser = async () => {
             userEndDate: user_endDate.value,
             userPass: user_pass.value,
             userType: user_type.value,
-            userImage: user_img.value,
+            userImage: selectedImage.value,
             schoolID: {
                 id: user_school.value,
                 userDept: user_dpto.value
             }
         };
-        console.log(postData);
+        
+        if (selectedImage.value) {
+            // Convierte la imagen en una cadena Base64
+            const imageBase64 = await fileToBase64(selectedImage.value);
+            // Agrega la imagen Base64 al objeto de datos
+            postData.userImage = imageBase64;
+        }
         // Llamar al servicio para crear la escuela
         const response = await PostUser.post(postData);
 
@@ -64,7 +71,7 @@ const createUser = async () => {
         user_endDate.value = '';
         user_pass.value = '';
         user_type.value = '';
-        user_img.value = '';
+        // user_img.value = '';
         user_dpto.value = '';
     } catch (error) {
         // Manejar cualquier error que ocurra durante la creación de la escuela
@@ -72,6 +79,21 @@ const createUser = async () => {
     }
 };
 
+const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            resolve(reader.result.split(',')[1]); // Elimina el encabezado "data:image/jpeg;base64,"
+        };
+
+        reader.onerror = (error) => {
+            reject(error);
+        };
+
+        reader.readAsDataURL(file);
+    });
+};
 
 // Validación del DNI
 const validateSpanishDNIOrNIE = (dniOrNIE) => {
@@ -133,11 +155,33 @@ const getPasswordInputType = () => {
     return showPassword.value ? 'text' : 'password';
 };
 
+function guardarImagen() {
+    // Obtener el elemento de entrada de archivo
+    const input = document.getElementById('imagenInput');
+    const file = input.files[0];
+
+    if (file) {
+        // Verificar que el archivo seleccionado sea una imagen (por su tipo MIME)
+        if (file.type.startsWith('image/')) {
+            // Asignar la imagen seleccionada a selectedImage
+            selectedImage.value = file;
+        } else {
+            alert('Por favor, seleccione un archivo de imagen válido.');
+        }
+    } else {
+        alert('Por favor, seleccione una imagen antes de guardar.');
+    }
+}
+
 
 const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
     createUser();
+};
+
+const handleGuardarImagenClick = () => {
+    guardarImagen();
 };
 
 onBeforeMount(async () => {
@@ -155,7 +199,7 @@ onBeforeMount(async () => {
     <h2> Dar de alta un nuevo usuario</h2>
 
     <section class="newUser">
-        <form id="userForm" @submit.prevent="handleSubmit">
+        <form id="userForm" @submit.prevent="handleSubmit" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label for="user_name">Nombre:</label>
@@ -233,7 +277,8 @@ onBeforeMount(async () => {
 
             <div class="form-group">
                 <label for="user_img">Adjuntar foto:</label>
-                <input type="file" id="user_img" name="user_img" accept="image/*" required>
+                <input type="file" id="imagenInput" accept="image/*">
+                <button @click="handleGuardarImagenClick">Guardar Imagen</button>
             </div>
 
             <div class="form-group">

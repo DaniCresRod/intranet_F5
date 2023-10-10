@@ -7,7 +7,6 @@ import CreateSchoolView from '../views/CreateSchool.vue'
 import CreateUserView from '../views/CreateUser.vue'
 import EditUserView from '../views/EditUser.vue'
 import AuthorizerCheckView from "../views/AuthorizerCheck.vue"
-import hrHistorial from "../views/hrHistorial.vue"
 import HrReview from '../views/HrReview.vue'
 
 
@@ -55,14 +54,10 @@ const router = createRouter({
       component: AuthorizerCheckView
     },
     {
-      path: '/hrHistorial',
-      name: 'hrHistorial',
-      component: hrHistorial
-    },
-    {
       path: '/HrReview',
       name: 'HrReview',
-      component: HrReview
+      component: HrReview,
+      props: true
     },
   ]
 })
