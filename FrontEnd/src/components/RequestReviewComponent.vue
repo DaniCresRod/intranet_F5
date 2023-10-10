@@ -8,7 +8,6 @@ const props = defineProps({
     required: true
   }
 });
-
 const data = ref(null);
 const loading = ref(true);
 const diffDays = ref(0); 
