@@ -13,12 +13,19 @@ const props = defineProps({
 
 const data = ref(null);
 const loading = ref(true);
+const userImage = ref(""); // Inicializamos userImage
+
+function getUserImageSrc(base64ImageData) {
+  return `data:image/jpeg;base64,${base64ImageData}`;
+}
+
 
 async function getWorkerData() {
   loading.value = true;
   const response = await CardInfoService.getWorkerData(props.id);
   data.value = await response.data;
-  console.log(response.data)
+  userImage.value = data.value ? data.value.userImage : ""; // Asignamos userImage solo si data.value no es nulo
+  console.log(response.data);
   loading.value = false;
 }
 
@@ -45,7 +52,8 @@ onBeforeMount(() => {
         </div>
         <div class="image-content">
           <v-avatar size="180"> 
-            <v-img class="card_info_img" src="/img_prueba.jpg"/>
+            <v-img class="card_info_img" v-if="data" :src="getUserImageSrc(data.userImage)" />
+
           </v-avatar>
         </div>
       </div>
