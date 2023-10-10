@@ -1,6 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 import loggear from "../services/LogInService"
+import router from '../router/index'
+import { getToken } from "../services/TokenService";
+import axios from "axios";
+
+window.localStorage.setItem("myToken_Key", "");
+window.localStorage.setItem("myUser_Key", "");
 
 const user=ref("");
 const password=ref("");
@@ -15,13 +21,58 @@ async function sendInfo(){
     payload.value.username=user.value;
     payload.value.password=password.value;
     console.log(payload.value);
-    let response=await loggear.doLogIn(payload.value);
-    console.log(response);
+    const token=await loggear.doLogIn(payload.value);
+    console.log(token);
+    console.log(getToken());  
+    console.log(window.localStorage.getItem("myToken_Key"));
 
-    // if(response==="El token se ha traido y guardado en el LocalStorage"){
-    //     router.push("/Employee");
-    // }
+    if(token && (window.localStorage.getItem("myUser_Key")>0)){
+        console.log("El token se ha traido y guardado en el LocalStorage");
+        redirectMe(window.localStorage.getItem("myToken_Key"),window.localStorage.getItem("myUser_Key") );        
+    }
+    else{
+        console.log("No se ha obtenido Token");
+    }        
 }
+
+// async function redirect(){
+//     let myRoute=await loggear.whereToGo();
+//         console.log(myRoute);
+//         if(myRoute==="Formador"){
+//             router.push("/Employee");
+//         }
+//         else if(myRoute==="Supervisor"){
+//             router.push("/Authorizer");
+//         }
+//         else if(myRoute==="HR"){
+//             router.push("/HrGeneral");
+//         }  
+// }
+
+async function redirectMe(token, id){
+    const config={
+        headers:{
+            "Content-type": "application/json",
+            'Authorization': `Bearer ${token}`
+        }
+    }
+
+    const response=await axios.get(`http://localhost:8080/users/${id}`, config);
+    console.log(response.data);
+
+    let myRoute=response.data.userType;
+
+    if(myRoute==="Formador"){
+            router.push("/Employee");
+        }
+        else if(myRoute==="Supervisor"){
+            router.push("/Authorizer");
+        }
+        else if(myRoute==="HR"){
+            router.push("/HrGeneral");
+        }  
+}
+
 
 </script>
 
