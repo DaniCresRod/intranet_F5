@@ -1,6 +1,10 @@
 package com.intranet_F5.jwt;
 
+import com.intranet_F5.Model.UserModel;
+import com.intranet_F5.Repository.UserRepository;
 import com.intranet_F5.Services.JwtService;
+import com.intranet_F5.Services.LogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +29,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final LogService loggedUser;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -53,6 +61,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            //Establece el usuario que esta loggeado
+            loggedUser.setLoggedUser(userRepository.findByUsername(username).orElse(null));
 
             if (jwtService.isTokenValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
