@@ -15,9 +15,10 @@ const user_startDate = ref('');
 const user_endDate = ref('');
 const user_pass = ref('');
 const user_type = ref('');
-const user_img = ref('null');
+const user_img = ref('');
 const user_school = ref('');
 const user_dpto = ref('');
+const selectedImage = ref(null); // Agregado
 
 const showPassword = ref(false);
 user_email.value = "@factoriaf5.com";
@@ -40,7 +41,7 @@ const createUser = async () => {
             userEndDate: user_endDate.value,
             userPass: user_pass.value,
             userType: user_type.value,
-            userImage: user_img.value,
+            userImage: selectedImage.value,
             schoolID: {
                 id: user_school.value,
                 userDept: user_dpto.value
