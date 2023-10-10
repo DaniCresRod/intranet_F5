@@ -6,3 +6,4 @@ export default {
     return http.get(`/users/${id}`);
   },
 };
+  
