@@ -18,7 +18,7 @@ const user_type = ref('');
 const user_img = ref('');
 const user_school = ref('');
 const user_dpto = ref('');
-const selectedImage = ref(null); // Agregado
+const selectedImage = ref(''); // Agregado
 
 const showPassword = ref(false);
 user_email.value = "@factoriaf5.com";
