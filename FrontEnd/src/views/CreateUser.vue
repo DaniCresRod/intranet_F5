@@ -171,9 +171,11 @@ function guardarImagen() {
 const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
-    guardarImagen();
     createUser();
+};
 
+const handleGuardarImagenClick = () => {
+    guardarImagen();
 };
 
 onBeforeMount(async () => {
@@ -270,7 +272,7 @@ onBeforeMount(async () => {
             <div class="form-group">
                 <label for="user_img">Adjuntar foto:</label>
                 <input type="file" id="imagenInput" accept="image/*">
-                <button onclick="guardarImagen()">Guardar Imagen</button>
+                <button @click="handleGuardarImagenClick">Guardar Imagen</button>
             </div>
 
             <div class="form-group">
