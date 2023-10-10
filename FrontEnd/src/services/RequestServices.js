@@ -14,4 +14,12 @@ export default({
     getAll(){
         return http.get(`/request`);
     },
+
+    getRequestById(id){
+        return http.get(`/request/${id}`);
+    },
+    
+    updateUserRequestStatus(id, b) {
+        return http.put(`/request/updateStatus/${id}`, b);
+      },
 });

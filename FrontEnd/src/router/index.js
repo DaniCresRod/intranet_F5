@@ -55,14 +55,15 @@ const router = createRouter({
       component: AuthorizerCheckView
     },
     {
-      path: '/hrHistorial',
-      name: 'hrHistorial',
+      path: '/HrHistorial',
+      name: 'HrHistorial',
       component: hrHistorial
     },
     {
       path: '/HrReview',
       name: 'HrReview',
-      component: HrReview
+      component: HrReview,
+      props: true
     },
   ]
 })
