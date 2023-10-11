@@ -12,7 +12,7 @@ const props = defineProps({
 
 const data = ref();
 const loading = ref(true);
-const userImage = ref(""); // Inicializamos userImage
+const userImage = ref(""); 
 
 function getUserImageSrc(base64ImageData) {
     return `data:image/jpeg;base64,${base64ImageData}`;
