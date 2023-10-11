@@ -44,7 +44,7 @@ public class UserModel implements UserDetails {
     @Column(name = "Nif")
     private String userNif;
 
-    @Column(name = "Email")
+    @Column(name = "Email", unique = true)
     private String userEmail;
 
     @Column(name = "Phone")
