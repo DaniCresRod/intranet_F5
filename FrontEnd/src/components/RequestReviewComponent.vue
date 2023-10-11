@@ -34,16 +34,21 @@ async function getHoldData() {
 onBeforeMount(getHoldData);
 
 async function approveRequest(id) {
-  //await RequestService.updateUserRequestStatus(props.id, 2);
-  await RequestServices.updateUserRequestStatus(id, 2);
-  console.log("solicitud aprobada");
+  try {
+    await RequestServices.updateUserRequestStatus(id, 2);
+    console.log("Solicitud aprobada");
+  } catch (error) {
+    console.error("Error al aprobar la solicitud:", error);
+  }
 }
 
 async function rejectRequest(id) {
-  //await RequestService.updateUserRequestStatus(props.id, 3);
-  await RequestServices.updateUserRequestStatus(id, 3);
-  console.log("solicitud rechazada");
-
+  try {
+    await RequestServices.updateUserRequestStatus(id, 3);
+    console.log("Solicitud rechazada");
+  } catch (error) {
+    console.error("Error al rechazar la solicitud:", error);
+  }
 }
 </script>
 
@@ -67,8 +72,8 @@ async function rejectRequest(id) {
       </v-card-text>
     </v-card>
     <div class="button-container">
-      <v-btn class="btnAcepted"  @click="approveRequest(props.userId)">Aprobar</v-btn>
-      <v-btn class="btnRefuse"  @click="rejectRequest(props.userId)">Rechazar</v-btn>
+      <v-btn class="btnAcepted"  @click="approveRequest(props.id)">Aprobar</v-btn>
+      <v-btn class="btnRefuse"  @click="rejectRequest(props.id)">Rechazar</v-btn>
     </div>
   </div>
 </template>
@@ -89,6 +94,7 @@ async function rejectRequest(id) {
   gap: 20px;
   margin-top: 20px;
 }
+
 .btnAcepted, .btnRefuse {
     width: 8.5625rem;
     height: 2.375rem;
@@ -107,7 +113,9 @@ async function rejectRequest(id) {
     border-radius: 1.875rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border: 1px solid #616161;
-    background: #C8EB66;}
+    background: #C8EB66;
+}
+
 .btnRefuse :hover {
     width: 8.5625rem;
     height: 2.375rem;
@@ -115,5 +123,7 @@ async function rejectRequest(id) {
     border-radius: 1.875rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border: 1px solid #616161;
-    background: #F98787;}
+    background: #F98787;
+}
+
 </style>

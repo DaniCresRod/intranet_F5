@@ -19,7 +19,7 @@ export default({
         return http.get(`/request/${id}`);
     },
     
-    updateUserRequestStatus(id, b) {
-        return http.put(`/request/updateStatus/${id}`, b);
+    updateUserRequestStatus(id, status) {
+        return http.put(`/request/updateStatus/${id}`, status);
       },
 });

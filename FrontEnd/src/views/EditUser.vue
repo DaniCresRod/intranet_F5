@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, watch, onBeforeMount } from 'vue';
-import { getById } from '../services/EditUser';
 import { updateById } from '../services/EditUser';
 import schoolService from '../services/schoolService'
 
@@ -26,32 +25,40 @@ user_email.value = "@factoriaf5.com";
 const changes = ref([]);
 //const changesWithNewValues = ref([]);
 
+const data = ref([]);
 
-// Carga los datos del usuario
-const loadUserData = async () => {
+onBeforeMount(async () => {
     try {
-        const userId = 12; // ELIMINAR
-        const response = await getById(userId); 
-        user.value = response.data; 
-        
-        user_id.value = user.value.id;
-        user_name.value = user.value.username;
-        user_surname.value = user.value.userSurName;
-        user_nif.value = user.value.userNif;
-        user_email.value = user.value.userEmail;
-        user_phone.value = user.value.userPhone;
-        user_birthday.value = user.value.userBirthDate;
-        user_startDate.value = user.value.userStartDate;
-        user_endDate.value = user.value.userEndDate;
-        user_pass.value = ""//user.value.userPass;
-        user_type.value = user.value.userType;
-        user_img.value = user.value.userImage;
-        user_school.value = user.value.schoolID.id;
+        // Llama al servicio para obtener las escuelas
+        schools.value = await schoolService.getSchools();
+        data.value=schools.value;
     } catch (error) {
-        console.error('Error al cargar los datos del usuario:', error);
+        console.error('Error al obtener las escuelas:', error);
     }
-};
+});
 
+// Función para buscar usuarios por dni
+const searchUser= (userNif) => {
+    const nifSelect = schools.schoolUserList.userNif.value.find((userNif) => schoolUserList.userNif === nifSelect.value);
+    console.log(nifSelect);
+  
+  if (nifSelect) {
+    user_id.value = user.value.id;
+    user_name.value = user.value.username;
+    user_surname.value = user.value.userSurName;
+    user_nif.value = user.value.userNif;
+    user_email.value = user.value.userEmail;
+    user_phone.value = user.value.userPhone;
+    user_birthday.value = user.value.userBirthDate;
+    user_startDate.value = user.value.userStartDate;
+    user_endDate.value = user.value.userEndDate;
+    user_pass.value = ""//user.value.userPass;
+    user_type.value = user.value.userType;
+    user_img.value = user.value.userImage;
+    user_school.value = user.value.schoolID.id;
+  }
+};
+        
 const validateSpanishDNIOrNIE = (dniOrNIE) => {
     const dniRegex = /^[0-9]{8}[A-Z]$/;
     const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
@@ -185,25 +192,16 @@ const handleSubmit = async (event) => {
 
 };
 
-
-onBeforeMount(async () => {
-    try {
-        // Llama al servicio para obtener las escuelas
-        schools.value = await schoolService.getSchools();
-    } catch (error) {
-        console.error('Error al obtener las escuelas:', error);
-    }
-});
-
-// Carga los datos del usuario cuando se monta el componente
-onMounted(() => {
-    loadUserData();
-});
-
 </script>
 
 
 <template>
+    <div class="search-bar">
+        <label for="searchUser">Buscar usuario: </label>
+        <input type="text" id="searchuser" >
+        <button @click="searchUser">Buscar</button>
+    </div>
+
     <h2> Modificar datos de usuario</h2>
 
     <section class="newUser">
