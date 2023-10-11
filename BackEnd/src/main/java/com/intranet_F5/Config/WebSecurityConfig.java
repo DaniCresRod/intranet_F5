@@ -57,8 +57,8 @@ public class WebSecurityConfig{
 
 //        http
 //                .formLogin(myLog->myLog
-//                .loginPage("/")
-//                .defaultSuccessUrl("/EmployeeView")
+//                //.loginPage("/")
+////                .defaultSuccessUrl("/EmployeeView")
 //                //.failureUrl("/login?error=true")
 //                .permitAll());
 

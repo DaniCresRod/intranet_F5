@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -73,7 +74,7 @@ public class UserModel implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserDept userDept=UserDept.Pedagógico;
 
-    @Column(name = "userPhoto")
+    @Column(name = "userPhoto", columnDefinition = "TEXT")
     private String userImage;
 
     @ManyToOne(fetch = FetchType.EAGER)
