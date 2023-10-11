@@ -8,6 +8,7 @@ const props = defineProps({
     required: true
   }
 });
+
 const data = ref(null);
 const loading = ref(true);
 const diffDays = ref(0); 
@@ -30,7 +31,6 @@ async function getHoldData() {
     loading.value = false;
   }
 }
-
 onBeforeMount(getHoldData);
 
 async function approveRequest(id) {

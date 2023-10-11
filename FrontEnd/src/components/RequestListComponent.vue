@@ -45,53 +45,53 @@ const filteredRequests = computed(() => {
 const showReviewComponent = ref(false);
 const selectedRequestId = ref(null);
 
-
 </script>
+
 <template>
-    <div v-if="showReviewComponent">
-      <RequestReviewComponent :id="selectedRequestId"></RequestReviewComponent>
-    </div>
     <v-card class="requestList">
-      <v-card-title>Listado de Solicitudes</v-card-title>
+      <v-card-title class="title">Listado de Solicitudes</v-card-title>
       <v-table class="requestTable">
         <thead>
           <th> Nombre Empleado </th>
           <th> Fecha de solicitud </th>
           <th> Escuela </th> 
-         
         </thead>
         <tbody v-for="(request) in filteredRequests" :key="request.Id">
           <tr>
-          <td>{{ request.userId ? request.userId.username : '' }}</td>
-          <td>De {{ request.startDate }} a {{ request.endDate }}</td>
-          <td>
-            {{ request.userId && request.userId.schoolID
-              ? request.userId.schoolID.schoolName
-              : '' }}
-          </td>
-          <td>
-            <button @click="selectedRequestId = request.id; showReviewComponent = true">Revisar</button>
-          </td>
+            <td>{{ request.userId ? request.userId.username : '' }}</td>
+            <td>De {{ request.startDate }} a {{ request.endDate }}</td>
+            <td>
+              {{ request.userId && request.userId.schoolID
+                ? request.userId.schoolID.schoolName
+                : '' }}
+            </td>
+            <td>
+              <button @click="selectedRequestId = request.id; showReviewComponent = true">Revisar</button>
+            </td>
           </tr>
         </tbody>
       </v-table>
     </v-card>
-  </template>
+    <div v-if="showReviewComponent">
+      <RequestReviewComponent :id="selectedRequestId"></RequestReviewComponent>
+    </div>
+</template>
   
-
-
 <style scoped>
 .requestList{
-    margin-top: 50px;
-    color: orangered;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+  margin-top: 50px;
+  color: orangered;
+  padding: 20px;
+  margin-bottom: 50px;
+}
+
+.title{
+  display: flex;
+  justify-content: center;
 }
 
 .requestTable{
-    
-    padding:20px;
+  padding:20px;
 }
 
 </style>
