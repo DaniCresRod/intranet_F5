@@ -1,12 +1,15 @@
 package com.intranet_F5.Services;
 
 
+import com.intranet_F5.Config.EnvVariablesConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.security.Key;
@@ -19,7 +22,9 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
-    private static final String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566B59703373367639792";
+    //Con esto puedo usar la clase de configuracion que me trae las variables de entorno
+    @Setter(onMethod=@__(@Autowired))
+    private EnvVariablesConfig variablesConfig;
 
     public String getTokenService(UserDetails user){
         System.out.println("Traigo usuario: "+user.getUsername());
@@ -38,7 +43,8 @@ public class JwtService {
     }
 
     private Key getKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+//        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(variablesConfig.getS_KEY());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
