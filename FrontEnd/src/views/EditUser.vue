@@ -32,7 +32,7 @@ const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024; // Tamaño máximo
 // Carga los datos del usuario
 const loadUserData = async () => {
     try {
-        const userId = 30; // ELIMINAR
+        const userId = 28; // ELIMINAR
         const response = await getById(userId); 
         user.value = response.data; 
         
@@ -45,7 +45,7 @@ const loadUserData = async () => {
         user_birthday.value = user.value.userBirthDate;
         user_startDate.value = user.value.userStartDate;
         user_endDate.value = user.value.userEndDate;
-        user_pass.value = ""//user.value.userPass;
+        user_pass.value = "";//user.value.userPass;
         user_type.value = user.value.userType;
         selectedImage.value = user.value.userImage;
         user_school.value = user.value.schoolID.id;
