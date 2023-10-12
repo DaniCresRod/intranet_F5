@@ -23,21 +23,23 @@ public class AuthService {
 
     public AuthResponse login(LoginRequest login){
 
+        //Obtenemos el nombre asociado al email que llega
+        String incomingUserName=userRepository.findUserNameByEmail(login.getUsername());
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        login.getUsername(),
+                        //login.getUsername(),
+                        incomingUserName,
                         login.getPassword()
                 )
         );
+//        UserModel myUser = userRepository.findByUsername(login.getUsername()).orElseThrow();
+//        UserDetails user = (UserDetails) userRepository.findByUsername(login.getUsername()).orElseThrow();
 
-        System.out.println("Paso el authenticatorManager en AuthService");
-        UserModel myUser = userRepository.findByUsername(login.getUsername()).orElseThrow();
-        UserDetails user = (UserDetails) userRepository.findByUsername(login.getUsername()).orElseThrow();
-
-        System.out.println("Paso el UserDetails en AuthService");
+        UserModel myUser = userRepository.findByUsername(incomingUserName).orElseThrow();
+        UserDetails user = (UserDetails) userRepository.findByUsername(incomingUserName).orElseThrow();
 
         String myToken = jwtService.getTokenService(user);
-        System.out.println("Paso el jwtService en AuthService");
 
         return AuthResponse
                 .builder()
@@ -45,22 +47,4 @@ public class AuthService {
                 .token(myToken)
                 .build();
     }
-
-//    public  AuthResponse register(RegisterRequest register){
-//        User user = User.builder()
-//                .username(register.getUsername())
-//                .password(passwordEncoder.encode(register.getPassword()))
-//                .firstname(register.getFirstname())
-//                .lastname(register.getFirstname())
-//                .country(register.getCountry())
-//                .role(ERole.USER)
-//                .build();
-//
-//        userRepository.save(user);
-//
-//        return AuthResponse
-//                .builder()
-//                .token(jwtService.getTokenService(user))
-//                .build();
-//    }
 }

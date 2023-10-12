@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, watch, onBeforeMount } from 'vue';
+import { getById } from '../services/EditUser';
 import { updateById } from '../services/EditUser';
 import schoolService from '../services/schoolService'
 
@@ -16,14 +17,16 @@ const user_startDate = ref('');
 const user_endDate = ref('');
 const user_pass = ref('');
 const user_type = ref('');
-const user_img = ref('');
+//const user_img = ref('');
 const user_school = ref('');
 const user_id = ref('');
 const schools = ref([]);
 const user_dpto = ref('');
 user_email.value = "@factoriaf5.com";
 const changes = ref([]);
-//const changesWithNewValues = ref([]);
+const selectedImage = ref(''); 
+const MAX_IMAGE_SIZE_MB = 8; // Tamaño máximo de imagen en megabytes
+const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024; // Tamaño máximo en bytes
 
 const data = ref([]);
 
@@ -58,7 +61,22 @@ const searchUser= (userNif) => {
     user_school.value = user.value.schoolID.id;
   }
 };
-        
+
+const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            resolve(reader.result.split(',')[1]); // Elimina el encabezado "data:image/jpeg;base64,"
+        };
+
+        reader.onerror = (error) => {
+            reject(error);
+        };
+
+        reader.readAsDataURL(file);
+    });
+};
 const validateSpanishDNIOrNIE = (dniOrNIE) => {
     const dniRegex = /^[0-9]{8}[A-Z]$/;
     const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
@@ -116,6 +134,28 @@ const getPasswordInputType = () => {
     return showPassword.value ? 'text' : 'password';
 };
 
+const guardarImagen = () => {
+    // Obtener el elemento de entrada de archivo
+    const input = document.getElementById('imagenInput');
+    const file = input.files[0];
+
+    if (file) {
+        if (file.size <= MAX_IMAGE_SIZE_BYTES) {
+            // Verificar que el archivo seleccionado sea una imagen (por su tipo MIME)
+            if (file.type.startsWith('image/')) {
+                // Asignar la imagen seleccionada a selectedImage
+                selectedImage.value = file;
+            } else {
+                alert('Por favor, seleccione un archivo de imagen válido.');
+            }
+        } else {
+            alert('El tamaño del archivo excede el límite de 8 MB.');
+        }
+    } else {
+        alert('Por favor, seleccione una imagen antes de guardar.');
+    }
+}
+
 const updateUser = async () => {
     try {
         const updatedUserData = {
@@ -130,12 +170,18 @@ const updateUser = async () => {
             userEndDate: user_endDate.value,
             userPass: user_pass.value,
             userType: user_type.value,
-            userImage: user_img.value,
+            userImage: selectedImage.value,
+            userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
-                userDept: user_dpto.value,
-            }
+                            }
         };
+        if (selectedImage.value) {
+            // Convierte la imagen en una cadena Base64
+            const imageBase64 = await fileToBase64(selectedImage.value);
+            // Agrega la imagen Base64 al objeto de datos
+            updatedUserData.userImage = imageBase64;
+        }
         const modifiedFields = [];
 
        // Compara los valores antiguos con los nuevos
@@ -166,7 +212,7 @@ const updateUser = async () => {
         if (user_type.value !== user.value.userType) {
             modifiedFields.push('Puesto');
         }
-        if (user_img.value !== user.value.userImage) {
+        if (selectedImage !== user.value.userImage) {
             modifiedFields.push('Adjuntar foto');
         }
         if (user_school.value !== user.value.schoolID.id) {
@@ -188,6 +234,7 @@ const updateUser = async () => {
 const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
+    guardarImagen();
     updateUser();
 
 };
@@ -229,7 +276,7 @@ const handleSubmit = async (event) => {
 
             <div class="form-group">
                 <label for="user_email">Email:</label>
-                <input type="email" id="user_email" name="user_email" v-model="user_email">
+                <input type="text" id="user_email" name="user_email" v-model="user_email">
             </div>
 
             <div class="form-group">
@@ -270,8 +317,12 @@ const handleSubmit = async (event) => {
             </div>
 
             <div class="form-group">
-                <label for="user_img">Adjuntar foto:</label>
-                <input type="file" id="user_img" name="user_img" accept="image/*">
+                <label for="user_dpto">Departamento asociado:</label>
+                <select id="user_dpto" name="user_dpto" v-model="user_dpto">
+                    <option value="Pedagógico">Pedagógico</option>
+                    <option value="RRHH">RRHH</option>
+                    <option value="Supervisor">Supervisión</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -281,6 +332,16 @@ const handleSubmit = async (event) => {
                     <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
                 </select>
             </div>
+
+            <div class="form-group">
+                <label for="user_img">Adjuntar foto:</label>
+                <input type="file" id="imagenInput" accept="image/*">
+                </div>
+            <div class="form-group warning">
+                <p>*Imagen en formato JPG y peso máximo 8Mb</p>
+            </div>
+            
+            
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>
         <div v-if="changes.length > 0" class="popup">

@@ -22,4 +22,5 @@ export default({
     updateUserRequestStatus(id, status) {
         return http.put(`/request/updateStatus/${id}`, status);
       },
+    
 });
