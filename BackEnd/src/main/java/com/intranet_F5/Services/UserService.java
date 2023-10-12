@@ -82,7 +82,7 @@ public class UserService {
                     myUser.setUserType(newUser.getUserType());
                     myUser.setUserImage(newUser.getUserImage());
                     myUser.setSchoolID(newUser.getSchoolID());
-                    if(newUser.getUserPass()!=null){
+                    if((newUser.getUserPass()!=null)&&(newUser.getUserPass()!="")){
                         myUser.setUserPass(newUser.getUserPass());
                     }
 
