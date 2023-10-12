@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted, watch, onBeforeMount } from 'vue';
-import { getById, updateById } from '../services/EditUser';
+import { getById } from '../services/EditUser';
 import schoolService from '../services/schoolService'
+import { updateById } from '../services/EditUser'
 
 // Define las referencias para los campos del formulario
 const user = ref(null);
@@ -187,7 +188,7 @@ const updateUser = async () => {
     try {
         const updatedUserData = {
             id: user_id.value,
-            username: user_name.value,
+            userName: user_name.value,
             userSurName: user_surname.value,
             userNif: user_nif.value,
             userEmail: user_email.value,
@@ -201,12 +202,8 @@ const updateUser = async () => {
             userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
-                }
+                            }
         };
-
-        console.log('Datos a enviar para la actualización:', updatedUserData);
-
-        
         if (selectedImage.value) {
             // Convierte la imagen en una cadena Base64
             const imageBase64 = await fileToBase64(selectedImage.value);
@@ -259,6 +256,7 @@ const updateUser = async () => {
         console.error('Error al actualizar los datos del usuario:', error);
     }
 };
+
 
 
 // Función para manejar el envío del formulario
