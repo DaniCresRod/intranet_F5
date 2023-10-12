@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, watch, onBeforeMount } from 'vue';
-import { getById } from '../services/EditUser';
-import { updateById } from '../services/EditUser';
+import { getById, updateById } from '../services/EditUser';
 import schoolService from '../services/schoolService'
 
 // Define las referencias para los campos del formulario
@@ -17,14 +16,14 @@ const user_startDate = ref('');
 const user_endDate = ref('');
 const user_pass = ref('');
 const user_type = ref('');
-//const user_img = ref('');
 const user_school = ref('');
 const user_id = ref('');
 const schools = ref([]);
 const user_dpto = ref('');
+const user_img = ref('');
 user_email.value = "@factoriaf5.com";
 const changes = ref([]);
-const selectedImage = ref(''); 
+const selectedImage = ref('');  
 const MAX_IMAGE_SIZE_MB = 8; // Tamaño máximo de imagen en megabytes
 const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024; // Tamaño máximo en bytes
 
@@ -40,26 +39,54 @@ onBeforeMount(async () => {
     }
 });
 
-// Función para buscar usuarios por dni
-const searchUser= (userNif) => {
-    const nifSelect = schools.schoolUserList.userNif.value.find((userNif) => schoolUserList.userNif === nifSelect.value);
-    console.log(nifSelect);
+// // Función para buscar usuarios por dni
+// const searchUser= (userNif) => {
+//     const nifSelect = schools.schoolUserList.userNif.value.find((userNif) => schoolUserList.userNif === nifSelect.value);
+//     console.log(nifSelect);
   
-  if (nifSelect) {
-    user_id.value = user.value.id;
-    user_name.value = user.value.username;
-    user_surname.value = user.value.userSurName;
-    user_nif.value = user.value.userNif;
-    user_email.value = user.value.userEmail;
-    user_phone.value = user.value.userPhone;
-    user_birthday.value = user.value.userBirthDate;
-    user_startDate.value = user.value.userStartDate;
-    user_endDate.value = user.value.userEndDate;
-    user_pass.value = ""//user.value.userPass;
-    user_type.value = user.value.userType;
-    user_img.value = user.value.userImage;
-    user_school.value = user.value.schoolID.id;
-  }
+//   if (nifSelect) {
+//     user_id.value = user.value.id;
+//     user_name.value = user.value.username;
+//     user_surname.value = user.value.userSurName; 
+//     user_nif.value = user.value.userNif;
+//     user_email.value = user.value.userEmail;
+//     user_phone.value = user.value.userPhone;
+//     user_birthday.value = user.value.userBirthDate;
+//     user_startDate.value = user.value.userStartDate;
+//     user_endDate.value = user.value.userEndDate;
+//     user_pass.value = ""//user.value.userPass;
+//     user_type.value = user.value.userType;
+//     user_img.value = user.value.userImage;
+//     user_school.value = user.value.schoolID.id;
+//   }
+// };
+
+// Función para buscar usuarios por dni
+const searchUser = () => {
+    const nifToSearch = user_nif.value;
+    const foundUser = schools.value.flatMap(school => school.schoolUserList).find(user => user.userNif === nifToSearch);
+  
+    if (foundUser) {
+        user.value = foundUser; // Asignar el objeto de usuario encontrado a la referencia user
+        user_id.value = foundUser.id;
+        user_name.value = foundUser.username;
+        user_surname.value = foundUser.userSurName;
+        user_nif.value = foundUser.userNif;
+        user_email.value = foundUser.userEmail;
+        user_phone.value = foundUser.userPhone;
+        user_birthday.value = foundUser.userBirthDate;
+        user_startDate.value = foundUser.userStartDate;
+        user_endDate.value = foundUser.userEndDate;
+        user_pass.value = '' // foundUser.userPass;
+        user_type.value = foundUser.userType;
+        user_img.value = foundUser.selectedImage; 
+        user_school.value = foundUser.schoolID.id;
+        user_dpto.value = foundUser.userDept;
+        console.log(foundUser);
+    } else {
+        // Si el usuario no se encontró, podrías mostrar un mensaje de error o realizar otra acción apropiada.
+        console.log('Usuario no encontrado');
+    }
 };
 
 const fileToBase64 = (file) => {
@@ -160,7 +187,7 @@ const updateUser = async () => {
     try {
         const updatedUserData = {
             id: user_id.value,
-            userName: user_name.value,
+            username: user_name.value,
             userSurName: user_surname.value,
             userNif: user_nif.value,
             userEmail: user_email.value,
@@ -174,8 +201,12 @@ const updateUser = async () => {
             userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
-                            }
+                }
         };
+
+        console.log('Datos a enviar para la actualización:', updatedUserData);
+
+        
         if (selectedImage.value) {
             // Convierte la imagen en una cadena Base64
             const imageBase64 = await fileToBase64(selectedImage.value);
@@ -243,12 +274,16 @@ const handleSubmit = async (event) => {
 
 
 <template>
-    <div class="search-bar">
+    <!-- <div class="search-bar">
         <label for="searchUser">Buscar usuario: </label>
         <input type="text" id="searchuser" >
         <button @click="searchUser">Buscar</button>
+    </div> -->
+    <div class="search-bar">
+        <label for="searchUser">Buscar usuario por DNI o NIE:</label>
+        <input type="text" id="searchuser" v-model="user_nif">
+        <button @click="searchUser">Buscar</button>
     </div>
-
     <h2> Modificar datos de usuario</h2>
 
     <section class="newUser">
