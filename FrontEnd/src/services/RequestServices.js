@@ -18,8 +18,8 @@ export default({
     getRequestById(id){
         return http.get(`/request/${id}`);
     },
-    
     updateUserRequestStatus(id, b) {
         return http.put(`/request/updateStatus/${id}`, b);
       },
+    
 });

@@ -34,3 +34,4 @@ build/
 .vscode/
 pom.xml
 .idea/workspace.xml
+/src/main/resources/config/variables.properties
