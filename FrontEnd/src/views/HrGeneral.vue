@@ -17,6 +17,7 @@ onBeforeMount(() => {
             <router-link to="/createuser" class="item"><button>Crear Perfil</button></router-link>
             <router-link to="/createschool" class="item"><button>Crear Escuela</button></router-link>
             <router-link to="/edituser" class="item"><button>Administrar Perfiles</button></router-link>
+            <router-link to="/logs" class="item"><button>Historial de solicitudes</button></router-link>
         </div>
     </div>
 </template>
@@ -46,13 +47,11 @@ onBeforeMount(() => {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
     text-decoration: none;
     color: black;
-
-
-
-
 }
 
+
 .item:last-child {
+
     margin-left: auto;
     margin-right: auto;
 }

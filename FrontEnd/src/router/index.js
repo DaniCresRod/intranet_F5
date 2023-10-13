@@ -7,6 +7,8 @@ import CreateSchoolView from '../views/CreateSchool.vue'
 import CreateUserView from '../views/CreateUser.vue'
 import EditUserView from '../views/EditUser.vue'
 import HrReview from '../views/HrReview.vue'
+import logs from '../views/logs.vue'
+
 
 
 const router = createRouter({
@@ -52,6 +54,11 @@ const router = createRouter({
       name: 'HrReview',
       component: HrReview,
       props: true
+    },
+    {
+      path: '/logs',
+      name: 'logs',
+      component: logs,
     },
   ]
 })

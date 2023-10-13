@@ -1,5 +1,6 @@
 package com.intranet_F5.Services;
 
+import com.intranet_F5.DTO.request.ChangeStatus;
 import com.intranet_F5.Model.UserRequestModel;
 import com.intranet_F5.Repository.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,10 +98,14 @@ public class RequestService {
                 userService.HldyDaysLeft( myRequest.getUserId().getId() , myRequest);
                 try{
                     if(updatedRequestStatus==2){
-                        LogService.createLog("Se ha aceptado la peticion ", myRequest.getId());
+                        LogService.createLog("Se ha aceptado la peticion", myRequest.getId());
                     }
                     else if(updatedRequestStatus==3){
-                        LogService.createLog("Se ha rechazado la petición", myRequest.getId());
+                        LogService.createLog("Se ha rechazado la petición"
+//                                +" (Motivo: "
+//                                +updatedRequestStatus.getReason()
+//                                +")"
+                                , myRequest.getId());
                     }
                 }
                 catch(Exception e){
