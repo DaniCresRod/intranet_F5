@@ -2,6 +2,7 @@
 import { ref, onMounted, watch, onBeforeMount } from 'vue';
 import PostUser from '../services/PostUser';
 import schoolService from '../services/schoolService'
+import BtnBackHr from '../components/BtnBackHr.vue';
 
 
 //Define refs para los campos del formulario
@@ -293,6 +294,8 @@ onBeforeMount(async () => {
         </form>
 
     </section>
+
+    <BtnBackHr/>
 </template>
 
 <style scoped>

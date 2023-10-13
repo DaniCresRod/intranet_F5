@@ -3,6 +3,7 @@ import { ref, onMounted, watch, onBeforeMount } from 'vue';
 import { getById } from '../services/EditUser';
 import { updateById } from '../services/EditUser';
 import schoolService from '../services/schoolService'
+import BtnBackHr from '../components/BtnBackHr.vue';
 
 // Define las referencias para los campos del formulario
 const user = ref(null);
@@ -292,6 +293,7 @@ onMounted(() => {
             </ul>
         </div>
     </section>
+    <BtnBackHr/>
 </template>
 
 <style scoped>
