@@ -13,6 +13,6 @@ onBeforeMount(() => {
 </script>
 <template>
     <CardInfoComponent :id="parseInt(userId)"/>
-    <RequestListComponent />
+    <RequestListComponent :filterBySchoolId="false"/>
     <CalendarComponent_Review :id="parseInt(userId)"/>
 </template>
