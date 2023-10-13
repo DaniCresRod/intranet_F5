@@ -1,5 +1,6 @@
 package com.intranet_F5.Services;
 
+import com.intranet_F5.DTO.request.ChangeStatus;
 import com.intranet_F5.Model.UserRequestModel;
 import com.intranet_F5.Repository.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,20 +88,23 @@ public class RequestService {
     }
 
     //EntryPoint para solicitudes sencillas de cambio de status
-    public UserRequestModel updateRequestStatusOnly(long id, int updatedRequestStatus) {
+    public UserRequestModel updateRequestStatusOnly(long id, ChangeStatus updatedRequestStatus) {
         try{
             if(requestRepository.existsById(id)){
                 UserRequestModel myRequest=requestRepository.findById(id).get();
-                myRequest.setStatus(updatedRequestStatus); //Faltaria filtro para evitar estatus incorrectos
+                myRequest.setStatus(updatedRequestStatus.getStatus()); //Faltaria filtro para evitar estatus incorrectos
                 requestRepository.save(myRequest);
 
                 userService.HldyDaysLeft( myRequest.getUserId().getId() , myRequest);
                 try{
-                    if(updatedRequestStatus==2){
-                        LogService.createLog("Se ha aceptado la peticion ", myRequest.getId());
+                    if(updatedRequestStatus.getStatus()==2){
+                        LogService.createLog("Se ha aceptado la peticion", myRequest.getId());
                     }
-                    else if(updatedRequestStatus==3){
-                        LogService.createLog("Se ha rechazado la petición", myRequest.getId());
+                    else if(updatedRequestStatus.getStatus()==3){
+                        LogService.createLog("Se ha rechazado la petición"
+                                +" (Motivo: "
+                                +updatedRequestStatus.getReason()
+                                +")", myRequest.getId());
                     }
                 }
                 catch(Exception e){
