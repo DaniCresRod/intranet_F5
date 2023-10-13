@@ -1,5 +1,4 @@
 <script setup>
-import RequestReviewComponent from '../components/RequestReviewComponent.vue';
 import { ref, onBeforeMount } from 'vue'
 
 const userId=ref();
@@ -12,6 +11,6 @@ onBeforeMount(() => {
 
 <template>
   <div>
-    <RequestReviewComponent :id="parseInt(userId)"/>
+    
   </div>
 </template>
