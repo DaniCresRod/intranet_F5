@@ -67,22 +67,22 @@ onMounted(() => {
       
       <ul class="navbar__menu">
         <li class="navbar__menu--item">
-          <a href="https://factoriaf5.org/">HOME</a>
+          <a href="https://factoriaf5.org/" target="_blank">HOME</a>
         </li>
         <li class="navbar__menu--item">
-          <a href="https://factoriaf5.org/aprende/">APRENDE</a>
+          <a href="https://factoriaf5.org/aprende/" target="_blank">APRENDE</a>
         </li>
         <li class="navbar__menu--item">
-          <a href="https://factoriaf5.org/colabora/">COLABORA</a>
+          <a href="https://factoriaf5.org/colabora/" target="_blank">COLABORA</a>
         </li>
         <li class="navbar__menu--item">
-          <a href="https://factoriaf5.org/somos/">SOMOS</a>
+          <a href="https://factoriaf5.org/somos/" target="_blank">SOMOS</a>
         </li>
         <li class="navbar__menu--item">
-          <a href="https://factoriaf5.org/blog/">BLOG</a>
+          <a href="https://factoriaf5.org/blog/" target="_blank">BLOG</a>
         </li>
         <li class="navbar__menu--item">
-          <a href="https://factoriaf5.org/contacto/">CONTACTO</a>
+          <a href="https://factoriaf5.org/contacto/" target="_blank">CONTACTO</a>
         </li>
         <li v-if="userId!==''" class="navbar__menu--item" @click="LogOut()">
           <RouterLink to="/">LOGOUT</RouterLink>
