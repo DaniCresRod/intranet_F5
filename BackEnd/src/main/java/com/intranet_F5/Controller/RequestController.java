@@ -42,14 +42,14 @@ public class RequestController {
         return requestService.updateRequest(id, updatedRequest);
     }
 
-//    @PutMapping(path="/updateStatus/{id}")
-//    public UserRequestModel updateRequestStatusOnly(@PathVariable long id, @RequestBody int updatedRequestStatus){
-//        return requestService.updateRequestStatusOnly(id, updatedRequestStatus);
-//    }
-
     @PutMapping(path="/updateStatus/{id}")
-    public UserRequestModel updateRequestStatusOnly(@PathVariable long id, @RequestBody ChangeStatus updatedRequestStatus){
+    public UserRequestModel updateRequestStatusOnly(@PathVariable long id, @RequestBody int updatedRequestStatus){
         return requestService.updateRequestStatusOnly(id, updatedRequestStatus);
     }
+
+//    @PutMapping(path="/updateStatus/{id}")
+//    public UserRequestModel updateRequestStatusOnly(@PathVariable long id, @RequestBody ChangeStatus updatedRequestStatus){
+//        return requestService.updateRequestStatusOnly(id, updatedRequestStatus);
+//    }
 
 }
