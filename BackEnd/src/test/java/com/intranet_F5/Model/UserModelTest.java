@@ -24,7 +24,7 @@ class UserModelTest {
     @BeforeEach
     public void initEach(){
         //TestDummy 1: User without StarDate, no School, no Requests
-        myTestUser1= new UserModel(1L, "userName1","userSurname1", "userNif1", "user1@email.com", "userPhone1",null, null,LocalDate.now().plusDays(30), 30, "pass1", UserModel.UserType.Formador, null, null, null, null );
+        myTestUser1= new UserModel(1L, "userName1","userSurname1", "userNif1", "user1@email.com", "userPhone1",null, null, LocalDate.now().plusDays(30), 30, "pass1", UserModel.UserType.Formador, null, null, null, null );
 
         //TestDummy 2: User less than a year old, null holiday days, no School, no Requests
         myTestUser2= new UserModel(2L, "userName2","userSurname2", "userNif2", "user2@email.com", "userPhone2",null, LocalDate.parse("2023-01-01"), LocalDate.parse("2023-07-31"), null, "pass2", UserModel.UserType.Formador, null,null, null, null );
@@ -33,7 +33,7 @@ class UserModelTest {
         myTestUser3= new UserModel(3L, "userName3","userSurname3", "userNif3", "user3@email.com", "userPhone3",null, LocalDate.parse("2020-01-01"), LocalDate.parse("2023-01-31"), 15, "pass3", UserModel.UserType.Formador, null,null, null, null );
 
         //TestDummy 4: User more than a year old, no School, no Requests
-        SchoolTest1=new SchoolModel(1L, "School1", "email1@school.com", "PhoneSchool1", null,null, SchoolModel.StateCode.AS, null);
+        SchoolTest1=new SchoolModel(1L, "School1", "email1@school.com", "PhoneSchool1", null, null, null, SchoolModel.StateCode.AS, null);
         myTestUser4= new UserModel(4L, "userName4","userSurname4", "userNif4", "user4@email.com", "userPhone4",null, LocalDate.parse("2023-01-01"), LocalDate.parse("2023-01-31"), 30, "pass4", UserModel.UserType.Formador,null, null, SchoolTest1, null );
 
         //TestDummy 5: User more than a year old, with School, with Requests
@@ -46,9 +46,9 @@ class UserModelTest {
     }
     @Test
     void setDefaultStartDate() throws Exception {
-        myTestUser1.setDefaultStartDate();
-        myTestUser2.setDefaultStartDate();
-        myTestUser3.setDefaultStartDate();
+        myTestUser1.defaultUserStartDate();
+        myTestUser2.defaultUserStartDate();
+        myTestUser3.defaultUserStartDate();
 
         long difference=MONTHS.between(myTestUser2.getUserStartDate(), myTestUser2.getUserEndDate());
         int hldyDays=(int) Math.floor(difference*2.5);
@@ -193,10 +193,12 @@ class UserModelTest {
 
     @Test
     void setUserEndDate_when_bad_End_date() throws Exception {
+        myTestUser1.defaultUserStartDate();
+
         //Test with a wrong date
-        assertThrows(Exception.class,
-                () -> {myTestUser1.setUserEndDate(LocalDate.parse("1981-01-17"));
-        });
+        LocalDate previusEndDate=myTestUser1.getUserEndDate();
+        myTestUser1.setUserEndDate(LocalDate.parse("1024-01-17"));
+        assertEquals( previusEndDate, myTestUser1.getUserEndDate());
 
         //Test with a right date
         myTestUser1.setUserEndDate(LocalDate.parse("2024-01-17"));
@@ -205,13 +207,13 @@ class UserModelTest {
 
     @Test
     void setUserDays() throws Exception {
-        myTestUser1.setDefaultStartDate();
+        myTestUser1.defaultUserStartDate();
         myTestUser1.setUserDays(45);
 
         assertEquals(45, myTestUser1.getUserDays());
 
         myTestUser2.setUserDays(45);
-        myTestUser2.setDefaultStartDate();
+        myTestUser2.defaultUserStartDate();
 
         assertNotEquals(null, myTestUser2.getUserDays());
         assertNotEquals(45, myTestUser2.getUserDays());
