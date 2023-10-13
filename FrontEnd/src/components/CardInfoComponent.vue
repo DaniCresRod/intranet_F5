@@ -12,19 +12,19 @@ const props = defineProps({
 
 const data = ref();
 const loading = ref(true);
-const userImage = ref("");
+const userImage = ref(""); // Inicializamos userImage
 
 function getUserImageSrc(base64ImageData) {
     return `data:image/jpeg;base64,${base64ImageData}`;
 }
 
 async function getWorkerData() {
-    loading.value = true;
-    const response = await CardInfoService.getWorkerData(props.id);
-    data.value = await response.data;
-    userImage.value = data.value ? data.value.userImage : ""; // Asignamos userImage solo si data.value no es nulo
-    console.log(response.data);
-    loading.value = false;
+  loading.value = true;
+  const response = await CardInfoService.getWorkerData(props.id);
+  data.value = await response.data;
+  userImage.value = data.value ? data.value.userImage : ""; // Asignamos userImage solo si data.value no es nulo
+  console.log(response.data);
+  loading.value = false;
 }
 
 onBeforeMount(getWorkerData);
@@ -102,16 +102,20 @@ li {
 
 .image-container {
     flex: 1;
-    max-width: 20%;
+    max-width: 15.5%;
+    /* 1/7 del ancho total */
     position: absolute;
-    top: -20px;
+    /* Permite la superposición */
+    top: -10px;
+    /* Superposición hacia arriba */
     left: -10px;
+    /* Superposición hacia la izquierda */
     bottom: -10px;
+    /* Superposición hacia abajo */
 }
 
 .image-container img {
     width: 100%;
-    height: auto;
     border-radius: 50%;
     border: 2px solid var(--orange);
 }

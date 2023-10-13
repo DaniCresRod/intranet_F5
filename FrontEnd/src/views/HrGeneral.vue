@@ -52,9 +52,9 @@ onBeforeMount(() => {
 
 }
 
-/* .item:last-child {
+.item:last-child {
     margin-left: auto;
     margin-right: auto;
-} */
+}
 
 </style>
