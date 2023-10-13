@@ -37,29 +37,29 @@ onMounted(() => {
   <header class="header">
     <ul class="iconsGroup">
       <li>
-        <RouterLink to="/">
-          <img src="/public/logo-linkedin.png">
-        </RouterLink>
-      </li>
+  <a href="https://www.linkedin.com/company/factor%C3%ADaf5/" target="_blank">
+    <img src="/public/logo-linkedin.png">
+  </a>
+</li>
       <li>
-        <RouterLink to="/">
+        <a href="https://twitter.com/i/flow/login?redirect_after_login=%2Ffactoriaf5" target="_blank">
           <img src="/public/logo-twitter.png">
-        </RouterLink>
+        </a>
       </li>
       <li>
-        <RouterLink to="/">
+        <a href="https://www.instagram.com/factoria_f5/" target="_blank">
           <img src="/public/logo-instagram.png">
-        </RouterLink>
+        </a>
       </li>
       <li>
-        <RouterLink to="/">
+        <a href="https://www.youtube.com/channel/UCazHbN7ChOJxRXW0-K1zczw" target="_blank">
           <img src="/public/logo-youtube.png">
-        </RouterLink>
+        </a>
       </li>
       <li>
-        <RouterLink to="/">
+        <a href="https://www.facebook.com/factoriaf5/" target="_blank">
           <img src="/public/logo-facebook.png">
-        </RouterLink>
+        </a>
       </li>
     </ul>
     <nav class="navbar">
@@ -67,28 +67,28 @@ onMounted(() => {
       
       <ul class="navbar__menu">
         <li class="navbar__menu--item">
-          <RouterLink to="/">HOME</RouterLink>
+          <a href="https://factoriaf5.org/">HOME</a>
         </li>
         <li class="navbar__menu--item">
-          <RouterLink to="/">APRENDE</RouterLink>
+          <a href="https://factoriaf5.org/aprende/">APRENDE</a>
         </li>
         <li class="navbar__menu--item">
-          <RouterLink to="/">COLABORA</RouterLink>
+          <a href="https://factoriaf5.org/colabora/">COLABORA</a>
         </li>
         <li class="navbar__menu--item">
-          <RouterLink to="/">SOMOS</RouterLink>
+          <a href="https://factoriaf5.org/somos/">SOMOS</a>
         </li>
         <li class="navbar__menu--item">
-          <RouterLink to="/">BLOG</RouterLink>
+          <a href="https://factoriaf5.org/blog/">BLOG</a>
         </li>
         <li class="navbar__menu--item">
-          <RouterLink to="/">CONTACTO</RouterLink>
+          <a href="https://factoriaf5.org/contacto/">CONTACTO</a>
         </li>
         <li v-if="userId!==''" class="navbar__menu--item" @click="LogOut()">
           <RouterLink to="/">LOGOUT</RouterLink>
         </li>
         <li v-else class="navbar__menu--item">
-          <RouterLink to="/">USUARIOS</RouterLink>
+          <RouterLink to="/">LOGIN</RouterLink>
         </li>
         
       </ul>
