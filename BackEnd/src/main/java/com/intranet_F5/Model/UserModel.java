@@ -150,13 +150,13 @@ public class UserModel implements UserDetails {
 
     //PrePersist se ejcuta cada vez que se hace una nueva insercion en la base de datos
     @PrePersist
-    public void defaultUserEndDate(){
+    public void defaultUserStartDate(){
         if(this.userStartDate==null){
             this.userStartDate=LocalDate.now();
         }
         if((this.userDays==null)||(this.userDays>30)){
-            this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate());
         }
+        this.userDays=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate());
     }
 
     public void setUserEndDate(LocalDate userEndDate) throws Exception {
@@ -166,7 +166,7 @@ public class UserModel implements UserDetails {
 
         try{
             if(userEndDate!=null && previousUserEndDate!=null){
-                if(userEndDate.isAfter(previousUserEndDate) && userEndDate.isBefore(this.userStartDate)){
+                if(userEndDate.isAfter(previousUserEndDate) && userEndDate.isAfter(this.userStartDate)){
                     this.userEndDate = userEndDate;
                     this.userDays=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate())-holidayDaysUsed;
                 }
@@ -194,25 +194,7 @@ public class UserModel implements UserDetails {
         this.userDays = userDays;
     }
 
-    //Con esto, se pre-calculan los valores de vacaciones en funcion de la
-    //fecha de alta en la empresa
-//    @PrePersist
-//    public void setDefaultStartDate() throws Exception {
-//        if (this.userStartDate == null) {
-//            this.userStartDate = LocalDate.now();
-//        }
-//
-//        if(userEndDate==null) this.userDays=30;
-//        else{
-//            if(this.userStartDate.isAfter(this.userEndDate)){
-//                throw new Exception("Hubo un error calculando fechas");
-//            }
-//            // if((this.userDays == null)){
-//            int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
-//            this.userDays = calculatedDays;
-//            // }
-//        }
-//    }
+
 
 
 }

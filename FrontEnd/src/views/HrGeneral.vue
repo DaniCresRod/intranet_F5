@@ -47,9 +47,10 @@ onBeforeMount(() => {
     text-decoration: none;
     color: black;
 
-}
-/* 
-.item:last-child {
+
+
+/* .item:last-child {
+
     margin-left: auto;
     margin-right: auto;
 } */

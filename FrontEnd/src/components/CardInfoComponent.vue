@@ -102,16 +102,11 @@ li {
 
 .image-container {
     flex: 1;
-    max-width: 15.5%;
-    /* 1/7 del ancho total */
+    max-width: 20%;
     position: absolute;
-    /* Permite la superposición */
-    top: -10px;
-    /* Superposición hacia arriba */
+    top: -20px;
     left: -10px;
-    /* Superposición hacia la izquierda */
     bottom: -10px;
-    /* Superposición hacia abajo */
 }
 
 .image-container img {
