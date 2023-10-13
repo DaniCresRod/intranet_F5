@@ -76,8 +76,9 @@ public class LogService  {
             newLog.setLogText(newLogText
                     + " para "+(requestRepository.findById(fatherRequestId)).get().getUserReason()
                     +" de "+requestUserName
-                    +", creado por "+loggedUser.getUsername()
+                    +", supervisado por "+loggedUser.getUsername()
                     +" "+loggedUser.getUserSurName()
+                    +"."
                     );
             newLog.setUserId(loggedUser.getId());
 
