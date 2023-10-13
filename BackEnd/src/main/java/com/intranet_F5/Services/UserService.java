@@ -2,6 +2,7 @@ package com.intranet_F5.Services;
 
 import com.intranet_F5.Model.SchoolModel;
 import com.intranet_F5.Model.UserModel;
+import com.intranet_F5.Model.UserRequestModel;
 import com.intranet_F5.Repository.SchoolRepository;
 import com.intranet_F5.Repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -9,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.MONTHS;
 
 @Service
 public class UserService {
@@ -69,20 +74,20 @@ public class UserService {
                 if(myUser.getId() == newUser.getId()){
                     myUser=userRepository.findById(id).get();
 
-                    myUser.setUserName(newUser.getUsername());
-                    myUser.setUserSurName(newUser.getUserSurName());
-                    myUser.setUserNif(newUser.getUserNif());
-                    myUser.setUserEmail(newUser.getUserEmail());
-                    myUser.setUserPhone(newUser.getUserPhone());
-                    myUser.setUserBirthDate(newUser.getUserBirthDate());
-                    myUser.setUserStartDate(newUser.getUserStartDate());
-                    myUser.setUserEndDate(newUser.getUserEndDate());
-                    //myUser.setUserDays(newUser.getUserDays());
+                    if(newUser.getUsername()!=null)myUser.setUserName(newUser.getUsername());
+                    if(newUser.getUserSurName()!=null) myUser.setUserSurName(newUser.getUserSurName());
+                    if(newUser.getUserNif()!=null)myUser.setUserNif(newUser.getUserNif());
+                    if(newUser.getUserEmail()!=null)myUser.setUserEmail(newUser.getUserEmail());
+                    if(newUser.getUserPhone()!=null)myUser.setUserPhone(newUser.getUserPhone());
+                    if(newUser.getUserBirthDate()!=null)myUser.setUserBirthDate(newUser.getUserBirthDate());
+                    if(newUser.getUserStartDate()!=null)myUser.setUserStartDate(newUser.getUserStartDate());
+                    if(newUser.getUserEndDate()!=null)myUser.setUserEndDate(newUser.getUserEndDate());
+                    if(newUser.getUserDays()!=null)myUser.setUserDays(newUser.getUserDays());
+                    if(newUser.getUserType()!=null)myUser.setUserType(newUser.getUserType());
+                    if(newUser.getUserImage()!=null)myUser.setUserImage(newUser.getUserImage());
+                    if(newUser.getSchoolID()!=null) myUser.setSchoolID(newUser.getSchoolID());
 
-                    myUser.setUserType(newUser.getUserType());
-                    myUser.setUserImage(newUser.getUserImage());
-                    myUser.setSchoolID(newUser.getSchoolID());
-                    if(newUser.getUserPass()!=null){
+                    if((newUser.getUserPass()!=null)&&(newUser.getUserPass()!="")){
                         myUser.setUserPass(newUser.getUserPass());
                     }
 
@@ -106,6 +111,19 @@ public class UserService {
         }
         catch (Exception e){
             return null;
+        }
+    }
+
+    public int HldyDaysLeft(long userId, UserRequestModel myRequest){
+        UserModel myUser=userRepository.findById(userId).get();
+        long differenceDays=DAYS.between(myRequest.getStartDate(), myRequest.getEndDate());
+        if(differenceDays>myUser.getUserDays()) return -1;
+        else {
+            if(myRequest.getStatus()==2){
+                myUser.setUserDays((int)(myUser.getUserDays()-differenceDays));
+                this.upgradeUser(myUser.getId(), myUser);
+            }
+            return (int)(myUser.getUserDays()-differenceDays);
         }
     }
 }

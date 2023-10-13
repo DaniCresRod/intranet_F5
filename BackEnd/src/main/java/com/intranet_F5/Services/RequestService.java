@@ -15,6 +15,9 @@ public class RequestService {
     @Autowired
     LogService LogService;
 
+    @Autowired
+    UserService userService;
+
     public List<UserRequestModel> getAllRequests() {
         return requestRepository.findAll();
     }
@@ -65,9 +68,11 @@ public class RequestService {
 
                 requestRepository.save(myRequest);
 
+                userService.HldyDaysLeft( myRequest.getUserId().getId() , updatedRequest);
+
                 //Crear el log de creacion de la petición
                 try{
-                    LogService.createLog("Se ha modificado la petición", updatedRequest.getId());
+                    LogService.createLog("Se ha modificado la petición", id);
                 }
                 catch(Exception e){
                     e.printStackTrace();
@@ -81,6 +86,7 @@ public class RequestService {
         }
     }
 
+    //EntryPoint para solicitudes sencillas de cambio de status
     public UserRequestModel updateRequestStatusOnly(long id, int updatedRequestStatus) {
         try{
             if(requestRepository.existsById(id)){
@@ -88,6 +94,7 @@ public class RequestService {
                 myRequest.setStatus(updatedRequestStatus); //Faltaria filtro para evitar estatus incorrectos
                 requestRepository.save(myRequest);
 
+                userService.HldyDaysLeft( myRequest.getUserId().getId() , myRequest);
                 try{
                     if(updatedRequestStatus==2){
                         LogService.createLog("Se ha aceptado la peticion ", myRequest.getId());

@@ -19,11 +19,14 @@ const user_type = ref('');
 const user_img = ref('');
 const user_school = ref('');
 const user_dpto = ref('');
-const selectedImage = ref(''); // Agregado
+const selectedImage = ref(''); 
 
 const showPassword = ref(false);
 user_email.value = "@factoriaf5.com";
 const schools = ref([]);
+const MAX_IMAGE_SIZE_MB = 8; // Tamaño máximo de imagen en megabytes
+const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024; // Tamaño máximo en bytes
+
 
 
 // Función para manejar el envío del formulario
@@ -48,7 +51,7 @@ const createUser = async () => {
                 userDept: user_dpto.value
             }
         };
-        
+
         if (selectedImage.value) {
             // Convierte la imagen en una cadena Base64
             const imageBase64 = await fileToBase64(selectedImage.value);
@@ -156,18 +159,22 @@ const getPasswordInputType = () => {
     return showPassword.value ? 'text' : 'password';
 };
 
-function guardarImagen() {
+const guardarImagen = () => {
     // Obtener el elemento de entrada de archivo
     const input = document.getElementById('imagenInput');
     const file = input.files[0];
 
     if (file) {
-        // Verificar que el archivo seleccionado sea una imagen (por su tipo MIME)
-        if (file.type.startsWith('image/')) {
-            // Asignar la imagen seleccionada a selectedImage
-            selectedImage.value = file;
+        if (file.size <= MAX_IMAGE_SIZE_BYTES) {
+            // Verificar que el archivo seleccionado sea una imagen (por su tipo MIME)
+            if (file.type.startsWith('image/')) {
+                // Asignar la imagen seleccionada a selectedImage
+                selectedImage.value = file;
+            } else {
+                alert('Por favor, seleccione un archivo de imagen válido.');
+            }
         } else {
-            alert('Por favor, seleccione un archivo de imagen válido.');
+            alert('El tamaño del archivo excede el límite de 8 MB.');
         }
     } else {
         alert('Por favor, seleccione una imagen antes de guardar.');
@@ -178,12 +185,10 @@ function guardarImagen() {
 const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
+    guardarImagen();
     createUser();
 };
 
-const handleGuardarImagenClick = () => {
-    guardarImagen();
-};
 
 onBeforeMount(async () => {
     try {
@@ -225,7 +230,7 @@ onBeforeMount(async () => {
 
             <div class="form-group">
                 <label for="user_email">Email:</label>
-                <input type="email" id="user_email placeholder_mail" name="user_email" v-model="user_email" required
+                <input type="text" id="user_email placeholder_mail" name="user_email" v-model="user_email" required
                     class="correito" placeholder="@factoriaf5.com">
             </div>
 
@@ -247,7 +252,7 @@ onBeforeMount(async () => {
 
             <div class="form-group">
                 <label for="user_endDate">Fecha de finalización:</label>
-                <input type="date" id="user_endDate" name="user_endDate" v-model="user_endDate" required>
+                <input type="date" id="user_endDate" name="user_endDate" v-model="user_endDate">
             </div>
 
             <div class="form-group">
@@ -255,7 +260,7 @@ onBeforeMount(async () => {
                 <input :type="getPasswordInputType()" id="user_pass" name="user_pass" v-model="user_pass">
             </div>
             <div class="form-group user_pass">
-                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña' }}</button>
+                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar                              contraseña' }}</button>
             </div>
 
             <div class="form-group">
@@ -277,17 +282,19 @@ onBeforeMount(async () => {
             </div>
 
             <div class="form-group">
-                <label for="user_img">Adjuntar foto:</label>
-                <input type="file" id="imagenInput" accept="image/*">
-                <button @click="handleGuardarImagenClick">Guardar Imagen</button>
-            </div>
-
-            <div class="form-group">
                 <label for="user_school">Escuela:</label>
                 <select id="user_school" name="user_school" v-model="user_school">
                     <option value="" disabled>Selecciona una escuela</option>
                     <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label for="user_img">Adjuntar foto:</label>
+                <input type="file" id="imagenInput" accept="image/*">
+                </div>
+            <div class="form-group warning">
+                <p>*Imagen en formato JPG y peso máximo 8Mb</p>
             </div>
 
             <input type="submit" value="Alta Emplead@" @click="handleSubmit">
@@ -398,11 +405,8 @@ select:focus {
     text-decoration: underline;
 }
 
-.correito{
-    color:#7b7878;
+.correito {
+    color: #7b7878;
     text-align: right;
 }
-
-
-
 </style>
