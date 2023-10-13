@@ -17,7 +17,7 @@ const user_startDate = ref('');
 const user_endDate = ref('');
 const user_pass = ref('');
 const user_type = ref('');
-const user_img = ref('');
+//const user_img = ref('');
 const user_school = ref('');
 const user_id = ref('');
 const schools = ref([]);
@@ -32,7 +32,7 @@ const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024; // Tamaño máximo
 // Carga los datos del usuario
 const loadUserData = async () => {
     try {
-        const userId = 30; // ELIMINAR
+        const userId = 34; // ELIMINAR
         const response = await getById(userId); 
         user.value = response.data; 
         
@@ -45,10 +45,11 @@ const loadUserData = async () => {
         user_birthday.value = user.value.userBirthDate;
         user_startDate.value = user.value.userStartDate;
         user_endDate.value = user.value.userEndDate;
-        user_pass.value = ""//user.value.userPass;
+        user_pass.value = "";//user.value.userPass;
         user_type.value = user.value.userType;
         selectedImage.value = user.value.userImage;
         user_school.value = user.value.schoolID.id;
+        user_dpto.value = user.value.userDept;
 
         } catch (error) {
         console.error('Error al cargar los datos del usuario:', error);
@@ -164,10 +165,10 @@ const updateUser = async () => {
             userPass: user_pass.value,
             userType: user_type.value,
             userImage: selectedImage.value,
+            userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
-                userDept: user_dpto.value,
-            }
+                            }
         };
         if (selectedImage.value) {
             // Convierte la imagen en una cadena Base64
@@ -342,6 +343,7 @@ onMounted(() => {
             <div class="form-group warning">
                 <p>*Imagen en formato JPG y peso máximo 8Mb</p>
             </div>
+            
             
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>
