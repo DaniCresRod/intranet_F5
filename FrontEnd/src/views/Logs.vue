@@ -1,33 +1,21 @@
 <template>
-  <div>
-    <h2>Historial de solicitudes</h2>
-
-    <div class="grid">
-      <div>
-        <h3>Solicitudes creadas</h3>
-        <v-card v-for="(log, index) in createdLogs" :key="index" class="mb-5 pa-3">
-          <v-card-title class="headline">{{ log.logDate }}</v-card-title>
-          <v-card-text>{{ log.logText }}</v-card-text>
-        </v-card>
-      </div>
-
-      <div>
-        <h3>Solicitudes aceptadas</h3>
-        <v-card v-for="(log, index) in acceptedLogs" :key="index" class="mb-5 pa-3">
-          <v-card-title class="headline">{{ log.logDate }}</v-card-title>
-          <v-card-text>{{ log.logText }}</v-card-text>
-        </v-card>
-      </div>
-
-      <div>
-        <h3>Solicitudes rechazadas</h3>
-        <v-card v-for="(log, index) in rejectedLogs" :key="index" class="mb-5 pa-3">
-          <v-card-title class="headline">{{ log.logDate }}</v-card-title>
-          <v-card-text>{{ log.logText }}</v-card-text>
-        </v-card>
-      </div>
-
+  <div class="grid">
+    <div>
+      <h3>Solicitudes creadas</h3>
+      <v-card v-for="(log, index) in createdLogs" :key="index" class="mb-5 pa-3">
+        <v-card-title class="headline">{{ log.logDate }}</v-card-title>
+        <v-card-text>{{ log.logText }}</v-card-text>
+      </v-card>
     </div>
+
+    <div>
+      <h3>Estado de las solicitudes</h3>
+      <v-card v-for="(log, index) in createdLogs" :key="index" class="mb-5 pa-3">
+        <v-card-title class="headline">{{ log.logDate }}</v-card-title>
+        <v-card-text>{{ getStatusText(log) }}</v-card-text>
+      </v-card>
+    </div>
+
   </div>
 </template>
 
@@ -52,12 +40,22 @@ onMounted(async () => {
     console.error(error);
   }
 });
+
+const getStatusText = (log) => {
+  if (acceptedLogs.value.find(acceptedLog => acceptedLog.requestId === log.requestId)) {
+    return 'Aprobada';
+  } else if (rejectedLogs.value.find(rejectedLog => rejectedLog.requestId === log.requestId)) {
+    return 'Rechazada';
+  } else {
+    return 'Pendiente';
+  }
+};
 </script>
 
 <style scoped>
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
