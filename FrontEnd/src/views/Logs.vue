@@ -1,35 +1,4 @@
-<template>
-  <div>
-    <h2>Historial de solicitudes</h2>
 
-    <div class="grid">
-      <div>
-        <h3>Solicitudes creadas</h3>
-        <v-card v-for="(log, index) in createdLogs" :key="index" class="mb-5 pa-3">
-          <v-card-title class="headline">{{ log.logDate }}</v-card-title>
-          <v-card-text>{{ log.logText }}</v-card-text>
-        </v-card>
-      </div>
-
-      <div>
-        <h3>Solicitudes aceptadas</h3>
-        <v-card v-for="(log, index) in acceptedLogs" :key="index" class="mb-5 pa-3">
-          <v-card-title class="headline">{{ log.logDate }}</v-card-title>
-          <v-card-text>{{ log.logText }}</v-card-text>
-        </v-card>
-      </div>
-
-      <div>
-        <h3>Solicitudes rechazadas</h3>
-        <v-card v-for="(log, index) in rejectedLogs" :key="index" class="mb-5 pa-3">
-          <v-card-title class="headline">{{ log.logDate }}</v-card-title>
-          <v-card-text>{{ log.logText }}</v-card-text>
-        </v-card>
-      </div>
-
-    </div>
-  </div>
-</template>
 <script setup>
 import { ref, onMounted } from 'vue';
 import LogsService from '../services/LogsService';
@@ -72,6 +41,27 @@ const getStatusText = (log) => {
   }
 };
 </script>
+
+<template>
+  <div class="grid">
+    <div>
+      <h3>Solicitudes creadas</h3>
+      <v-card v-for="(log, index) in createdLogs" :key="index" class="mb-5 pa-3">
+        <v-card-title class="headline">{{ log.logText }}</v-card-title>
+        <v-card-text>{{ log.logDate }}</v-card-text>
+      </v-card>
+    </div>
+
+    <div>
+      <h3>Estado de las solicitudes</h3>
+      <v-card v-for="(log, index) in createdLogs" :key="index" class="mb-5 pa-3">
+        <v-card-title class="headline">{{ getStatusText(log) }}</v-card-title>
+        <v-card-text>{{ log.logDate }}</v-card-text>
+      </v-card>
+    </div>
+
+  </div>
+</template>
 <style scoped>
 .grid {
   display: grid;
