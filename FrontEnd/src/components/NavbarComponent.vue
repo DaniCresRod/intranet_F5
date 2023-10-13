@@ -127,7 +127,10 @@ hr {
   transition: 0.5s;
 }
 .navbar__img{
-  width: 6vw;
+  width: 9vw;
+  margin-left: -11rem ;
+  margin-right: 8vw;
+  margin-top: -3.5vh;
 }
 .navbar__menu{
   display: flex;
@@ -184,4 +187,5 @@ hr {
     font-size: 1rem;
   }
 }
+
 </style>
