@@ -8,11 +8,25 @@
         <v-card v-for="(log, index) in createdLogs" :key="index" class="mb-5 pa-3">
           <v-card-title class="headline">{{ log.logDate }}</v-card-title>
           <v-card-text>{{ log.logText }}</v-card-text>
-          <p v-if="acceptedLogsById[log.logId]">Aceptado en {{ acceptedLogsById[log.logId].logDate }}</p>
-          <p v-else-if="rejectedLogsById[log.logId]">Rechazado en {{ rejectedLogsById[log.logId].logDate }}</p>
-          <p v-else>No ha sido aprobado ni rechazado</p>
         </v-card>
       </div>
+
+      <div>
+        <h3>Solicitudes aceptadas</h3>
+        <v-card v-for="(log, index) in acceptedLogs" :key="index" class="mb-5 pa-3">
+          <v-card-title class="headline">{{ log.logDate }}</v-card-title>
+          <v-card-text>{{ log.logText }}</v-card-text>
+        </v-card>
+      </div>
+
+      <div>
+        <h3>Solicitudes rechazadas</h3>
+        <v-card v-for="(log, index) in rejectedLogs" :key="index" class="mb-5 pa-3">
+          <v-card-title class="headline">{{ log.logDate }}</v-card-title>
+          <v-card-text>{{ log.logText }}</v-card-text>
+        </v-card>
+      </div>
+
     </div>
   </div>
 </template>
@@ -47,11 +61,21 @@ onMounted(async () => {
     console.error(error);
   }
 });
+
+const getStatusText = (log) => {
+  if (acceptedLogs.value.find(acceptedLog => acceptedLog.requestId === log.requestId)) {
+    return 'Aprobada';
+  } else if (rejectedLogs.value.find(rejectedLog => rejectedLog.requestId === log.requestId)) {
+    return 'Rechazada';
+  } else {
+    return 'Pendiente';
+  }
+};
 </script>
 <style scoped>
 .grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
