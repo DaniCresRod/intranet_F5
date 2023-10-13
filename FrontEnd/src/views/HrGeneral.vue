@@ -46,7 +46,7 @@ onBeforeMount(() => {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
     text-decoration: none;
     color: black;
-
+}
 
 
 /* .item:last-child {
