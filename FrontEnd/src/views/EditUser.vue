@@ -17,6 +17,7 @@ const user_startDate = ref('');
 const user_endDate = ref('');
 const user_pass = ref('');
 const user_type = ref('');
+//const user_img = ref('');
 const user_school = ref('');
 const user_id = ref('');
 const schools = ref([]);
@@ -199,10 +200,10 @@ const updateUser = async () => {
             userPass: user_pass.value,
             userType: user_type.value,
             userImage: selectedImage.value,
-            userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
-                            }
+                userDept: user_dpto.value,
+            }
         };
         if (selectedImage.value) {
             // Convierte la imagen en una cadena Base64
@@ -373,7 +374,6 @@ const handleSubmit = async (event) => {
             <div class="form-group warning">
                 <p>*Imagen en formato JPG y peso máximo 8Mb</p>
             </div>
-            
             
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>

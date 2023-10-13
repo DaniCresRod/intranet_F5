@@ -15,7 +15,7 @@ const user_startDate = ref('');
 const user_endDate = ref('');
 const user_pass = ref('');
 const user_type = ref('');
-//const user_img = ref('');
+const user_img = ref('');
 const user_school = ref('');
 const user_dpto = ref('');
 const selectedImage = ref(''); 
@@ -45,10 +45,10 @@ const createUser = async () => {
             userPass: user_pass.value,
             userType: user_type.value,
             userImage: selectedImage.value,
-            userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
-                }
+                userDept: user_dpto.value
+            }
         };
 
         if (selectedImage.value) {
@@ -62,7 +62,6 @@ const createUser = async () => {
 
         // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
         console.log('Empleado con éxito:', response.data);
-        console.log(postData);
 
         // Restablecer los campos del formulario después de crear la escuela
         user_name.value = '';

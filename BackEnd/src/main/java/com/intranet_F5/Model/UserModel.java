@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -149,17 +148,46 @@ public class UserModel implements UserDetails {
         Supervisor,
     }
 
-    //Checks if the End date is before the Start date (wrong date)
+    //PrePersist se ejcuta cada vez que se hace una nueva insercion en la base de datos
+    @PrePersist
+    public void defaultUserEndDate(){
+        if(this.userStartDate==null){
+            this.userStartDate=LocalDate.now();
+        }
+        if((this.userDays==null)||(this.userDays>30)){
+            this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate());
+        }
+    }
+
     public void setUserEndDate(LocalDate userEndDate) throws Exception {
         LocalDate previousUserEndDate=this.userEndDate;
+        if(this.userDays==null)this.userDays=0;
+        int holidayDaysUsed=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate())-this.userDays;
+
         try{
-            this.userEndDate = userEndDate;
-            this.setDefaultStartDate();
+            if(userEndDate!=null && previousUserEndDate!=null){
+                if(userEndDate.isAfter(previousUserEndDate) && userEndDate.isBefore(this.userStartDate)){
+                    this.userEndDate = userEndDate;
+                    this.userDays=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate())-holidayDaysUsed;
+                }
+            }
+            else this.userDays=30;
+
         }
         catch(Exception e){
             this.userEndDate=previousUserEndDate;
-            throw new Exception("La fecha de fin es anterior a la fecha de inicio de contrato");
+            throw new Exception("La fecha de fin de contrato no es correcta");
         }
+    }
+
+    private int SetHldysDays(LocalDate userStartDate, LocalDate userEndDate) {
+        if(userEndDate!=null){
+            long differenceMonths=MONTHS.between(userStartDate, userEndDate);
+            if(differenceMonths<12){
+                return (int) Math.floor(differenceMonths*2.5);
+            }
+        }
+        return 30;
     }
 
     public void setUserDays(Integer userDays) {
@@ -167,29 +195,24 @@ public class UserModel implements UserDetails {
     }
 
     //Con esto, se pre-calculan los valores de vacaciones en funcion de la
-    @PrePersist
-    public void setDefaultStartDate() throws Exception {
-        if (this.userStartDate == null) {
-            this.userStartDate = LocalDate.now();
-        }
+    //fecha de alta en la empresa
+//    @PrePersist
+//    public void setDefaultStartDate() throws Exception {
+//        if (this.userStartDate == null) {
+//            this.userStartDate = LocalDate.now();
+//        }
+//
+//        if(userEndDate==null) this.userDays=30;
+//        else{
+//            if(this.userStartDate.isAfter(this.userEndDate)){
+//                throw new Exception("Hubo un error calculando fechas");
+//            }
+//            // if((this.userDays == null)){
+//            int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
+//            this.userDays = calculatedDays;
+//            // }
+//        }
+//    }
 
-        if(userEndDate==null) this.userDays=30;
-        else{
-            if(this.userStartDate.isAfter(this.userEndDate)){
-                throw new Exception("Hubo un error calculando fechas");
-            }
-            // if((this.userDays == null)){
-            int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
-            this.userDays = calculatedDays;
-            // }
-        }
-    }
 
-    private int calcularDiasDeVacaciones(LocalDate userStartDate, LocalDate userEndDate) {
-        long differenceMonths=MONTHS.between(userStartDate, userEndDate);
-        if(differenceMonths<12){
-            return (int) Math.floor(differenceMonths*2.5);
-        }
-        return 30;
-    }
 }
