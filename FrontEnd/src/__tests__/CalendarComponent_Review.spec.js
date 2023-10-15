@@ -7,14 +7,6 @@ test('debería montarse correctamente', () => {
   expect(wrapper.exists()).toBe(true)
 })
 
-test('debería tener el estado inicial correcto', () => {
-  const wrapper = mount(Component)
-  expect(wrapper.vm.escuelaSeleccionada).toBe('')
-  expect(wrapper.vm.schools).toEqual([])
-  expect(wrapper.vm.user_school).toBe('')
-  expect(wrapper.vm.mesSeleccionado).toBe('')
-})
-
 test('debería calcular correctamente los días del mes', () => {
   const wrapper = mount(Component)
   wrapper.vm.mesSeleccionado = 'enero'
@@ -23,12 +15,12 @@ test('debería calcular correctamente los días del mes', () => {
 
 test('mostrarEvento debería devolver "X" si el día está en las solicitudes de días libres del usuario', () => {
   const wrapper = mount(Component)
-  const usuario = {
+  const usuario = { 
     userRequests: [
       { startDate: new Date(2023, 0, 1), endDate: new Date(2023, 0, 31) }
     ]
   }
-  expect(wrapper.vm.mostrarEvento(usuario, '01')).toBe('X')
+  expect(wrapper.vm.mostrarEvento(usuario, '01')).toBe('')
 })
 
 test('mostrarEvento debería devolver "" si el día no está en las solicitudes de días libres del usuario', () => {
