@@ -311,17 +311,18 @@ onBeforeMount(async () => {
 }
 
 h2 {
-    margin-top: 5rem;
-    text-align: center;
     display: flex;
     justify-content: center;
+    text-align: center;
     color: var(--orange);
     font-weight: 450;
     margin-top: 25px;
     text-decoration-line: underline;
-    text-decoration-thickness: 2px;
+    text-decoration-thickness: 2px; 
     text-decoration-color: darkgray;
+    font-size: 23px;
 }
+
 
 .newUser {
     width: 100%;
