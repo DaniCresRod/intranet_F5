@@ -24,7 +24,7 @@ const user_img = ref('');
 user_email.value = "@factoriaf5.com";
 const changes = ref([]);
 const selectedImage = ref('');
-const MAX_IMAGE_SIZE_MB = 8;
+const MAX_IMAGE_SIZE_MB = 8; 
 const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024;
 const data = ref([]);
 
@@ -53,7 +53,7 @@ const searchUser = () => {
         user_birthday.value = foundUser.userBirthDate;
         user_startDate.value = foundUser.userStartDate;
         user_endDate.value = foundUser.userEndDate;
-        user_pass.value = ''
+        user_pass.value = '' 
         user_type.value = foundUser.userType;
         user_img.value = foundUser.selectedImage;
         user_school.value = foundUser.schoolID.id;
@@ -126,7 +126,7 @@ const getPasswordInputType = () => {
     return showPassword.value ? 'text' : 'password';
 };
 
-const actualizarFoto = async () => {
+const guardarImagen = () => {
     const input = document.getElementById('imagenInput');
     const file = input.files[0];
 
@@ -143,7 +143,7 @@ const actualizarFoto = async () => {
     } else {
         alert('Por favor, seleccione una imagen antes de guardar.');
     }
-};
+}
 
 const updateUser = async () => {
     try {
@@ -159,7 +159,7 @@ const updateUser = async () => {
             userEndDate: user_endDate.value,
             userPass: user_pass.value,
             userType: user_type.value,
-
+            userImage: selectedImage.value,
             userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
@@ -206,7 +206,7 @@ const updateUser = async () => {
         }
 
         await updateById(user_id.value, updatedUserData);
-        changes.value = modifiedFields;
+            changes.value = modifiedFields;
     } catch (error) {
         console.error('Error al actualizar los datos del usuario:', error);
     }
@@ -217,7 +217,9 @@ const updateUser = async () => {
 const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
+    guardarImagen();
     updateUser();
+
 };
 
 </script>
@@ -319,17 +321,12 @@ const handleSubmit = async (event) => {
             </div>
 
             <div class="form-group">
-    <label for="user_img">Adjuntar foto:</label>
-    <div class="input-wrapper"> 
-        <input type="file" id="imagenInput" accept="image/*" class="align-right"> 
-       
-    </div>
-</div>
-    <div class="form-group">
-        <p class="warning">*Imagen en formato JPG <br>y peso máximo 8Mb</p>
-        <button class="btn-light right" @click="actualizarFoto">Actualizar Foto</button>
-    
-</div>
+                <label for="user_img">Adjuntar foto:</label>
+                <input type="file" id="imagenInput" accept="image/*">
+            </div>
+            <div class="form-group warning">
+                <p>*Imagen en formato JPG y peso máximo 8Mb</p>
+            </div>
 
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>
