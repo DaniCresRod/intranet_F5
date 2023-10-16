@@ -2,11 +2,10 @@
 import { ref, computed, onMounted, onBeforeMount } from 'vue';
 import schoolService from '../services/schoolService';
 
-const escuelaSeleccionada = ref('');
+const selectedSchool = ref('');
 const schools = ref([]);
-const user_school = ref('');
-const mesSeleccionado = ref('');
-const meses = {
+const selectedMonth = ref('');
+const months = {
     enero: 31,
     febrero: 28,
     marzo: 31,
@@ -21,69 +20,68 @@ const meses = {
     diciembre: 31
 };
 
-const diasDelMes = computed(() => {
-    return Array.from({ length: meses[mesSeleccionado.value] }, (_, index) =>
+const daysOfMonth = computed(() => {
+    return Array.from({ length: months[selectedMonth.value] }, (_, index) =>
         (index + 1).toString().padStart(2, '0')
     );
 });
 
 
-
-function mostrarEvento(usuario, dia) {
+function showEvent(user, day) {
     // Comprueba si el día está en las solicitudes de días libres del usuario
-    const solicitud = usuario.userRequests.find((solicitud) => {
-        const startDate = new Date(solicitud.startDate);
-        const endDate = new Date(solicitud.endDate);
-        const currentDay = new Date(`${mesSeleccionado.value} ${dia}, ${new Date().getFullYear()}`);
+    const request = user.userRequests.find((request) => {
+        const startDate = new Date(request.startDate);
+        const endDate = new Date(request.endDate);
+        const currentDay = new Date(`${selectedMonth.value} ${day}, ${new Date().getFullYear()}`);
         return currentDay >= startDate && currentDay <= endDate;
     });
 
-    if (solicitud) {
+    if (request) {
         return 'X';
     } else {
         return ''; // De lo contrario, muestra un espacio en blanco
     }
 }
 
-function actualizarCalendario() {
+function updateCalendar() {
     // Limpia las celdas de la tabla
-    const celdas = document.querySelectorAll('td.dia-mes');
-    celdas.forEach((celda) => {
-        celda.textContent = '';
+    const cells = document.querySelectorAll('td.dia-mes');
+    cells.forEach((cell) => {
+        cell.textContent = '';
     });
 
-    if (mesSeleccionado.value) {
+    if (selectedMonth.value) {
         // Obtiene el mes seleccionado
-        const mes = meses[mesSeleccionado.value];
+        const month = months[selectedMonth.value];
 
         // Obtiene los días del mes seleccionado
-        const diasDelMes = Array.from({ length: mes }, (_, index) =>
+        const daysOfMonth = Array.from({ length: month }, (_, index) =>
             (index + 1).toString().padStart(2, '0')
         );
 
         // Obtiene la escuela seleccionada
-        const escuelaSeleccionadaObj = schools.value.find((school) => school.id === escuelaSeleccionada.value);
+        const selectedSchoolObj = schools.value.find((school) => school.id === selectedSchool.value);
 
-        if (escuelaSeleccionadaObj) {
+        if (selectedSchool) {
             // Itera sobre los usuarios de la escuela seleccionada
-            escuelaSeleccionadaObj.schoolUserList.forEach((usuario) => {
+            selectedSchoolObj.schoolUserList.forEach((user) => {
                 // Itera sobre las solicitudes de vacaciones del usuario
-                usuario.userRequests.forEach((solicitud) => {
+                user.userRequests.forEach((request) => {
                     // Obtiene la fecha de inicio y final de la solicitud de vacaciones
-                    const startDate = new Date(solicitud.startDate);
-                    const endDate = new Date(solicitud.endDate);
+                    const startDate = new Date(request.startDate);
+                    const endDate = new Date(request.endDate);
 
                     // Itera sobre los días del mes seleccionado
-                    diasDelMes.forEach((dia) => {
+                    daysOfMonth.forEach((day) => {
                         // Obtiene la fecha completa del día actual
-                        const currentDay = new Date(`${mesSeleccionado.value} ${dia}, ${new Date().getFullYear()}`);
+                        const currentDay = new Date(`${mesSeleccionado.value} ${day}, ${new Date().getFullYear()}`);
 
                         // Comprueba si el día actual está en la solicitud de vacaciones del usuario
                         if (currentDay >= startDate && currentDay <= endDate) {
                             // Marca la celda como reservada
-                            const celdas = document.querySelectorAll('td.dia-mes');
-                            celdas.forEach((celda) => {
-                            celda.textContent = '';
+                            const cells = document.querySelectorAll('td.dia-mes');
+                            cells.forEach((celda) => {
+                            cell.textContent = '';
                             });
                         }
                     });
@@ -107,7 +105,7 @@ onBeforeMount(async () => {
 
 onMounted(async () => {
     // Llama a actualizarCalendario() para inicializar el calendario
-    actualizarCalendario();
+    updateCalendar();
 });
 
 
@@ -116,13 +114,13 @@ onMounted(async () => {
 <template>
     <div class="calendar_container">
         <h2>Calendario de vacaciones solicitadas</h2>
-        <label for="escuela">Selecciona Escuela:</label>
-        <select id="user_school" class="custom-select" name="user_school" v-model="escuelaSeleccionada">
+        <label for="school">Selecciona Escuela:</label>
+        <select id="user_school" class="custom-select" name="user_school" v-model="selectedSchool">
             <option value="" disabled>Selecciona una escuela</option>
             <option v-for="school in schools" :value="school.id" :key="school.id">{{ school.schoolName }}</option>
         </select>
-        <label for="mes">Selecciona Mes:</label>
-        <select id="mes" class="custom-select" v-model="mesSeleccionado" @change="actualizarCalendario">
+        <label for="month">Selecciona Mes:</label>
+        <select id="month" class="custom-select" v-model="selectedMonth" @change="actualizarCalendario">
             <option value="">Selección mes</option>
             <option value="enero">Enero</option>
             <option value="febrero">Febrero</option>
@@ -138,23 +136,21 @@ onMounted(async () => {
             <option value="diciembre">Diciembre</option>
         </select>
 
-        <div v-if="mesSeleccionado" class="calendario_vista">
-            <!-- <h4>{{ mesSeleccionado }}</h4> -->
+        <div v-if="selectedMonth" class="calendar_view">
             <div class="last" v-for="school in schools" :key="school.schoolName">
-                <div v-if="escuelaSeleccionada === school.id" :class="school.id">
+                <div v-if="selectedSchool === school.id" :class="school.id">
                     <h4>Calendario de {{ school.schoolName }}</h4>
                     <table class="calendar" cellspacing="0">
                         <tbody>
                             <tr title="daysNum">
                                 <th></th>
-                                <th v-for="dia in diasDelMes">{{ dia }}</th>
+                                <th v-for="day in daysOfMonth">{{ day }}</th>
                             </tr>
 
-                            <tr v-for="(usuario, index) in school.schoolUserList" :key="index" :title="usuario.userSurName">
-                                <!-- <th :class="{ 'orange-column': index !== 25 }">{{ usuario.userSurName }}</th> -->
-                                <th>{{ usuario.userSurName }}</th>
-                                <td v-for="dia in diasDelMes">
-                                    {{ mostrarEvento(usuario, dia) }}
+                            <tr v-for="(user, index) in school.schoolUserList" :key="index" :title="user.userSurName">
+                                <th>{{ user.username }} {{ user.userSurName }}</th>
+                                <td v-for="day in daysOfMonth">
+                                    {{ showEvent(user, day) }}
                                 </td>
                             </tr>
                         </tbody>
@@ -166,17 +162,18 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.calendario-container {
+.calendar_container {
     max-width: 100%;
     overflow: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-}
+   }
 
 h2 {
     text-align: center;
+   
 }
 
 h4 {
@@ -192,7 +189,7 @@ h4 {
     margin-bottom: 5px;
 }
 
-.calendario_vista {
+.calendar_view {
     max-width: 100%;
     overflow: auto;
 }
@@ -232,9 +229,13 @@ table.calendar td {
 .last{
     margin-bottom: 3.5rem;
 }
-/* .orange-column {
-    background-color: var(--orange-light); 
-    color: white;
-    
-} */
+h2 {
+  text-align: center;
+  color: var(--orange);
+  font-weight: 450;
+  margin-top: 25px;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px; 
+  text-decoration-color: darkgray;
+}
 </style>

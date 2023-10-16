@@ -19,7 +19,7 @@ const user_type = ref('');
 const user_img = ref('');
 const user_school = ref('');
 const user_dpto = ref('');
-const selectedImage = ref(''); 
+const selectedImage = ref('');
 
 const showPassword = ref(false);
 user_email.value = "@factoriaf5.com";
@@ -260,7 +260,7 @@ onBeforeMount(async () => {
                 <input :type="getPasswordInputType()" id="user_pass" name="user_pass" v-model="user_pass">
             </div>
             <div class="form-group user_pass">
-                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar                              contraseña' }}</button>
+                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar                                    contraseña' }}</button>
             </div>
 
             <div class="form-group">
@@ -292,7 +292,7 @@ onBeforeMount(async () => {
             <div class="form-group">
                 <label for="user_img">Adjuntar foto:</label>
                 <input type="file" id="imagenInput" accept="image/*">
-                </div>
+            </div>
             <div class="form-group warning">
                 <p>*Imagen en formato JPG y peso máximo 8Mb</p>
             </div>
@@ -302,7 +302,7 @@ onBeforeMount(async () => {
 
     </section>
 
-    <BtnBackHr/>
+    <BtnBackHr />
 </template>
 
 <style scoped>
@@ -311,9 +311,18 @@ onBeforeMount(async () => {
 }
 
 h2 {
-    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
     text-align: center;
+    color: var(--orange);
+    font-weight: 450;
+    margin-top: 25px;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px; 
+    text-decoration-color: darkgray;
+    font-size: 23px;
 }
+
 
 .newUser {
     width: 100%;

@@ -28,7 +28,7 @@ test('debería tener los enlaces correctos', () => {
     }
   })
   const links = wrapper.findAll('a')
-  expect(links.length).toBe(0) 
+  expect(links.length).toBe(11) 
 })
 
 test('debería tener el estado inicial correcto', () => {
