@@ -26,9 +26,6 @@ public class LogService  {
     @Autowired
     RequestRepository requestRepository;
 
-
-
-
     public List<LogModel> getAllLogs() {
         return logRepository.findAll();
     }
@@ -67,13 +64,21 @@ public class LogService  {
     public String createLog(String newLogText, long fatherRequestId) {
 
         if(requestRepository.existsById(fatherRequestId)){
+            //Cuando la solicitud es la inicial, la request aun no esta creada, y es posible que en la solicitud
+            //no figure el nombre (por ejemplo desde postman). Desde el front si que lo trae
+            String requestUserName = (requestRepository.findById(fatherRequestId)).get().getUserId().getUsername() != null ?
+                    (requestRepository.findById(fatherRequestId)).get().getUserId().getUsername() :
+                    loggedUser.getUsername();
 
             LogModel newLog=new LogModel();
             newLog.setRequestId(fatherRequestId);
             newLog.setLogDate(LocalDate.now());
             newLog.setLogText(newLogText
-                    +", creado por "+loggedUser.getUsername()
+                    + " para "+(requestRepository.findById(fatherRequestId)).get().getUserReason()
+                    +" de "+requestUserName
+                    +", supervisado por "+loggedUser.getUsername()
                     +" "+loggedUser.getUserSurName()
+                    +"."
                     );
             newLog.setUserId(loggedUser.getId());
 

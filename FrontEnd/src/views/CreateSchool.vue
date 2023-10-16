@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import PostSchool from '../services/PostSchool';
+import BtnBackHr from '../components/BtnBackHr.vue';
 
 // Define refs para los campos del formulario
 const schoolName = ref('');
@@ -96,6 +97,7 @@ onMounted(() => {
         </form>
 
     </section>
+    <BtnBackHr/>
 </template>
 
 <style scoped>

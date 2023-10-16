@@ -38,8 +38,16 @@ public class WebSecurityConfig{
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .requestMatchers("/auth/login").permitAll()
-                        //.requestMatchers(antMatcher(HttpMethod.POST,"/schools")).hasRole("Supervisor")
-                        //.requestMatchers(antMatcher(HttpMethod.POST,"/users")).hasRole("Supervisor")
+                        .requestMatchers(antMatcher(HttpMethod.POST,"/schools/**")).hasRole("HR")
+                        .requestMatchers(antMatcher(HttpMethod.PUT,"/schools/**")).hasRole("HR")
+                        .requestMatchers(antMatcher(HttpMethod.DELETE,"/schools/**")).hasRole("HR")
+                        .requestMatchers(antMatcher(HttpMethod.POST,"/users/**")).hasRole("HR")
+                        .requestMatchers(antMatcher(HttpMethod.PUT,"/users/**")).hasRole("HR")
+                        .requestMatchers(antMatcher(HttpMethod.DELETE,"/users/**")).hasRole("HR")
+                        .requestMatchers(antMatcher(HttpMethod.POST,"/request/**")).hasRole("Formador")
+                        .requestMatchers(antMatcher(HttpMethod.PUT,"/request/**")).hasAnyRole("Supervisor", "HR")
+                        .requestMatchers(antMatcher(HttpMethod.DELETE,"/request/**")).hasAnyRole("Supervisor", "HR")
+                        .requestMatchers(antMatcher(HttpMethod.GET,"/logs/**")).hasRole("HR")
                         .anyRequest().authenticated()
                         //.anyRequest().permitAll()
 
