@@ -122,6 +122,13 @@ onBeforeMount(getHoldData);
 .fade-enter, .fade-leave-to{
    opacity: 0;
 }
+h3 {
+  text-decoration: underline;
+  text-align: center;
+  text-decoration-color: var(--orange);
+  font-weight:400;
+  margin-top: 25px;
+}
 
 
 </style>
