@@ -297,7 +297,7 @@ const handleSubmit = async (event) => {
                 <input :type="getPasswordInputType()" id="user_pass" name="user_pass" v-model="user_pass">
             </div>
             <div class="form-group user_pass">
-                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar                                   contraseña' }}</button>
+                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña' }}</button>
             </div>
 
             <div class="form-group">

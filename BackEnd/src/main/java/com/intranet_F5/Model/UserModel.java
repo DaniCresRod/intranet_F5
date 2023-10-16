@@ -171,6 +171,13 @@ public class UserModel implements UserDetails {
                     this.userEndDate = userEndDate;
                     this.userDays=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate())-holidayDaysUsed;
                 }
+                else{
+                    throw new Exception();
+                }
+            }
+            else if(userEndDate!=null){
+                this.userEndDate = userEndDate;
+                this.userDays=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate())-holidayDaysUsed;
             }
             else this.userDays=30;
 
