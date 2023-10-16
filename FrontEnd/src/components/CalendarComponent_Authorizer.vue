@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeMount, } from 'vue';
+import { ref, computed, onMounted,} from 'vue';
 
 const { schoolId, schoolData, userId } = defineProps(['schoolId', 'schoolData', 'userId']); 
 
@@ -31,7 +31,6 @@ const daysOfMonth = computed(() => {
 });
 
 function showEvent(user, day) {
-    // Comprueba si el día está en las solicitudes de días libres del usuario
     const request = user.userRequests.find((request) => {
         const startDate = new Date(request.startDate);
         const endDate = new Date(request.endDate);

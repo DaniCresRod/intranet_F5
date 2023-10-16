@@ -28,6 +28,6 @@ test('debería tener los enlaces correctos', () => {
       plugins: [store]
     }
   })
-  const links = wrapper.findAll('a')
+  const links = wrapper.findAll('a') 
   expect(links.length).toBe(0) 
 })

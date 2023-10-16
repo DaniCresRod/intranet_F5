@@ -12,7 +12,7 @@ test('debería calcular correctamente los días del mes', () => {
   wrapper.vm.mesSeleccionado = 'enero'
   expect(wrapper.vm.diasDelMes).toEqual(Array.from({ length: 31 }, (_, index) => (index + 1).toString().padStart(2, '0')))
 })
-
+ 
 test('mostrarEvento debería devolver "X" si el día está en las solicitudes de días libres del usuario', () => {
   const wrapper = mount(Component)
   const usuario = { 
@@ -32,3 +32,4 @@ test('mostrarEvento debería devolver "" si el día no está en las solicitudes 
   }
   expect(wrapper.vm.mostrarEvento(usuario, '01')).toBe('')
 })
+ 

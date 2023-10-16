@@ -19,7 +19,7 @@ test('debería tener los campos del formulario correctos', () => {
     }
   })
   const userField = wrapper.find('#usuario')
-  const passwordField = wrapper.find('#password')
+  const passwordField = wrapper.find('#password') 
 
   expect(userField.exists()).toBe(true)
   expect(passwordField.exists()).toBe(true)

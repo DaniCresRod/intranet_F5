@@ -20,7 +20,7 @@ test('debería renderizar el título correctamente', () => {
   })
   expect(wrapper.find('.navbar__img').exists()).toBe(true)
 })
-
+ 
 test('debería tener los enlaces correctos', () => {
   const wrapper = shallowMount(NavbarComponent, {
     global: {

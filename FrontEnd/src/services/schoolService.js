@@ -1,10 +1,4 @@
 import http from "../httpCommon";
-import axios from "axios";
-
-const httpClient = axios.create({
-    http,
-    headers: {},
-    });
 
 const schoolService = {
     getSchools: async () => {

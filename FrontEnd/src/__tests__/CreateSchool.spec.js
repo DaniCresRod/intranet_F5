@@ -36,14 +36,11 @@ test('debería manejar el envío del formulario', async () => {
     }
   })
   
-  // Simular la entrada de datos en los campos del formulario
   await wrapper.find('#schoolName').setValue('Escuela de Prueba')
   await wrapper.find('#address').setValue('Calle de Prueba, 123')
   await wrapper.find('#phoneNumber').setValue('123456789')
   await wrapper.find('#stateCode').setValue('AN')
 
-  // Simular el envío del formulario
   await wrapper.find('form').trigger('submit.prevent')
 
-  // Aquí puedes agregar expectativas para verificar si la función createSchool se llamó correctamente
 })

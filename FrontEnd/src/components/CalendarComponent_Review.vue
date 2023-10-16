@@ -28,7 +28,6 @@ const daysOfMonth = computed(() => {
 
 
 function showEvent(user, day) {
-    // Comprueba si el día está en las solicitudes de días libres del usuario
     const request = user.userRequests.find((request) => {
         const startDate = new Date(request.startDate);
         const endDate = new Date(request.endDate);
@@ -39,46 +38,34 @@ function showEvent(user, day) {
     if (request) {
         return 'X';
     } else {
-        return ''; // De lo contrario, muestra un espacio en blanco
+        return ''; 
     }
 }
 
 function updateCalendar() {
-    // Limpia las celdas de la tabla
     const cells = document.querySelectorAll('td.dia-mes');
     cells.forEach((cell) => {
         cell.textContent = '';
     });
 
     if (selectedMonth.value) {
-        // Obtiene el mes seleccionado
         const month = months[selectedMonth.value];
 
-        // Obtiene los días del mes seleccionado
         const daysOfMonth = Array.from({ length: month }, (_, index) =>
             (index + 1).toString().padStart(2, '0')
         );
 
-        // Obtiene la escuela seleccionada
         const selectedSchoolObj = schools.value.find((school) => school.id === selectedSchool.value);
 
         if (selectedSchool) {
-            // Itera sobre los usuarios de la escuela seleccionada
             selectedSchoolObj.schoolUserList.forEach((user) => {
-                // Itera sobre las solicitudes de vacaciones del usuario
                 user.userRequests.forEach((request) => {
-                    // Obtiene la fecha de inicio y final de la solicitud de vacaciones
                     const startDate = new Date(request.startDate);
                     const endDate = new Date(request.endDate);
 
-                    // Itera sobre los días del mes seleccionado
                     daysOfMonth.forEach((day) => {
-                        // Obtiene la fecha completa del día actual
                         const currentDay = new Date(`${mesSeleccionado.value} ${day}, ${new Date().getFullYear()}`);
-
-                        // Comprueba si el día actual está en la solicitud de vacaciones del usuario
                         if (currentDay >= startDate && currentDay <= endDate) {
-                            // Marca la celda como reservada
                             const cells = document.querySelectorAll('td.dia-mes');
                             cells.forEach((celda) => {
                             cell.textContent = '';
@@ -94,7 +81,6 @@ function updateCalendar() {
 
 onBeforeMount(async () => {
     try {
-        // Llama al servicio para obtener las escuelas
         schools.value = await schoolService.getSchools();
 
     } catch (error) {
@@ -104,7 +90,6 @@ onBeforeMount(async () => {
 });
 
 onMounted(async () => {
-    // Llama a actualizarCalendario() para inicializar el calendario
     updateCalendar();
 });
 

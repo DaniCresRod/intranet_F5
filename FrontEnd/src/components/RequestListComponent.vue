@@ -26,12 +26,10 @@ onMounted(() => {
 
 const filteredRequests = computed(() => {
   if (filterBySchoolId && schoolId) {
-    // Filtra las solicitudes por estado igual a 1 y por schoolID del usuario actual
     return requests.value.filter((request) => {
       return isRequestWithStatus1(request) && request.userId.id && request.userId.schoolID.id === schoolId;
     });
   } else {
-    // En otras vistas, no apliques el filtro
     return requests.value.filter((request) => isRequestWithStatus1(request));
   }
 });

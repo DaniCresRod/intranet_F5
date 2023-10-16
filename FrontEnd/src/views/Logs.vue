@@ -20,7 +20,6 @@ onMounted(async () => {
     rejectedLogs.value = logs.value.filter(log => log.logText.includes('Se ha rechazado'));
     createdLogs.value = logs.value.filter(log => log.logText.includes('Se crea la petición'));
 
-    // Crear diccionarios para mapear logs por ID
     acceptedLogs.value.forEach(log => {
       acceptedLogsById.value[log.logId] = log;
     });
