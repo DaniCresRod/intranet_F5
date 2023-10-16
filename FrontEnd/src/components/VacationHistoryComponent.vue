@@ -49,7 +49,7 @@ onBeforeMount(getHoldData);
                 <div v-for="item in data.filter(item => new Date(item.startDate).getFullYear() === yearObj.year)" :key="item.id" class="card-content">
                   <div>
                     <p>Fecha de solicitud:</p>
-                    <p>{{ item.startDate }}</p>
+                    <p>{{ item.requestDate }}</p>
                   </div>
                   <div :class="{ 'status-1': item.status === 1, 'status-2': item.status === 2, 'status-3': item.status === 3 }" class="status">
                     <p>Días solicitados: {{ diffDays(item.startDate, item.endDate) }} </p>

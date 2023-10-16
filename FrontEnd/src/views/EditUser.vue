@@ -24,7 +24,7 @@ const user_img = ref('');
 user_email.value = "@factoriaf5.com";
 const changes = ref([]);
 const selectedImage = ref('');
-const MAX_IMAGE_SIZE_MB = 8; 
+const MAX_IMAGE_SIZE_MB = 8;
 const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024;
 const data = ref([]);
 
@@ -53,7 +53,7 @@ const searchUser = () => {
         user_birthday.value = foundUser.userBirthDate;
         user_startDate.value = foundUser.userStartDate;
         user_endDate.value = foundUser.userEndDate;
-        user_pass.value = '' 
+        user_pass.value = ''
         user_type.value = foundUser.userType;
         user_img.value = foundUser.selectedImage;
         user_school.value = foundUser.schoolID.id;
@@ -126,7 +126,7 @@ const getPasswordInputType = () => {
     return showPassword.value ? 'text' : 'password';
 };
 
-const guardarImagen = () => {
+const actualizarFoto = async () => {
     const input = document.getElementById('imagenInput');
     const file = input.files[0];
 
@@ -143,7 +143,7 @@ const guardarImagen = () => {
     } else {
         alert('Por favor, seleccione una imagen antes de guardar.');
     }
-}
+};
 
 const updateUser = async () => {
     try {
@@ -159,7 +159,7 @@ const updateUser = async () => {
             userEndDate: user_endDate.value,
             userPass: user_pass.value,
             userType: user_type.value,
-            userImage: selectedImage.value,
+
             userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
@@ -206,7 +206,7 @@ const updateUser = async () => {
         }
 
         await updateById(user_id.value, updatedUserData);
-            changes.value = modifiedFields;
+        changes.value = modifiedFields;
     } catch (error) {
         console.error('Error al actualizar los datos del usuario:', error);
     }
@@ -217,27 +217,19 @@ const updateUser = async () => {
 const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
-    guardarImagen();
     updateUser();
-
 };
 
 </script>
 
 
 <template>
-
-    <div class="search-bar">
-        <label for="searchUser">Buscar usuario por DNI o NIE:</label>
-        <input type="text" id="searchuser" v-model="user_nif">
-        <button @click="searchUser">Buscar</button>
-    </div>
     <h2> Modificar datos de usuario</h2>
     <div class="search-bar">
         <label for="searchUser" class="italic-label">Buscar usuario por DNI o NIE:</label>
         <div class="search-input">
             <input type="text" id="searchUser" v-model="user_nif">
-            <button @click="searchUser">Buscar</button>
+            <button class="btn-light" @click="searchUser">Buscar</button>
         </div>
     </div>
 
@@ -327,12 +319,17 @@ const handleSubmit = async (event) => {
             </div>
 
             <div class="form-group">
-                <label for="user_img">Adjuntar foto:</label>
-                <input type="file" id="imagenInput" accept="image/*">
-            </div>
-            <div class="form-group warning">
-                <p>*Imagen en formato JPG y peso máximo 8Mb</p>
-            </div>
+    <label for="user_img">Adjuntar foto:</label>
+    <div class="input-wrapper"> 
+        <input type="file" id="imagenInput" accept="image/*" class="align-right"> 
+       
+    </div>
+</div>
+    <div class="form-group">
+        <p class="warning">*Imagen en formato JPG <br>y peso máximo 8Mb</p>
+        <button class="btn-light right" @click="actualizarFoto">Actualizar Foto</button>
+    
+</div>
 
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>
@@ -350,6 +347,7 @@ const handleSubmit = async (event) => {
 * {
     font-family: 'Poppins';
 }
+
 
 h2 {
     margin-top: 5rem;
@@ -414,7 +412,7 @@ input[type="submit"] {
     font-weight: 600;
     border-radius: 1.875rem;
     border: 1px solid #616161;
-    background: var(--orange);
+    background: RGBA(255, 71, 0, 0.7);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     margin: 1.5rem auto;
 }
@@ -480,29 +478,40 @@ li {
     flex-basis: calc(25% - 2vw);
     margin: 1vw 0;
 }
+
 .search-bar {
-  display: flex;
-  align-items: center;
-  margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    margin-top: 3rem;
 }
 
 .italic-label {
-  font-style: italic;
-  font-weight: normal;
-  
+    font-style: italic;
+    font-weight: normal;
+
 }
 
 .search-input {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 input {
-  width: 150px; 
-  margin-right: 10px;
+    width: 150px;
+    margin-right: 10px;
 }
 
 button {
-  white-space: nowrap; 
+    white-space: nowrap;
+}
+
+.btn-light {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--orange);
+
+}
+.right{
+    margin-left: auto;
 }
 </style>
