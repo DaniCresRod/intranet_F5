@@ -9,24 +9,19 @@ function LogOut() {
   window.localStorage.clear();
 }
 
-//Funcion que define lo que pasara si hay cambios
 function handleMutations(mutationsList) {
   for (const mutation of mutationsList) {
     if (mutation.type === 'childList') {
-      //console.log('Se ha producido un cambio en el DOM.');
       userId.value = window.localStorage.getItem("myUser_Key");
     }
   }
 }
 
 onMounted(() => {
-  // Crea una instancia de MutationObserver con la función de manejo
   const observer = new MutationObserver(handleMutations);
 
-  // Configura las opciones para observar los cambios que te interesan
   const options = { childList: true, attributes: false, subtree: true };
 
-  // Inicia la observación en el documento o elemento que desees
   observer.observe(document.body, options);
 });
 

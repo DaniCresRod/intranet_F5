@@ -1,11 +1,9 @@
 <script setup>
-import { ref, onMounted, watch, onBeforeMount } from 'vue';
-import { getById } from '../services/EditUser';
+import { ref, watch, onBeforeMount } from 'vue';
 import schoolService from '../services/schoolService'
 import BtnBackHr from '../components/BtnBackHr.vue';
 import { updateById } from '../services/EditUser'
 
-// Define las referencias para los campos del formulario
 const user = ref(null);
 const showPassword = ref(false);
 const user_name = ref('');
@@ -18,7 +16,6 @@ const user_startDate = ref('');
 const user_endDate = ref('');
 const user_pass = ref('');
 const user_type = ref('');
-//const user_img = ref('');
 const user_school = ref('');
 const user_id = ref('');
 const schools = ref([]);
@@ -26,51 +23,27 @@ const user_dpto = ref('');
 const user_img = ref('');
 user_email.value = "@factoriaf5.com";
 const changes = ref([]);
-const selectedImage = ref('');  
-const MAX_IMAGE_SIZE_MB = 8; // Tamaño máximo de imagen en megabytes
-const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024; // Tamaño máximo en bytes
-
+const selectedImage = ref('');
+const MAX_IMAGE_SIZE_MB = 8; 
+const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024;
 const data = ref([]);
 
 onBeforeMount(async () => {
     try {
-        // Llama al servicio para obtener las escuelas
         schools.value = await schoolService.getSchools();
-        data.value=schools.value;
+        data.value = schools.value;
     } catch (error) {
         console.error('Error al obtener las escuelas:', error);
     }
 });
 
-// // Función para buscar usuarios por dni
-// const searchUser= (userNif) => {
-//     const nifSelect = schools.schoolUserList.userNif.value.find((userNif) => schoolUserList.userNif === nifSelect.value);
-//     console.log(nifSelect);
-  
-//   if (nifSelect) {
-//     user_id.value = user.value.id;
-//     user_name.value = user.value.username;
-//     user_surname.value = user.value.userSurName; 
-//     user_nif.value = user.value.userNif;
-//     user_email.value = user.value.userEmail;
-//     user_phone.value = user.value.userPhone;
-//     user_birthday.value = user.value.userBirthDate;
-//     user_startDate.value = user.value.userStartDate;
-//     user_endDate.value = user.value.userEndDate;
-//     user_pass.value = ""//user.value.userPass;
-//     user_type.value = user.value.userType;
-//     user_img.value = user.value.userImage;
-//     user_school.value = user.value.schoolID.id;
-//   }
-// };
 
-// Función para buscar usuarios por dni
 const searchUser = () => {
     const nifToSearch = user_nif.value;
     const foundUser = schools.value.flatMap(school => school.schoolUserList).find(user => user.userNif === nifToSearch);
-  
+
     if (foundUser) {
-        user.value = foundUser; // Asignar el objeto de usuario encontrado a la referencia user
+        user.value = foundUser;
         user_id.value = foundUser.id;
         user_name.value = foundUser.username;
         user_surname.value = foundUser.userSurName;
@@ -80,14 +53,13 @@ const searchUser = () => {
         user_birthday.value = foundUser.userBirthDate;
         user_startDate.value = foundUser.userStartDate;
         user_endDate.value = foundUser.userEndDate;
-        user_pass.value = '' // foundUser.userPass;
+        user_pass.value = '' 
         user_type.value = foundUser.userType;
-        user_img.value = foundUser.selectedImage; 
+        user_img.value = foundUser.selectedImage;
         user_school.value = foundUser.schoolID.id;
         user_dpto.value = foundUser.userDept;
         console.log(foundUser);
     } else {
-        // Si el usuario no se encontró, podrías mostrar un mensaje de error o realizar otra acción apropiada.
         console.log('Usuario no encontrado');
     }
 };
@@ -97,7 +69,7 @@ const fileToBase64 = (file) => {
         const reader = new FileReader();
 
         reader.onload = () => {
-            resolve(reader.result.split(',')[1]); // Elimina el encabezado "data:image/jpeg;base64,"
+            resolve(reader.result.split(',')[1]);
         };
 
         reader.onerror = (error) => {
@@ -112,14 +84,12 @@ const validateSpanishDNIOrNIE = (dniOrNIE) => {
     const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
 
     if (dniRegex.test(dniOrNIE)) {
-        // DNI format
         const letter = dniOrNIE.charAt(8);
         const number = parseInt(dniOrNIE.substr(0, 8), 10);
         const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
         const expectedLetter = letters.charAt(number % 23);
         return letter === expectedLetter;
     } else if (nieRegex.test(dniOrNIE)) {
-        // NIE format (starting with X, Y, or Z)
         const nieLetterMapping = { X: 0, Y: 1, Z: 2 };
         const firstChar = dniOrNIE.charAt(0);
         const number = parseInt(dniOrNIE.substr(1, 7), 10);
@@ -127,35 +97,27 @@ const validateSpanishDNIOrNIE = (dniOrNIE) => {
         const expectedLetter = letters.charAt((nieLetterMapping[firstChar] + number) % 23);
         return dniOrNIE.charAt(8) === expectedLetter;
     } else {
-        // Neither DNI nor NIE format
         return false;
     }
 };
 
-// Watch the user_nif value for changes and validate it
 watch(user_nif, (newValue) => {
     if (validateSpanishDNIOrNIE(newValue)) {
-        // The DNI or NIE is valid
         document.getElementById('dniValidationError').textContent = '';
     } else {
-        // The DNI or NIE is not valid
         document.getElementById('dniValidationError').textContent = '';
     }
 });
 
-// Función para validar y ajustar el campo de correo electrónico
 const validateAndAdjustEmail = () => {
     let email = user_email.value.toLowerCase();
 
-    // Si el correo electrónico no contiene una "@" o contiene más de una, o si no termina en "factoriaf5.com".
     if (email.indexOf('@') === -1 || email.indexOf('@') !== email.lastIndexOf('@') || !email.endsWith('@factoriaf5.com')) {
-        // Reemplaza cualquier dominio existente con "factoriaf5.com" y asegura que haya solo una "@".
         email = email.replace(/@.*$/, '') + '@factoriaf5.com';
         user_email.value = email;
     }
 };
 
-// Mostrar/Ocultar contraseña
 const togglePassword = () => {
     showPassword.value = !showPassword.value;
 };
@@ -165,15 +127,12 @@ const getPasswordInputType = () => {
 };
 
 const guardarImagen = () => {
-    // Obtener el elemento de entrada de archivo
     const input = document.getElementById('imagenInput');
     const file = input.files[0];
 
     if (file) {
         if (file.size <= MAX_IMAGE_SIZE_BYTES) {
-            // Verificar que el archivo seleccionado sea una imagen (por su tipo MIME)
             if (file.type.startsWith('image/')) {
-                // Asignar la imagen seleccionada a selectedImage
                 selectedImage.value = file;
             } else {
                 alert('Por favor, seleccione un archivo de imagen válido.');
@@ -203,19 +162,16 @@ const updateUser = async () => {
             userImage: selectedImage.value,
             userDept: user_dpto.value,
             schoolID: {
-                id: user_school.value,                
+                id: user_school.value,
             }
         };
         if (selectedImage.value) {
-            // Convierte la imagen en una cadena Base64
             const imageBase64 = await fileToBase64(selectedImage.value);
-            // Agrega la imagen Base64 al objeto de datos
             updatedUserData.userImage = imageBase64;
         }
         const modifiedFields = [];
 
-       // Compara los valores antiguos con los nuevos
-       if (user_name.value !== user.value.userName) {
+        if (user_name.value !== user.value.userName) {
             modifiedFields.push('Nombre');
         }
         if (user_surname.value !== user.value.userSurName) {
@@ -249,11 +205,8 @@ const updateUser = async () => {
             modifiedFields.push('Escuela');
         }
 
-        // Llama a la función updateById para actualizar los datos del usuario
         await updateById(user_id.value, updatedUserData);
-            // Actualiza la propiedad changes con los campos modificados
             changes.value = modifiedFields;
-        // Calcula las modificaciones realizadas y actualiza la propiedad changes
     } catch (error) {
         console.error('Error al actualizar los datos del usuario:', error);
     }
@@ -261,7 +214,6 @@ const updateUser = async () => {
 
 
 
-// Función para manejar el envío del formulario
 const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
@@ -274,17 +226,23 @@ const handleSubmit = async (event) => {
 
 
 <template>
-    <!-- <div class="search-bar">
-        <label for="searchUser">Buscar usuario: </label>
-        <input type="text" id="searchuser" >
-        <button @click="searchUser">Buscar</button>
-    </div> -->
+
     <div class="search-bar">
         <label for="searchUser">Buscar usuario por DNI o NIE:</label>
         <input type="text" id="searchuser" v-model="user_nif">
         <button @click="searchUser">Buscar</button>
     </div>
     <h2> Modificar datos de usuario</h2>
+    <div class="search-bar">
+        <label for="searchUser" class="italic-label">Buscar usuario por DNI o NIE:</label>
+        <div class="search-input">
+            <input type="text" id="searchUser" v-model="user_nif">
+            <button @click="searchUser">Buscar</button>
+        </div>
+    </div>
+
+
+
 
     <section class="newUser">
         <form id="userForm" @submit.prevent="handleSubmit">
@@ -371,11 +329,11 @@ const handleSubmit = async (event) => {
             <div class="form-group">
                 <label for="user_img">Adjuntar foto:</label>
                 <input type="file" id="imagenInput" accept="image/*">
-                </div>
+            </div>
             <div class="form-group warning">
                 <p>*Imagen en formato JPG y peso máximo 8Mb</p>
             </div>
-            
+
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>
         <div v-if="changes.length > 0" class="popup">
@@ -385,7 +343,7 @@ const handleSubmit = async (event) => {
             </ul>
         </div>
     </section>
-    <BtnBackHr/>
+    <BtnBackHr />
 </template>
 
 <style scoped>
@@ -396,6 +354,14 @@ const handleSubmit = async (event) => {
 h2 {
     margin-top: 5rem;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    color: var(--orange);
+    font-weight: 450;
+    margin-top: 25px;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: darkgray;
 }
 
 .newUser {
@@ -495,28 +461,48 @@ select:focus {
     border-radius: 5px;
     margin-bottom: 10px;
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
-h3{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-}
+
 ul {
     list-style: none;
-    padding: 0; 
-    margin: 0; 
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; 
-    width: 100%; 
+    justify-content: space-between;
+    width: 100%;
 }
 
 li {
-    flex-basis: calc(25% - 2vw); 
-    margin: 1vw 0; 
+    flex-basis: calc(25% - 2vw);
+    margin: 1vw 0;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.italic-label {
+  font-style: italic;
+  font-weight: normal;
+  
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+}
+
+input {
+  width: 150px; 
+  margin-right: 10px;
+}
+
+button {
+  white-space: nowrap; 
 }
 </style>

@@ -87,7 +87,7 @@ public class UserService {
                     if(newUser.getUserDept()!=null)myUser.setUserDept(newUser.getUserDept());
                     if(newUser.getUserImage()!=null)myUser.setUserImage(newUser.getUserImage());
                     if(newUser.getSchoolID()!=null) myUser.setSchoolID(newUser.getSchoolID());
-
+                    if(newUser.getUserDept()!=null)myUser.setUserDept(newUser.getUserDept());
                     if((newUser.getUserPass()!=null)&&(newUser.getUserPass()!="")){
                         String encodedPassword = passwordEncoder.encode(newUser.getUserPass());
                         myUser.setUserPass(encodedPassword);

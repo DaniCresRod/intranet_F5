@@ -13,7 +13,6 @@ const payload = ref({
     "password": ""
 });
 
-//Realiza la peticion HTTP para loggear y recibir el token
 async function sendInfo() {
 
     payload.value.username = user.value;
@@ -30,7 +29,6 @@ async function sendInfo() {
     }
 }
 
-//Redirecciona en funcion del typo de usuario
 async function redirect() {
     let myRoute = await loggear.whereToGo();
 

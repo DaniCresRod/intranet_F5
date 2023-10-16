@@ -2,7 +2,6 @@
 import { ref, onBeforeMount } from 'vue';
 import { defineProps } from 'vue';
 import CardInfoService from '../services/CardInfoService';
-import axios from 'axios';
 
 const props = defineProps({
   id: {
@@ -13,7 +12,7 @@ const props = defineProps({
 
 const data = ref(null);
 const loading = ref(true);
-const userImage = ref(""); // Inicializamos userImage
+const userImage = ref(""); 
 
 function getUserImageSrc(base64ImageData) {
   return `data:image/jpeg;base64,${base64ImageData}`;
@@ -24,7 +23,7 @@ async function getWorkerData() {
   loading.value = true;
   const response = await CardInfoService.getWorkerData(props.id);
   data.value = await response.data;
-  userImage.value = data.value ? data.value.userImage : ""; // Asignamos userImage solo si data.value no es nulo
+  userImage.value = data.value ? data.value.userImage : ""; 
   console.log(response.data);
   loading.value = false;
 }
@@ -90,8 +89,8 @@ onBeforeMount(() => {
   display: flex;
   padding-left: 10%; 
   width: 100%; 
-  margin-bottom: 10%; /* Margen abajo */
-  margin-top: 10%; /* Margen arriba */
+  margin-bottom: 10%; 
+  margin-top: 10%; 
 }
 
 .text-content {

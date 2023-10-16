@@ -12,7 +12,7 @@ const props = defineProps({
 
 const data = ref();
 const loading = ref(true);
-const userImage = ref(""); // Inicializamos userImage
+const userImage = ref(""); 
 
 function getUserImageSrc(base64ImageData) {
     return `data:image/jpeg;base64,${base64ImageData}`;
@@ -22,7 +22,7 @@ async function getWorkerData() {
   loading.value = true;
   const response = await CardInfoService.getWorkerData(props.id);
   data.value = await response.data;
-  userImage.value = data.value ? data.value.userImage : ""; // Asignamos userImage solo si data.value no es nulo
+  userImage.value = data.value ? data.value.userImage : "";
   console.log(response.data);
   loading.value = false;
 }

@@ -3,13 +3,11 @@ import { ref, onMounted } from 'vue';
 import PostSchool from '../services/PostSchool';
 import BtnBackHr from '../components/BtnBackHr.vue';
 
-// Define refs para los campos del formulario
 const schoolName = ref('');
 const address = ref('');
 const phoneNumber = ref('');
 const stateCode = ref('');
 
-// Función para manejar el envío del formulario
 const createSchool = async () => {
     try {
         const postData = {
@@ -19,19 +17,16 @@ const createSchool = async () => {
             schoolStateCode: stateCode.value,
         };
 
-        // Llamar al servicio para crear la escuela
         const response = await PostSchool.post(postData);
 
         
         console.log('Escuela creada con éxito:', response.data);
 
-        // Restablecer los campos del formulario después de crear la escuela
         schoolName.value = '';
         address.value = '';
         phoneNumber.value = '';
         stateCode.value = '';
     } catch (error) {
-        // Manejar cualquier error que ocurra durante la creación de la escuela
         console.error('Error al crear la escuela:', error);
     }
 };

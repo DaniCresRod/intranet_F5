@@ -106,6 +106,7 @@ const eventHandler = (value) => {
 
 
 <template>
+   
    <div class="calendarContainer">
         <VDatePicker class="vDate" expanded title-position="left" v-model.range="range"
             v-model:start="range.start"
@@ -138,7 +139,8 @@ const eventHandler = (value) => {
 .calendarContainer{
     display: flex;
     justify-content: center;
-}
+    margin-top: 3rem;
+    }
 
 .me-2{
     float: right;
@@ -148,6 +150,7 @@ const eventHandler = (value) => {
     font-weight: bold;
     border-radius: 10px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    margin:3rem;
 }
 
 </style>
