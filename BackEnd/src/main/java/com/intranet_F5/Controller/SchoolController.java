@@ -36,7 +36,6 @@ public class SchoolController {
 
     @PutMapping(path="/update/{id}")
     public SchoolModel updateSchool(@RequestBody SchoolModel updatedSchool, @PathVariable long id){
-        return schoolService.upgradeSchool(id, updatedSchool);
+        return schoolService.updateSchool(id, updatedSchool);
     }
-
 }

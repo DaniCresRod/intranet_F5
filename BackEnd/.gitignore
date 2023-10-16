@@ -18,6 +18,7 @@ target/
 *.iws
 *.iml
 *.ipr
+pom.xml
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +32,6 @@ build/
 
 ### VS Code ###
 .vscode/
+pom.xml
+.idea/workspace.xml
+/src/main/resources/config/variables.properties

@@ -3,14 +3,14 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <footer class="footer">
+  <footer>
     <h3 class="footer__title">rompemos los códigos</h3>
     <div class="footer__middle">
       <a href="https://factoriaf5.org/" target="_blank"><img src="/public/logo-footer.png" alt="Logo Factoria F5"></a>
       <ul class="footer__iconsGroup">
         <li>
           <RouterLink to="/">
-            <img src="/public/logo-linkedin.png">
+            <img src="/public/icon_lk.png">
           </RouterLink>
         </li>
         <li>
@@ -49,23 +49,24 @@ import { RouterLink } from 'vue-router';
   </footer>
 </template>
 
-<style>
-.footer {
-  background-color: var(--orange);
+<style scoped>
 
-  position: absolute;
+
+footer {
+  background-color: var(--orange);
   bottom: 0;
   width: 100%;
-  height: 25rem;
+  height: 17.5rem;
   padding: 2rem;  
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 0;
 }
 .footer__title {
   color: whitesmoke;
   text-transform: uppercase;
-  font-size: 3rem;
+  font-size: 2.2rem;
   font-weight: 700;
   text-align: center;
   padding: 1rem 0;
@@ -75,7 +76,7 @@ import { RouterLink } from 'vue-router';
   justify-content: space-around;
   align-items: center;
   gap: 10rem;
-  margin-top: 2.5rem;
+  margin-top: 1rem;
 }
 .footer__iconsGroup{
   display: flex;
@@ -95,5 +96,8 @@ import { RouterLink } from 'vue-router';
 }
 .footer__links a:hover{
   color: black;
+}
+.footer__middle a img {
+  margin-bottom: 5px; 
 }
 </style>

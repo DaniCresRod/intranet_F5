@@ -1,17 +1,19 @@
 package com.intranet_F5.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
-
+import java.util.ArrayList;
 import static java.time.temporal.ChronoUnit.MONTHS;
 
 @Entity
@@ -21,7 +23,8 @@ import static java.time.temporal.ChronoUnit.MONTHS;
 @NoArgsConstructor
 @Table(name = "users")
 @CrossOrigin(origins = "*")
-public class UserModel {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class UserModel implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +32,7 @@ public class UserModel {
     private long id;
 
     @Column(name = "Name")
+    @JsonProperty("userName")
     private String userName;
 
     @Column(name = "Surname")
@@ -37,7 +41,7 @@ public class UserModel {
     @Column(name = "Nif")
     private String userNif;
 
-    @Column(name = "Email")
+    @Column(name = "Email", unique = true)
     private String userEmail;
 
     @Column(name = "Phone")
@@ -56,13 +60,18 @@ public class UserModel {
     private Integer userDays;
 
     @Column(name = "Password")
+    @JsonProperty("userPass")
     private String userPass;
 
     @Column(name = "Type")
     @Enumerated(EnumType.STRING)
-    private UserType userType;
+    private UserType userType=UserType.Formador;
 
-    @Column(name = "userPhoto")
+    @Column(name = "Dept")
+    @Enumerated(EnumType.STRING)
+    private UserDept userDept;
+
+    @Column(name = "userPhoto", columnDefinition = "TEXT")
     private String userImage;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -71,54 +80,119 @@ public class UserModel {
     private SchoolModel SchoolID;
 
     @OneToMany(mappedBy = "userId",cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("userId")
+    @JsonIgnoreProperties("userRequests")
     private List<UserRequestModel> userRequests;
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        String myRol=UserType.Formador.toString();
+        if(this.getUserType()!=null){
+            myRol= this.getUserType().toString();
+        }
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority(myRol));
+        return roles;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.userPass;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userName;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     public enum UserType
     {
         Supervisor,
-        HHRR,
-        Employee,
+        HR,
+        Formador,
+    }
+    public enum UserDept
+    {
+        RRHH,
+        Pedagógico,
+        Supervisión,
     }
 
-    //Checks if the End date is before the Start date (wrong date)
+    @PrePersist
+    public void defaultUserStartDate(){
+        if(this.userStartDate==null){
+            this.userStartDate=LocalDate.now();
+        }
+        this.userDays=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate());
+        if(this.userDept==null) this.userDept=UserDept.Pedagógico;
+    }
+
     public void setUserEndDate(LocalDate userEndDate) throws Exception {
         LocalDate previousUserEndDate=this.userEndDate;
+        if(this.userDays==null)this.userDays=0;
+        int holidayDaysUsed=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate())-this.userDays;
+
         try{
-            this.userEndDate = userEndDate;
-            this.setDefaultStartDate();
+            if(userEndDate!=null && previousUserEndDate!=null){
+                if(userEndDate.isAfter(previousUserEndDate) && userEndDate.isAfter(this.userStartDate)){
+                    this.userEndDate = userEndDate;
+                    this.userDays=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate())-holidayDaysUsed;
+                }
+                else{
+                    throw new Exception();
+                }
+            }
+            else if(userEndDate!=null){
+                this.userEndDate = userEndDate;
+                this.userDays=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate())-holidayDaysUsed;
+            }
+            else{
+                this.userEndDate = userEndDate;
+                this.userDays=30-holidayDaysUsed;
+            }
+
         }
         catch(Exception e){
             this.userEndDate=previousUserEndDate;
-            throw new Exception("La fecha de fin es anterior a la fecha de inicio de contrato");
+            throw new Exception("La fecha de fin de contrato no es correcta");
         }
+    }
+
+    private int SetHldysDays(LocalDate userStartDate, LocalDate userEndDate) {
+        if(userEndDate!=null){
+            long differenceMonths=MONTHS.between(userStartDate, userEndDate);
+            if(differenceMonths<12){
+                return (int) Math.floor(differenceMonths*2.5);
+            }
+        }
+        return 30;
     }
 
     public void setUserDays(Integer userDays) {
         this.userDays = userDays;
-    }
-
-    //Con esto, se pre-calculan los valores de vacaciones en funcion de la
-    @PrePersist
-    public void setDefaultStartDate() throws Exception {
-        if (this.userStartDate == null) {
-            this.userStartDate = LocalDate.now();
-        }
-
-        if(this.userStartDate.isAfter(this.userEndDate)){
-            throw new Exception();
-        }
-        // if((this.userDays == null)){
-        int calculatedDays = calcularDiasDeVacaciones(this.userStartDate, this.userEndDate);
-        this.userDays = calculatedDays;
-        // }
-    }
-
-    private int calcularDiasDeVacaciones(LocalDate userStartDate, LocalDate userEndDate) {
-        long differenceMonths=MONTHS.between(userStartDate, userEndDate);
-        if(differenceMonths<12){
-            return (int) Math.floor(differenceMonths*2.5);
-        }
-        return 30;
     }
 }

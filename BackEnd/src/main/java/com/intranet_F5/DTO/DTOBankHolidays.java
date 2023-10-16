@@ -21,8 +21,6 @@ public class DTOBankHolidays {
     private String rule;
     private String note;
 
-
-
     public DTOBankHolidays() {
     }
 

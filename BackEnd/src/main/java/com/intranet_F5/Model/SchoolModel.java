@@ -1,13 +1,12 @@
 package com.intranet_F5.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @CrossOrigin(origins = "*")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class SchoolModel {
 
     @Id
@@ -28,14 +28,20 @@ public class SchoolModel {
     @Column(name = "Name")
     private String schoolName;
 
-    @Column(name = "Email")
-    private String schoolEmail;
+    @Column(name = "Address")
+    private String schoolAddress;
 
     @Column(name = "Phone")
     private String schoolPhone;
 
+    @JsonIgnore
     @Column(name = "BankHolidays")
     private List<LocalDate> schoolBankHs;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name = "SchoolSupervisorId")
+    @JsonIgnoreProperties({"SchoolID", "schoolUserList"})
+    private UserModel SchoolSupervisor;
 
     @Column(name = "StateHolidays")
     @ManyToMany
@@ -75,5 +81,4 @@ public class SchoolModel {
        RI,// La Rioja
        VC,// Comunitat Valenciana               
     }
-
 }

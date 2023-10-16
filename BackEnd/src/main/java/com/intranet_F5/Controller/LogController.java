@@ -1,8 +1,6 @@
 package com.intranet_F5.Controller;
 
 import com.intranet_F5.Model.LogModel;
-import com.intranet_F5.Model.UserRequestModel;
-import com.intranet_F5.Repository.LogRepository;
 import com.intranet_F5.Services.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +20,12 @@ public class LogController {
     }
 
     @GetMapping(path = "/{id}")
-    public List<LogModel> getAllLogsFromRequest(@PathVariable long id){
-        return logService.getAllLogsFromRequest(id);
+    public List<LogModel> getAllLogsFromRequestId(@PathVariable long id){
+        return logService.getAllLogsFromRequestId(id);
+    }
+
+    @PostMapping(path="/add/{id}")
+    public String createLog(@RequestBody String newLog, @PathVariable long id){
+        return logService.createLog(newLog, id);
     }
 }

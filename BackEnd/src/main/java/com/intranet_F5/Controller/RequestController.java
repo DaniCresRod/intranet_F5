@@ -1,6 +1,5 @@
 package com.intranet_F5.Controller;
 
-import com.intranet_F5.Model.SchoolModel;
 import com.intranet_F5.Model.UserRequestModel;
 import com.intranet_F5.Services.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,16 @@ public class RequestController {
     @PostMapping
     public String newRequest(@RequestBody UserRequestModel newRequest){
         return requestService.newRequest(newRequest);
+    }
+
+    @PutMapping(path="/update/{id}")
+    public UserRequestModel updateRequest(@PathVariable long id, @RequestBody UserRequestModel updatedRequest){
+        return requestService.updateRequest(id, updatedRequest);
+    }
+
+    @PutMapping(path="/updateStatus/{id}")
+    public UserRequestModel updateRequestStatusOnly(@PathVariable long id, @RequestBody int updatedRequestStatus){
+        return requestService.updateRequestStatusOnly(id, updatedRequestStatus);
     }
 
 }
