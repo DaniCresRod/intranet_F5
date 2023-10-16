@@ -33,7 +33,6 @@ const searchSchoolID = () => {
   console.log(schoolData.value);
   console.log(schoolId.value);
 }
-
 </script>
 
 <template>

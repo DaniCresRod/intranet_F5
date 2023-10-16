@@ -412,7 +412,7 @@ input[type="submit"] {
     font-weight: 600;
     border-radius: 1.875rem;
     border: 1px solid #616161;
-    background: var(--orange);
+    background: RGBA(255, 71, 0, 0.7);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     margin: 1.5rem auto;
 }
