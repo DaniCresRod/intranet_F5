@@ -122,7 +122,7 @@ function updateCalendar() {
                                 <tr v-for="(user, index) in schoolData.schoolUserList"
                                     :key="index"
                                     :title="user.userSurName">
-                                <th>{{ user.userSurName }}</th>
+                                <th>{{user.username + ' ' + user.userSurName }}</th>
                                 <td v-for="day in daysOfMonth">
                                     <span v-html="showEvent(user, day)"></span>
                                 </td>
