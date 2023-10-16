@@ -104,13 +104,14 @@ li {
     flex: 1;
     max-width: 20%;
     position: absolute;
-    top: -20px;
+    top: -25px;
     left: -10px;
     bottom: -10px;
 }
 
 .image-container img {
-    width: 100%;
+    width: 9.75rem;
+    height: 9.75rem;
     border-radius: 50%;
     border: 2px solid var(--orange);
 }
