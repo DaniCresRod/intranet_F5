@@ -159,7 +159,7 @@ const updateUser = async () => {
             userEndDate: user_endDate.value,
             userPass: user_pass.value,
             userType: user_type.value,
-            userImage: selectedImage.value,
+            
             userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
@@ -217,9 +217,7 @@ const updateUser = async () => {
 const handleSubmit = async (event) => {
     event.preventDefault();
     validateAndAdjustEmail();
-    guardarImagen();
     updateUser();
-
 };
 
 </script>
