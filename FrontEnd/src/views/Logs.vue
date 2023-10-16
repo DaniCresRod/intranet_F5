@@ -2,6 +2,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import LogsService from '../services/LogsService';
+import BtnBackHr from '../components/BtnBackHr.vue';
 
 const logs = ref([]);
 const acceptedLogs = ref([]);
@@ -61,15 +62,17 @@ const getStatusText = (log) => {
     </div>
 
   </div>
+  <BtnBackHr />
 </template>
 <style scoped>
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
+  gap: 5rem;
+  }
 
 .v-card {
   margin-top: 20px;
+  margin: 20px;
 }
 </style>

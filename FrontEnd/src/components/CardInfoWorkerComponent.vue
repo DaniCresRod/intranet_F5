@@ -2,7 +2,6 @@
 import { ref, onBeforeMount } from 'vue';
 import { defineProps } from 'vue';
 import CardInfoService from '../services/CardInfoService';
-import axios from 'axios';
 
 const props = defineProps({
   id: {

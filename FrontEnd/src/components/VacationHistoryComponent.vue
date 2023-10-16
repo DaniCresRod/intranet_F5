@@ -38,6 +38,7 @@ onBeforeMount(getHoldData);
 
 <template>
   <div class="container">
+    <h3 class="sectionTitle">Historial de vacaciones disfrutadas</h3>
     <v-card class="outer-item">
       <v-card-text>
         <v-card class="item" v-for="yearObj in years" :key="yearObj.year">
@@ -71,7 +72,7 @@ onBeforeMount(getHoldData);
 .container {
   display: flex;
   flex-direction: column;
-}
+  }
 
 .outer-item {
   margin-bottom: 20px;
@@ -121,4 +122,13 @@ onBeforeMount(getHoldData);
 .fade-enter, .fade-leave-to{
    opacity: 0;
 }
+h3 {
+  text-decoration: underline;
+  text-align: center;
+  text-decoration-color: var(--orange);
+  font-weight:400;
+  margin-top: 25px;
+}
+
+
 </style>
