@@ -3,6 +3,8 @@ import { ref, onMounted, computed } from 'vue';
 import RequestServices from '@/services/RequestServices';
 
 const requests = ref([]);
+const { filterBySchoolId, schoolId } = defineProps(['filterBySchoolId', 'schoolId']); 
+
 const getRequests = async () => {
   try {
     const response = await RequestServices.getAll();
@@ -13,9 +15,24 @@ const getRequests = async () => {
     console.error('Error al obtener las solicitudes:', error);
   }
 };
+
 onMounted(() => {
-  getRequests();
+  getRequests();  
 });
+
+
+const filteredRequests = computed(() => {
+  if (filterBySchoolId && schoolId) {
+    // Filtra las solicitudes por estado igual a 1 y por schoolID del usuario actual
+    return requests.value.filter((request) => {
+      return isRequestWithStatus1(request) && request.userId.id && request.userId.schoolID.id === schoolId;
+    });
+  } else {
+    // En otras vistas, no apliques el filtro
+    return requests.value.filter((request) => isRequestWithStatus1(request));
+  }
+});
+
 
 const sortRequests = () => {
   requests.value.sort((a, b) => {
@@ -38,10 +55,6 @@ const sortRequests = () => {
 const isRequestWithStatus1 = (request) => {
   return request.status === 1;
 };
-
-const filteredRequests = computed(() => {
-  return requests.value.filter((request) => isRequestWithStatus1(request));
-});
 
 const approveRequest = async (id) => {
   await RequestServices.updateUserRequestStatus(id, 2);
