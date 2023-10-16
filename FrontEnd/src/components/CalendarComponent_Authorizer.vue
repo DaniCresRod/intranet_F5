@@ -89,6 +89,7 @@ function updateCalendar() {
 
 <template>
     <div class="calendar_container">
+        <h4 v-if="schoolData">Calendario de {{ schoolData.schoolName }}</h4>
         <label for="mes">Selecciona Mes:</label>
             <select id="mes"
                 class="custom-select"
@@ -111,7 +112,6 @@ function updateCalendar() {
 
             <div class="calendario_vista">
                 <div class="last">
-                    <h4 v-if="schoolData">Calendario de {{ schoolData.schoolName }}</h4>
                     <table class="calendar" cellspacing="0">
                         <tbody>
                                 <tr title="daysNum">
@@ -148,9 +148,17 @@ h2 {
 }
 
 h4 {
-    margin: 2.5rem 35%;
-    text-decoration: underline;
+    display: flex;
+    justify-content: center;
+    text-align: center;
     color: var(--orange);
+    font-weight: 450;
+    margin-top: 25px;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px; 
+    text-decoration-color: darkgray;
+    font-size: 23px;
+    padding-bottom: 20px;
 }
 
 .custom-select {
@@ -163,6 +171,7 @@ h4 {
 .calendario_vista {
     max-width: 100%;
     overflow: auto;
+    padding-top: 50px;
 }
 
 table.calendar {
