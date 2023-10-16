@@ -2,11 +2,9 @@ package com.intranet_F5.Model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import static java.time.temporal.ChronoUnit.MONTHS;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,20 +21,15 @@ class UserModelTest {
 
     @BeforeEach
     public void initEach(){
-        //TestDummy 1: User without StarDate, no School, no Requests
         myTestUser1= new UserModel(1L, "userName1","userSurname1", "userNif1", "user1@email.com", "userPhone1",null, null, LocalDate.now().plusDays(30), 30, "pass1", UserModel.UserType.Formador, null, null, null, null );
 
-        //TestDummy 2: User less than a year old, null holiday days, no School, no Requests
         myTestUser2= new UserModel(2L, "userName2","userSurname2", "userNif2", "user2@email.com", "userPhone2",null, LocalDate.parse("2023-01-01"), LocalDate.parse("2023-07-31"), null, "pass2", UserModel.UserType.Formador, null,null, null, null );
 
-        //TestDummy 3: User less than a year old, 15 holiday days, no School, no Requests
         myTestUser3= new UserModel(3L, "userName3","userSurname3", "userNif3", "user3@email.com", "userPhone3",null, LocalDate.parse("2020-01-01"), LocalDate.parse("2023-01-31"), 15, "pass3", UserModel.UserType.Formador, null,null, null, null );
 
-        //TestDummy 4: User more than a year old, no School, no Requests
         SchoolTest1=new SchoolModel(1L, "School1", "email1@school.com", "PhoneSchool1", null, null, null, SchoolModel.StateCode.AS, null);
         myTestUser4= new UserModel(4L, "userName4","userSurname4", "userNif4", "user4@email.com", "userPhone4",null, LocalDate.parse("2023-01-01"), LocalDate.parse("2023-01-31"), 30, "pass4", UserModel.UserType.Formador,null, null, SchoolTest1, null );
 
-        //TestDummy 5: User more than a year old, with School, with Requests
         requestTest1 = new UserRequestModel(1L, myTestUser5,LocalDate.now(), LocalDate.parse("2023-04-02"), LocalDate.parse("2023-04-10"), 1, UserRequestModel.RequestType.Holidays, null);
         UserRequestModelList1=new ArrayList<>();
         UserRequestModelList1.add(requestTest1);
@@ -53,15 +46,12 @@ class UserModelTest {
         long difference=MONTHS.between(myTestUser2.getUserStartDate(), myTestUser2.getUserEndDate());
         int hldyDays=(int) Math.floor(difference*2.5);
 
-        //Debe ponerse la fecha de inicio como la de hoy, cambiaran los dias de vacaciones
         assertEquals(LocalDate.now(), myTestUser1.getUserStartDate());
         assertNotEquals(30, myTestUser1.getUserDays());
 
-        //Deben cambiar los dias de vacaciones a los que corresponden
         assertNotEquals(null, myTestUser2.getUserDays());
         assertEquals(hldyDays, myTestUser2.getUserDays());
 
-        //Deben cambiar los dias de vacaciones a los que corresponden
         assertNotEquals(15, myTestUser3.getUserDays());
         assertEquals(30, myTestUser3.getUserDays());
     }
@@ -144,7 +134,6 @@ class UserModelTest {
         assertEquals( null, myTestUser1.getUserRequests());
         assertEquals( UserRequestModelList1, myTestUser5.getUserRequests());
 
-        //Hay que reasignar el userId porque se inicializo como nulo, porque aun no estaba definido cuando se inicializa el userRequestModel
         (UserRequestModelList1.get(0)).setUserId(myTestUser5);
         assertEquals( (UserRequestModelList1.get(0)).getUserId().getId(), myTestUser5.getId());
     }
@@ -193,7 +182,6 @@ class UserModelTest {
 
     @Test
     void setUserEndDate_valid_and_invalid_dates() {
-        // Test with a valid end date
         try {
             myTestUser1.defaultUserStartDate();
             LocalDate previousEndDate = myTestUser1.getUserEndDate();
@@ -203,7 +191,6 @@ class UserModelTest {
             fail("Si ha llegado aqui, es que el test ha fallado");
         }
 
-        // Test with an invalid end date
         assertThrows(Exception.class, () -> {
             myTestUser1.defaultUserStartDate();
             LocalDate previousEndDate = myTestUser1.getUserEndDate();
@@ -225,12 +212,6 @@ class UserModelTest {
         assertNotEquals(null, myTestUser2.getUserDays());
         assertNotEquals(45, myTestUser2.getUserDays());
     }
-
-//    @Test
-//    void setUserPass() {
-//        myTestUser1.setUserPass("Ok Pass");
-//        assertEquals( "Ok Pass", myTestUser1.getUserPass());
-//    }
 
     @Test
     void setUserType() {
@@ -258,7 +239,6 @@ class UserModelTest {
         assertEquals(SchoolTest2, myTestUser4.getSchoolID());
     }
 
-    //The checking of the correct userId in request must be done in the request creation
     @Test
     void setUserRequests() {
         myTestUser1.setUserRequests(UserRequestModelList1);

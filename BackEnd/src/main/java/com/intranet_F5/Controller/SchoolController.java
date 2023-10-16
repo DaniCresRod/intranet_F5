@@ -38,5 +38,4 @@ public class SchoolController {
     public SchoolModel updateSchool(@RequestBody SchoolModel updatedSchool, @PathVariable long id){
         return schoolService.updateSchool(id, updatedSchool);
     }
-
 }

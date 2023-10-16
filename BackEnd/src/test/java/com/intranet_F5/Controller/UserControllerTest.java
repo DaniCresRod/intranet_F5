@@ -22,11 +22,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -63,19 +60,15 @@ class UserControllerTest {
     @WithMockUser(username = "root", roles = "HR")
     void addNewUser() throws Exception {
 
-
         String userJson = "{\"userName\": \"John\", \"userSurName\": \"Doe\", \"userNif\": \"12345\", \"userEmail\": \"john@example.com\", \"userPhone\": \"123456789\", \"userType\": \"Formador\", \"userDept\": \"Pedagógico\", \"userPass\": \"password\"}";
-       // String myToken="Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJPcHRpbXVzIiwiaWF0IjoxNjk3NDUxMjk5LCJleHAiOjE2OTc1Mzc2OTl9.UUQ5mWU1UiYCcncLBMEJRYnLJbxxByz96Rd4_chIbts";
-
 
         when(userService.addNewUser(any(UserModel.class))).thenReturn("User added successfully");
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-                .post("/users").with(csrf().asHeader())
-                .content(userJson)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, myToken ))
-
+                    .post("/users").with(csrf().asHeader())
+                    .content(userJson)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, myToken ))
                 .andReturn()
                 .getResponse();
 
@@ -90,22 +83,18 @@ class UserControllerTest {
         List<UserModel> users = new ArrayList<>();
         users.add(myTestUser1);
 
-
-
         when(userService.getAllUsers()).thenReturn(users);
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
                         .get("/users").with(csrf().asHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, myToken ))
-
                 .andReturn()
                 .getResponse();
 
         assertEquals(200, response.getStatus());
 
         ObjectMapper objectMapper = new ObjectMapper();
-        //Evita problemas con username y password de UserDetails, asi no da error cuando no los encuentra
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         List<UserModel> userResponseList = objectMapper.readValue(response.getContentAsString(),
@@ -122,7 +111,6 @@ class UserControllerTest {
         UserModel newUser = new UserModel(1L, "userName1", "userSurname1", "userNif1", "user1@email.com", "userPhone1", null, null, null, 30, "null", UserModel.UserType.Formador, null, null, null, null);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        //Evita problemas con username y password de UserDetails, asi no da error cuando no los encuentra
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String myJson=objectMapper.writeValueAsString(newUser);
 
@@ -174,11 +162,9 @@ class UserControllerTest {
         assertEquals(200, response.getStatus());
 
         ObjectMapper objectMapper = new ObjectMapper();
-        //Evita problemas con username y password de UserDetails, así no da error cuando no los encuentra
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         UserModel userResponse = objectMapper.readValue(response.getContentAsString(), UserModel.class);
-
         assertEquals(myTestUser1.getUsername(), userResponse.getUsername());
     }
 }

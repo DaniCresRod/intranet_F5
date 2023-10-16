@@ -3,7 +3,6 @@ package com.intranet_F5.Model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -45,7 +44,6 @@ public class UserRequestModel {
     @Enumerated(EnumType.STRING)
     private RequestType userReason;
 
-    //Relacion unidireccional
     @Column(name = "logListId")
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_request")
