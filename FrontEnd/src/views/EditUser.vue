@@ -23,25 +23,25 @@ const user_dpto = ref('');
 const user_img = ref('');
 user_email.value = "@factoriaf5.com";
 const changes = ref([]);
-const selectedImage = ref('');  
+const selectedImage = ref('');
 const MAX_IMAGE_SIZE_MB = 8; 
 const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024;
-
 const data = ref([]);
 
 onBeforeMount(async () => {
     try {
         schools.value = await schoolService.getSchools();
-        data.value=schools.value;
+        data.value = schools.value;
     } catch (error) {
         console.error('Error al obtener las escuelas:', error);
     }
 });
 
+
 const searchUser = () => {
     const nifToSearch = user_nif.value;
     const foundUser = schools.value.flatMap(school => school.schoolUserList).find(user => user.userNif === nifToSearch);
-  
+
     if (foundUser) {
         user.value = foundUser;
         user_id.value = foundUser.id;
@@ -55,7 +55,7 @@ const searchUser = () => {
         user_endDate.value = foundUser.userEndDate;
         user_pass.value = '' 
         user_type.value = foundUser.userType;
-        user_img.value = foundUser.selectedImage; 
+        user_img.value = foundUser.selectedImage;
         user_school.value = foundUser.schoolID.id;
         user_dpto.value = foundUser.userDept;
         console.log(foundUser);
@@ -171,7 +171,7 @@ const updateUser = async () => {
         }
         const modifiedFields = [];
 
-       if (user_name.value !== user.value.userName) {
+        if (user_name.value !== user.value.userName) {
             modifiedFields.push('Nombre');
         }
         if (user_surname.value !== user.value.userSurName) {
@@ -233,6 +233,16 @@ const handleSubmit = async (event) => {
         <button @click="searchUser">Buscar</button>
     </div>
     <h2> Modificar datos de usuario</h2>
+    <div class="search-bar">
+        <label for="searchUser" class="italic-label">Buscar usuario por DNI o NIE:</label>
+        <div class="search-input">
+            <input type="text" id="searchUser" v-model="user_nif">
+            <button @click="searchUser">Buscar</button>
+        </div>
+    </div>
+
+
+
 
     <section class="newUser">
         <form id="userForm" @submit.prevent="handleSubmit">
@@ -287,7 +297,7 @@ const handleSubmit = async (event) => {
                 <input :type="getPasswordInputType()" id="user_pass" name="user_pass" v-model="user_pass">
             </div>
             <div class="form-group user_pass">
-                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña' }}</button>
+                <button id="togglePassword" @click="togglePassword">{{ showPassword ? 'Ocultar contraseña' : 'Mostrar                                   contraseña' }}</button>
             </div>
 
             <div class="form-group">
@@ -319,11 +329,11 @@ const handleSubmit = async (event) => {
             <div class="form-group">
                 <label for="user_img">Adjuntar foto:</label>
                 <input type="file" id="imagenInput" accept="image/*">
-                </div>
+            </div>
             <div class="form-group warning">
                 <p>*Imagen en formato JPG y peso máximo 8Mb</p>
             </div>
-            
+
             <input type="submit" value="Modificar datos" @click="handleSubmit">
         </form>
         <div v-if="changes.length > 0" class="popup">
@@ -333,7 +343,7 @@ const handleSubmit = async (event) => {
             </ul>
         </div>
     </section>
-    <BtnBackHr/>
+    <BtnBackHr />
 </template>
 
 <style scoped>
@@ -344,6 +354,14 @@ const handleSubmit = async (event) => {
 h2 {
     margin-top: 5rem;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    color: var(--orange);
+    font-weight: 450;
+    margin-top: 25px;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: darkgray;
 }
 
 .newUser {
@@ -443,28 +461,48 @@ select:focus {
     border-radius: 5px;
     margin-bottom: 10px;
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
-h3{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-}
+
 ul {
     list-style: none;
-    padding: 0; 
-    margin: 0; 
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; 
-    width: 100%; 
+    justify-content: space-between;
+    width: 100%;
 }
 
 li {
-    flex-basis: calc(25% - 2vw); 
-    margin: 1vw 0; 
+    flex-basis: calc(25% - 2vw);
+    margin: 1vw 0;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.italic-label {
+  font-style: italic;
+  font-weight: normal;
+  
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+}
+
+input {
+  width: 150px; 
+  margin-right: 10px;
+}
+
+button {
+  white-space: nowrap; 
 }
 </style>
