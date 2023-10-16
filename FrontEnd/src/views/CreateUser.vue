@@ -43,9 +43,9 @@ const createUser = async () => {
             userPass: user_pass.value,
             userType: user_type.value,
             userImage: selectedImage.value,
+            userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
-                userDept: user_dpto.value
             }
         };
 
@@ -56,6 +56,7 @@ const createUser = async () => {
         const response = await PostUser.post(postData);
 
         console.log('Empleado con éxito:', response.data);
+        console.log(postData.data);
 
         user_name.value = '';
         user_surname.value = '';
@@ -250,7 +251,7 @@ onBeforeMount(async () => {
                 <select id="user_dpto" name="user_dpto" v-model="user_dpto">
                     <option value="Pedagógico">Pedagógico</option>
                     <option value="RRHH">RRHH</option>
-                    <option value="Supervisor">Supervisión</option>
+                    <option value="Supervisión">Supervisión</option>
                 </select>
             </div>
 

@@ -86,9 +86,10 @@ public class UserService {
                     if(newUser.getUserType()!=null)myUser.setUserType(newUser.getUserType());
                     if(newUser.getUserImage()!=null)myUser.setUserImage(newUser.getUserImage());
                     if(newUser.getSchoolID()!=null) myUser.setSchoolID(newUser.getSchoolID());
-
+                    if(newUser.getUserDept()!=null)myUser.setUserDept(newUser.getUserDept());
                     if((newUser.getUserPass()!=null)&&(newUser.getUserPass()!="")){
-                        myUser.setUserPass(newUser.getUserPass());
+                        String encodedPassword = passwordEncoder.encode(newUser.getUserPass());
+                        myUser.setUserPass(encodedPassword);
                     }
 
                     //Actualizar la info de la escuela para enviar, para saltarme el cache de Hibernate

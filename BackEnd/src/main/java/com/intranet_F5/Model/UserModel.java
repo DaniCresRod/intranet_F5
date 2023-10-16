@@ -71,7 +71,7 @@ public class UserModel implements UserDetails {
 
     @Column(name = "Dept")
     @Enumerated(EnumType.STRING)
-    private UserDept userDept=UserDept.Pedagógico;
+    private UserDept userDept;
 
     @Column(name = "userPhoto", columnDefinition = "TEXT")
     private String userImage;
@@ -145,7 +145,7 @@ public class UserModel implements UserDetails {
     {
         RRHH,
         Pedagógico,
-        Supervisor,
+        Supervisión,
     }
 
     //PrePersist se ejcuta cada vez que se hace una nueva insercion en la base de datos
@@ -157,6 +157,7 @@ public class UserModel implements UserDetails {
         if((this.userDays==null)||(this.userDays>30)){
         }
         this.userDays=this.SetHldysDays(this.getUserStartDate(),this.getUserEndDate());
+        if(this.userDept==null) this.userDept=UserDept.Pedagógico;
     }
 
     public void setUserEndDate(LocalDate userEndDate) throws Exception {
