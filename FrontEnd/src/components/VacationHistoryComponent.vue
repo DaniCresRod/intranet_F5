@@ -38,7 +38,7 @@ onBeforeMount(getHoldData);
 
 <template>
   <div class="container">
-    <h3 class="sectionTitle">Historial de vacaciones disfrutadas</h3>
+    <h3 class="sectionTitle">Historial de vacaciones</h3>
     <v-card class="outer-item">
       <v-card-text>
         <v-card class="item" v-for="yearObj in years" :key="yearObj.year">
