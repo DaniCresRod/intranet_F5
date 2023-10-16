@@ -36,14 +36,14 @@ const filteredRequests = computed(() => {
   }
 });
 
-
 const sortRequests = () => {
   requests.value.sort((a, b) => {
     if (a.userId && b.userId && a.userId.schoolID && b.userId.schoolID) {
-      if (a.userId.username === b.userId.username) {
-        return a.userId.schoolID.schoolName.localeCompare(
-          b.userId.schoolID.schoolName
-        );
+      const usernameA = a.userId.username;
+      const usernameB = b.userId.username;
+
+      if (usernameA === usernameB) {
+        return usernameA.localeCompare(usernameB);
       } else {
         const dateA = new Date(a.startDate);
         const dateB = new Date(b.startDate);
@@ -84,20 +84,16 @@ const rejectRequest = async (id) => {
     <v-card-title class="title">Listado de Solicitudes</v-card-title>
     <v-table class="requestTable">
       <thead>
-        <th>Nombre Empleado</th>
+        <th>Empleado</th>
         <th>Fecha de solicitud</th>
         <th>Escuela</th>
         <th>Acciones</th>
       </thead>
       <tbody>
         <tr v-for="(request) in filteredRequests" :key="request.Id">
-          <td>{{ request.userId ? request.userId.username : '' }}</td>
+          <td>{{ request.userId ? (request.userId.username + ' ' + request.userId.userSurName) : '' }}</td>
           <td>De {{ request.startDate }} a {{ request.endDate }}</td>
-          <td>
-            {{ request.userId && request.userId.schoolID
-              ? request.userId.schoolID.schoolName
-              : '' }}
-          </td>
+          <td>{{ request.userId && request.userId.schoolID ? request.userId.schoolID.schoolName : '' }}</td>
           <td>
             <v-btn @click="approveRequest(request.id)">Aprobar</v-btn>
             <v-btn @click="rejectRequest(request.id)">Rechazar</v-btn>
