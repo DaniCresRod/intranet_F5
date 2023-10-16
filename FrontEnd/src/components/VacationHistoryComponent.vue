@@ -122,12 +122,15 @@ onBeforeMount(getHoldData);
 .fade-enter, .fade-leave-to{
    opacity: 0;
 }
+
 h3 {
-  text-decoration: underline;
   text-align: center;
-  text-decoration-color: var(--orange);
-  font-weight:400;
+  color: var(--orange);
+  font-weight: 450;
   margin-top: 25px;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px; 
+  text-decoration-color: darkgray;
 }
 
 
