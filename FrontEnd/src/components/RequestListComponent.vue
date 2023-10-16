@@ -13,16 +13,14 @@ const getRequests = async () => {
     const response = await RequestServices.getAll();
     requests.value = response.data;
     console.log(requests.value);
-    sortRequests();
   } catch (error) {
     console.error('Error al obtener las solicitudes:', error);
   }
 };
 
 onMounted(() => {
-  getRequests();  
+  getRequests(); 
 });
-
 
 const filteredRequests = computed(() => {
   if (filterBySchoolId && schoolId) {
@@ -34,24 +32,6 @@ const filteredRequests = computed(() => {
   }
 });
 
-const sortRequests = () => {
-  requests.value.sort((a, b) => {
-    if (a.userId && b.userId && a.userId.schoolID && b.userId.schoolID) {
-      const usernameA = a.userId.username;
-      const usernameB = b.userId.username;
-
-      if (usernameA === usernameB) {
-        return usernameA.localeCompare(usernameB);
-      } else {
-        const dateA = new Date(a.startDate);
-        const dateB = new Date(b.startDate);
-        return dateA - dateB;
-      }
-    } else {
-      return 0;
-    }
-  });
-};
 
 const isRequestWithStatus1 = (request) => {
   return request.status === 1;
@@ -88,10 +68,14 @@ const rejectRequest = async (id) => {
         <th>Acciones</th>
       </thead>
       <tbody>
-        <tr v-for="(request) in filteredRequests" :key="request.Id">
-          <td>{{ request.userId ? (request.userId.username + ' ' + request.userId.userSurName) : '' }}</td>
+        <tr v-for="(request) in requests" :key="request.id">
+          <td>
+            {{ request.userId && request.userId.username && request.userId.userSurName ? (request.userId.username + ' ' + request.userId.userSurName) : '' }}
+          </td>
           <td>De {{ request.startDate }} a {{ request.endDate }}</td>
-          <td>{{ request.userId && request.userId.schoolID ? request.userId.schoolID.schoolName : '' }}</td>
+          <td>
+            {{ request.userId && request.userId.schoolID && request.userId.schoolID.schoolName ? request.userId.schoolID.schoolName : '' }}
+          </td>
           <td>
             <v-btn @click="approveRequest(request.id)">Aprobar</v-btn>
             <v-btn @click="rejectRequest(request.id)">Rechazar</v-btn>
