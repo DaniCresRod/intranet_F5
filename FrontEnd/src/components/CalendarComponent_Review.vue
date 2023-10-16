@@ -173,10 +173,11 @@ onMounted(async () => {
     flex-direction: column;
     align-items: center;
     text-align: center;
-}
+   }
 
 h2 {
     text-align: center;
+   
 }
 
 h4 {
@@ -232,9 +233,13 @@ table.calendar td {
 .last{
     margin-bottom: 3.5rem;
 }
-/* .orange-column {
-    background-color: var(--orange-light); 
-    color: white;
-    
-} */
+h2 {
+  text-align: center;
+  color: var(--orange);
+  font-weight: 450;
+  margin-top: 25px;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px; 
+  text-decoration-color: darkgray;
+}
 </style>

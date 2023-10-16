@@ -119,6 +119,14 @@ const rejectRequest = async (id) => {
 .title {
   display: flex;
   justify-content: center;
+  text-align: center;
+  color: var(--orange);
+  font-weight: 450;
+  margin-top: 25px;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px; 
+  text-decoration-color: darkgray;
+  font-size: 23px;
 }
 
 .requestTable {
