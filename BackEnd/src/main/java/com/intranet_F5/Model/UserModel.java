@@ -35,6 +35,7 @@ public class UserModel implements UserDetails {
     private long id;
 
     @Column(name = "Name")
+    @JsonProperty("userName")
     private String userName;
 
     @Column(name = "Surname")
@@ -63,6 +64,7 @@ public class UserModel implements UserDetails {
 
     //@JsonIgnore
     @Column(name = "Password")
+    @JsonProperty("userPass")
     private String userPass;
 
     @Column(name = "Type")
@@ -202,8 +204,4 @@ public class UserModel implements UserDetails {
     public void setUserDays(Integer userDays) {
         this.userDays = userDays;
     }
-
-
-
-
 }

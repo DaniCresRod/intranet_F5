@@ -192,18 +192,25 @@ class UserModelTest {
     }
 
     @Test
-    void setUserEndDate_when_bad_End_date() throws Exception {
-        myTestUser1.defaultUserStartDate();
+    void setUserEndDate_valid_and_invalid_dates() {
+        // Test with a valid end date
+        try {
+            myTestUser1.defaultUserStartDate();
+            LocalDate previousEndDate = myTestUser1.getUserEndDate();
+            myTestUser1.setUserEndDate(LocalDate.parse("2024-01-17"));
+            assertEquals(LocalDate.parse("2024-01-17"), myTestUser1.getUserEndDate());
+        } catch (Exception e) {
+            fail("Si ha llegado aqui, es que el test ha fallado");
+        }
 
-        //Test with a wrong date
-        LocalDate previusEndDate=myTestUser1.getUserEndDate();
-        myTestUser1.setUserEndDate(LocalDate.parse("1024-01-17"));
-        assertEquals( previusEndDate, myTestUser1.getUserEndDate());
-
-        //Test with a right date
-        myTestUser1.setUserEndDate(LocalDate.parse("2024-01-17"));
-        assertEquals( myTestUser1.getUserEndDate(), LocalDate.parse("2024-01-17"));
+        // Test with an invalid end date
+        assertThrows(Exception.class, () -> {
+            myTestUser1.defaultUserStartDate();
+            LocalDate previousEndDate = myTestUser1.getUserEndDate();
+            myTestUser1.setUserEndDate(LocalDate.parse("1024-01-17"));
+        });
     }
+
 
     @Test
     void setUserDays() throws Exception {

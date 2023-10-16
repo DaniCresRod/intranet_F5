@@ -113,7 +113,7 @@ class UserServiceTest {
                 null, null, null, SchoolModel.StateCode.AN, null);
 
         UserModel newUser = new UserModel(1L, "updatedUser", "updatedSurname", "updatedNif", "updated@example.com",
-                "987654321", LocalDate.of(1980, 5, 5), LocalDate.now(), LocalDate.now().plusDays(15),
+                "987654321", LocalDate.of(1980, 5, 5), LocalDate.now(), LocalDate.now().plusDays(55),
                 30, "updatedPassword", UserModel.UserType.Supervisor, null, null, schoolTest, null);
 
         //Prueba cuando existe el usuario en la bd
