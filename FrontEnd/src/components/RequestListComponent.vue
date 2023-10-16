@@ -4,6 +4,9 @@ import RequestServices from '@/services/RequestServices';
 
 const requests = ref([]);
 const { filterBySchoolId, schoolId } = defineProps(['filterBySchoolId', 'schoolId']); 
+const approvedRequests = ref([]);
+const rejectedRequests = ref([]);
+
 
 const getRequests = async () => {
   try {
@@ -59,12 +62,21 @@ const isRequestWithStatus1 = (request) => {
 const approveRequest = async (id) => {
   await RequestServices.updateUserRequestStatus(id, 2);
   console.log('Solicitud aprobada');
+  const index = requests.value.findIndex((request) => request.id === id);
+  if (index !== -1) {
+    approvedRequests.value.push(requests.value.splice(index, 1)[0]);
+  }
 };
 
 const rejectRequest = async (id) => {
   await RequestServices.updateUserRequestStatus(id, 3);
   console.log('Solicitud rechazada');
+  const index = requests.value.findIndex((request) => request.id === id);
+  if (index !== -1) {
+    rejectedRequests.value.push(requests.value.splice(index, 1)[0]);
+  }
 };
+
 </script>
 
 <template>
