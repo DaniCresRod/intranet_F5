@@ -124,7 +124,6 @@ onMounted(async () => {
         <div v-if="selectedMonth" class="calendar_view">
             <div class="last" v-for="school in schools" :key="school.schoolName">
                 <div v-if="selectedSchool === school.id" :class="school.id">
-                    <h4>Calendario de {{ school.schoolName }}</h4>
                     <table class="calendar" cellspacing="0">
                         <tbody>
                             <tr title="daysNum">
@@ -156,15 +155,14 @@ onMounted(async () => {
     text-align: center;
    }
 
-h2 {
-    text-align: center;
-   
-}
-
 h4 {
     margin: 2.5rem 35%;
     text-decoration: underline;
     color: var(--orange);
+}
+
+h2 {
+    padding-bottom: 20px;
 }
 
 .custom-select {
@@ -172,11 +170,14 @@ h4 {
     padding: 5px;
     display: block;
     margin-bottom: 5px;
+
 }
 
 .calendar_view {
     max-width: 100%;
     overflow: auto;
+    padding-top: 50px;
+
 }
 
 table.calendar {
