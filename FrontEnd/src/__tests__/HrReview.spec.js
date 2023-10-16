@@ -41,3 +41,4 @@ test('debería renderizar el componente CalendarComponent_Review', () => {
   const calendarComponentReview = wrapper.findComponent({ name: 'CalendarComponent_Review' })
   expect(calendarComponentReview.exists()).toBe(true)
 })
+ 

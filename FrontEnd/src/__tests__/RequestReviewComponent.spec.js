@@ -42,3 +42,4 @@ test('debería tener el estado inicial correcto', () => {
   expect(wrapper.vm.data).toBe(undefined)
 })
 
+ 

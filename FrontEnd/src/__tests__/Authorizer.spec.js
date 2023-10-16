@@ -10,7 +10,7 @@ test('debería montarse correctamente', () => {
       plugins: [store]
     }
   })
-  expect(wrapper.exists()).toBe(true)
+  expect(wrapper.exists()).toBe(true) 
 })
 
 test('debería renderizar el componente CardInfoComponent', () => {
@@ -32,3 +32,4 @@ test('debería renderizar el componente RequestListComponent', () => {
   const requestListComponent = wrapper.findComponent({ name: 'RequestListComponent' })
   expect(requestListComponent.exists()).toBe(true)
 })
+ 

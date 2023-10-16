@@ -21,3 +21,4 @@ test('debería renderizar el título correctamente', () => {
   expect(wrapper.find('.footer__title').text()).toBe('rompemos los códigos')
 })
 
+ 

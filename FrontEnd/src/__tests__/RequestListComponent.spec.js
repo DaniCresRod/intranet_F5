@@ -14,7 +14,7 @@ test('debería montarse correctamente', () => {
 
 test('debería renderizar el título correctamente', () => {
   const wrapper = shallowMount(RequestListComponent, {
-    global: {
+    global: { 
       plugins: [store]
     }
   })

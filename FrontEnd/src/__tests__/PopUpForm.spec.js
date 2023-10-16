@@ -64,4 +64,3 @@ test('debería renderizar los cambios correctamente', () => {
   expect(changes.length).toBe(0)
 })
 
-// Aquí puedes añadir más tests según tus necesidades

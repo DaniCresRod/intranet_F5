@@ -16,7 +16,7 @@ test('debería tener los campos del formulario correctos', () => {
   const wrapper = shallowMount(EditUserView, {
     global: {
       plugins: [store]
-    }
+    } 
   })
   const userNameInput = wrapper.find('#user_name')
   const userSurnameInput = wrapper.find('#user_surname')

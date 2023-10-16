@@ -4,7 +4,6 @@ import schoolService from '../services/schoolService';
 
 const escuelaSeleccionada = ref('');
 const schools = ref([]);
-const user_school = ref('');
 const mesSeleccionado = ref('');
 const meses = {
     enero: 31,

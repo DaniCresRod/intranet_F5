@@ -14,7 +14,7 @@ test('debería montarse correctamente', () => {
 test('debería tener el estado inicial correcto', () => {
   const wrapper = shallowMount(CalendarRequestComponent, {
     props: {
-      id: 1
+      id: 1 
     } 
   })
   expect(wrapper.vm.user).toBe(null)
@@ -34,6 +34,3 @@ test('openConfirmationDialog debería cambiar showConfirmation a true y establec
   expect(wrapper.vm.startDate).toBe(wrapper.vm.range.start)
   expect(wrapper.vm.endDate).toBe(wrapper.vm.range.end)
 })
-
-// Aquí puedes añadir más tests según tus necesidades
-// Por ejemplo, podrías comprobar si ciertos elementos se renderizan correctamente en función de los datos proporcionados
