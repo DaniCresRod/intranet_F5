@@ -46,7 +46,7 @@ onBeforeMount(getWorkerData);
                     </li>
                     <li>
                         <img class="icon" src="public/organigram.png" />
-                        Dpto pedagogico
+                        Dpto {{ data && data.userDept }}
                     </li>
                     <li>
                         <img class="icon" src="public/pin.png" />

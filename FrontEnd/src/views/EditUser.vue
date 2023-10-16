@@ -28,6 +28,8 @@ const MAX_IMAGE_SIZE_MB = 8;
 const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024;
 const data = ref([]);
 
+let myImage;
+
 onBeforeMount(async () => {
     try {
         schools.value = await schoolService.getSchools();
@@ -55,13 +57,16 @@ const searchUser = () => {
         user_endDate.value = foundUser.userEndDate;
         user_pass.value = '' 
         user_type.value = foundUser.userType;
-        user_img.value = foundUser.selectedImage;
+        //user_img.value = foundUser.selectedImage;
+        user_img.value = foundUser.userImage;
         user_school.value = foundUser.schoolID.id;
         user_dpto.value = foundUser.userDept;
-        console.log(foundUser);
+        
+        myImage=foundUser.userImage;
     } else {
         console.log('Usuario no encontrado');
     }
+    console.log(foundUser);
 };
 
 const fileToBase64 = (file) => {
@@ -128,12 +133,15 @@ const getPasswordInputType = () => {
 
 const guardarImagen = () => {
     const input = document.getElementById('imagenInput');
+    console.log(input.value);
+    if((input.value!==null)&&(input.value!=="")){
     const file = input.files[0];
 
     if (file) {
         if (file.size <= MAX_IMAGE_SIZE_BYTES) {
             if (file.type.startsWith('image/')) {
                 selectedImage.value = file;
+                console.log("imagen guardada");
             } else {
                 alert('Por favor, seleccione un archivo de imagen válido.');
             }
@@ -142,11 +150,15 @@ const guardarImagen = () => {
         }
     } else {
         alert('Por favor, seleccione una imagen antes de guardar.');
-    }
+    }}
 }
 
 const updateUser = async () => {
     try {
+        
+        if(selectedImage.value!==""){
+            myImage=selectedImage.value;            
+        }
         const updatedUserData = {
             id: user_id.value,
             userName: user_name.value,
@@ -159,7 +171,8 @@ const updateUser = async () => {
             userEndDate: user_endDate.value,
             userPass: user_pass.value,
             userType: user_type.value,
-            userImage: selectedImage.value,
+            //userImage: selectedImage.value,
+            userImage: myImage,
             userDept: user_dpto.value,
             schoolID: {
                 id: user_school.value,
@@ -204,7 +217,7 @@ const updateUser = async () => {
         if (user_school.value !== user.value.schoolID.id) {
             modifiedFields.push('Escuela');
         }
-
+        console.log(updatedUserData);
         await updateById(user_id.value, updatedUserData);
             changes.value = modifiedFields;
     } catch (error) {
@@ -215,7 +228,7 @@ const updateUser = async () => {
 
 
 const handleSubmit = async (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     validateAndAdjustEmail();
     guardarImagen();
     updateUser();
@@ -328,7 +341,7 @@ const handleSubmit = async (event) => {
                 <p>*Imagen en formato JPG y peso máximo 8Mb</p>
             </div>
 
-            <input type="submit" value="Modificar datos" @click="handleSubmit">
+            <input type="button" value="Modificar datos" @click="handleSubmit">
         </form>
         <div v-if="changes.length > 0" class="popup">
             <h3>Campos modificados:</h3>
@@ -402,7 +415,7 @@ select {
     width: 100%;
 }
 
-input[type="submit"] {
+input[type="button"] {
     width: 8.5625rem;
     height: 2.375rem;
     cursor: pointer;
