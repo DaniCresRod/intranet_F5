@@ -46,9 +46,9 @@ const createUser = async () => {
             userPass: user_pass.value,
             userType: user_type.value,
             userImage: selectedImage.value,
+            userDept: user_dpto.value,
             schoolID: {
-                id: user_school.value,
-                userDept: user_dpto.value
+                id: user_school.value,                
             }
         };
 
@@ -59,6 +59,7 @@ const createUser = async () => {
             postData.userImage = imageBase64;
         }
         // Llamar al servicio para crear la escuela
+        console.log(postData);
         const response = await PostUser.post(postData);
 
         // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
@@ -277,7 +278,7 @@ onBeforeMount(async () => {
                 <select id="user_dpto" name="user_dpto" v-model="user_dpto">
                     <option value="Pedagógico">Pedagógico</option>
                     <option value="RRHH">RRHH</option>
-                    <option value="Supervisor">Supervisión</option>
+                    <option value="Supervisión">Supervisión</option>
                 </select>
             </div>
 

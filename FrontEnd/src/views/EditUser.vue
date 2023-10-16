@@ -201,9 +201,9 @@ const updateUser = async () => {
             userPass: user_pass.value,
             userType: user_type.value,
             userImage: selectedImage.value,
+            userDept: user_dpto.value,
             schoolID: {
-                id: user_school.value,
-                userDept: user_dpto.value,
+                id: user_school.value,                
             }
         };
         if (selectedImage.value) {
@@ -347,7 +347,7 @@ const handleSubmit = async (event) => {
                 <select id="user_type" name="user_type" v-model="user_type">
                     <option value="Supervisor">Supervisor</option>
                     <option value="HR">HR</option>
-                    <option value="Employee">Empleado</option>
+                    <option value="Formador">Formador</option>
                 </select>
             </div>
 
@@ -356,7 +356,7 @@ const handleSubmit = async (event) => {
                 <select id="user_dpto" name="user_dpto" v-model="user_dpto">
                     <option value="Pedagógico">Pedagógico</option>
                     <option value="RRHH">RRHH</option>
-                    <option value="Supervisor">Supervisión</option>
+                    <option value="Supervisión">Supervisión</option>
                 </select>
             </div>
 

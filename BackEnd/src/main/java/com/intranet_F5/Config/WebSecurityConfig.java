@@ -49,7 +49,7 @@ public class WebSecurityConfig{
                         .requestMatchers(antMatcher(HttpMethod.DELETE,"/request/**")).hasAnyRole("Supervisor", "HR")
                         .requestMatchers(antMatcher(HttpMethod.GET,"/logs/**")).hasRole("HR")
                         .anyRequest().authenticated()
-                        //.anyRequest().permitAll()
+//                        .anyRequest().permitAll()
 
                 )
                 .httpBasic(withDefaults());
@@ -66,7 +66,7 @@ public class WebSecurityConfig{
 //        http
 //                .formLogin(myLog->myLog
 //                //.loginPage("/")
-////                .defaultSuccessUrl("/EmployeeView")
+//                .defaultSuccessUrl("/EmployeeView")
 //                //.failureUrl("/login?error=true")
 //                .permitAll());
 

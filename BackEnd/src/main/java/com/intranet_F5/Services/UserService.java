@@ -81,14 +81,16 @@ public class UserService {
                     if(newUser.getUserPhone()!=null)myUser.setUserPhone(newUser.getUserPhone());
                     if(newUser.getUserBirthDate()!=null)myUser.setUserBirthDate(newUser.getUserBirthDate());
                     if(newUser.getUserStartDate()!=null)myUser.setUserStartDate(newUser.getUserStartDate());
-                    if(newUser.getUserEndDate()!=null)myUser.setUserEndDate(newUser.getUserEndDate());
+                    myUser.setUserEndDate(newUser.getUserEndDate());
                     if(newUser.getUserDays()!=null)myUser.setUserDays(newUser.getUserDays());
                     if(newUser.getUserType()!=null)myUser.setUserType(newUser.getUserType());
+                    if(newUser.getUserDept()!=null)myUser.setUserDept(newUser.getUserDept());
                     if(newUser.getUserImage()!=null)myUser.setUserImage(newUser.getUserImage());
                     if(newUser.getSchoolID()!=null) myUser.setSchoolID(newUser.getSchoolID());
 
                     if((newUser.getUserPass()!=null)&&(newUser.getUserPass()!="")){
-                        myUser.setUserPass(newUser.getUserPass());
+                        String encodedPassword = passwordEncoder.encode(newUser.getUserPass());
+                        myUser.setUserPass(encodedPassword);
                     }
 
                     //Actualizar la info de la escuela para enviar, para saltarme el cache de Hibernate
