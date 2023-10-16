@@ -36,6 +36,7 @@ onBeforeMount(getWorkerData);
         <div class="image-container">
             <img class="card_info_img" v-if="data" :src="getUserImageSrc(data.userImage)" />
         </div>
+        
         <div class="content-container">
             <ul class="ul-title">
                 <li class="title">{{ data && data.username }}</li>
@@ -93,7 +94,6 @@ ul {
     font-weight: 600;
     line-height: normal;
     padding-left: 4rem;
-
 }
 
 li {
