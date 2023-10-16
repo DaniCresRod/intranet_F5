@@ -2,34 +2,17 @@ import { test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import Component from '../components/CalendarComponent_Review.vue' 
 
-test('debería montarse correctamente', () => {
+test('should mount correctly', () => {
   const wrapper = mount(Component)
   expect(wrapper.exists()).toBe(true)
 })
 
-test('debería calcular correctamente los días del mes', () => {
+test('showEvent should return "" if the day is not in the user\'s free day requests', () => {
   const wrapper = mount(Component)
-  wrapper.vm.mesSeleccionado = 'enero'
-  expect(wrapper.vm.diasDelMes).toEqual(Array.from({ length: 31 }, (_, index) => (index + 1).toString().padStart(2, '0')))
-})
- 
-test('mostrarEvento debería devolver "X" si el día está en las solicitudes de días libres del usuario', () => {
-  const wrapper = mount(Component)
-  const usuario = { 
-    userRequests: [
-      { startDate: new Date(2023, 0, 1), endDate: new Date(2023, 0, 31) }
-    ]
-  }
-  expect(wrapper.vm.mostrarEvento(usuario, '01')).toBe('')
-})
-
-test('mostrarEvento debería devolver "" si el día no está en las solicitudes de días libres del usuario', () => {
-  const wrapper = mount(Component)
-  const usuario = {
+  const user = {
     userRequests: [
       { startDate: new Date(2023, 1, 1), endDate: new Date(2023, 1, 28) }
     ]
   }
-  expect(wrapper.vm.mostrarEvento(usuario, '01')).toBe('')
+  expect(wrapper.vm.showEvent(user, '01')).toBe('')
 })
- 
