@@ -1,7 +1,5 @@
 package com.intranet_F5.Controller;
 
-import com.intranet_F5.DTO.request.ChangeStatus;
-import com.intranet_F5.Model.SchoolModel;
 import com.intranet_F5.Model.UserRequestModel;
 import com.intranet_F5.Services.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +44,5 @@ public class RequestController {
     public UserRequestModel updateRequestStatusOnly(@PathVariable long id, @RequestBody int updatedRequestStatus){
         return requestService.updateRequestStatusOnly(id, updatedRequestStatus);
     }
-
-//    @PutMapping(path="/updateStatus/{id}")
-//    public UserRequestModel updateRequestStatusOnly(@PathVariable long id, @RequestBody ChangeStatus updatedRequestStatus){
-//        return requestService.updateRequestStatusOnly(id, updatedRequestStatus);
-//    }
 
 }

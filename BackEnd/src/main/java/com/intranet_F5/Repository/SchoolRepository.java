@@ -1,7 +1,6 @@
 package com.intranet_F5.Repository;
 
 import com.intranet_F5.Model.SchoolModel;
-import com.intranet_F5.Model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

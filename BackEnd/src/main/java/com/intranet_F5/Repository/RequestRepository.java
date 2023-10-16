@@ -4,7 +4,6 @@ import com.intranet_F5.Model.UserRequestModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<UserRequestModel, Long> {

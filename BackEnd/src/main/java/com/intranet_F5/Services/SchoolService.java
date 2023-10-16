@@ -8,7 +8,6 @@ import com.intranet_F5.Repository.SchoolRepository;
 import com.intranet_F5.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -29,7 +28,6 @@ public class SchoolService {
         try{
             if (schoolRepository.findDuplicatedSchool(newSchool) == null) {
 
-                //Traer los festivos para completar el log
                 AccessBankHolidaysAPI accessBankHolidaysAPI=new AccessBankHolidaysAPI();
                 List<SchoolDateModel>schoolDateModels=accessBankHolidaysAPI.getSchoolDateModelList(newSchool);
 
@@ -56,7 +54,6 @@ public class SchoolService {
                 schoolRepository.deleteById(id);
             }
             else return "No se encontró la escuela solicitada";
-
             return "La escuela se borró correctamente";
         }
         catch(Exception e){
@@ -68,10 +65,6 @@ public class SchoolService {
         try{
             if(schoolRepository.existsById(id)){
                 SchoolModel mySchool=schoolRepository.findById(id).get();
-                //Si existe OTRA escuela con el mismo nombre y direccion, pero diferente id
-                //Querra decir que no es la que queremos modificar, si no otra que ya existe
-                //y no debemos dejar que se modifique para no tener dos escuelas con los mismos datos
-                //Si lo permitira si solo uno de los dos datos coincide (modificar??)
                 SchoolModel duplicatedSchool=schoolRepository.findDuplicatedSchool(updatedSchool);
                 if((duplicatedSchool==null)||(duplicatedSchool.getId() == mySchool.getId())){
                     mySchool.setSchoolName(updatedSchool.getSchoolName() != null ? updatedSchool.getSchoolName() : mySchool.getSchoolName());
@@ -87,7 +80,6 @@ public class SchoolService {
                     if((updatedSchool.getSchoolStateCode()!=null) && (mySchool.getSchoolStateCode()!=updatedSchool.getSchoolStateCode())){
                         mySchool.setSchoolStateCode(updatedSchool.getSchoolStateCode());
 
-                        //Traer los festivos para completar el log
                         AccessBankHolidaysAPI accessBankHolidaysAPI=new AccessBankHolidaysAPI();
                         List<SchoolDateModel>schoolDateModels=accessBankHolidaysAPI.getSchoolDateModelList(mySchool);
                         mySchool.setSchoolStateHolidays(schoolDateModels);

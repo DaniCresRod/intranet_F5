@@ -22,7 +22,6 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
-    //Con esto puedo usar la clase de configuracion que me trae las variables de entorno
     @Setter(onMethod=@__(@Autowired))
     private EnvVariablesConfig variablesConfig;
 
@@ -43,7 +42,6 @@ public class JwtService {
     }
 
     private Key getKey(){
-//        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         byte[] keyBytes = Decoders.BASE64.decode(variablesConfig.getS_KEY());
         return Keys.hmacShaKeyFor(keyBytes);
     }

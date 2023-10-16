@@ -1,6 +1,5 @@
 package com.intranet_F5.jwt;
 
-import com.intranet_F5.Model.UserModel;
 import com.intranet_F5.Repository.UserRepository;
 import com.intranet_F5.Services.JwtService;
 import com.intranet_F5.Services.LogService;
@@ -12,16 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.util.StringUtils;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-
 import java.io.IOException;
 
 @Component
@@ -39,10 +35,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        //response.setHeader("Access-Control-Allow-Origin", "*");
-        // Verificar si la solicitud es de tipo OPTIONS
         if ("OPTIONS".equals(request.getMethod())) {
-            // Agregar el encabezado 'Access-Control-Allow-Origin' solo a las solicitudes OPTIONS
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
             response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
@@ -63,7 +56,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            //Establece el usuario que esta loggeado
             loggedUser.setLoggedUser(userRepository.findByUsername(username).orElse(null));
 
             if (jwtService.isTokenValid(token, userDetails)) {
@@ -88,5 +80,4 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         }
         return null;
     }
-
 }

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.intranet_F5.DTO.DTOBankHolidays;
 import com.intranet_F5.Model.SchoolDateModel;
 import com.intranet_F5.Model.SchoolModel;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -18,17 +17,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hibernate.type.SqlTypes.JSON;
-
 public class AccessBankHolidaysAPI {
 
-//    public static void main(String[] args) {
-//        //Crea un objeto de la clase, y accede al metodo de ella misma.
-//        AccessBankHolidaysAPI ObjApi = new AccessBankHolidaysAPI();
-//        ObjApi.fetchHolidays(SchoolModel.StateCode.AS);
-//    }
-
-    //Este metodo Accede a la API que devuelve los festivos en una determinada Comunidad autonoma.
     private List<LocalDate> fetchHolidays(SchoolModel.StateCode state) {
         HttpClient myClient = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -47,7 +37,6 @@ public class AccessBankHolidaysAPI {
             List<DTOBankHolidays> myBHDysList = mapper.readValue(respuesta.body(),
                     new TypeReference<List<DTOBankHolidays>>() {});
 
-            // Ahora tienes la lista de DTOBankHolidays para trabajar con ella
             List<LocalDate> myBHDYList = new ArrayList<>();
             for (DTOBankHolidays holiday : myBHDysList) {
                 myBHDYList.add(holiday.getDate().toLocalDate());

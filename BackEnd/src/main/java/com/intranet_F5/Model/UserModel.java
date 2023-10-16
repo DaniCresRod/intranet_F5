@@ -10,13 +10,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-
-
 import static java.time.temporal.ChronoUnit.MONTHS;
 
 @Entity
@@ -62,7 +59,6 @@ public class UserModel implements UserDetails {
     @Column(name = "Spent_Days")
     private Integer userDays;
 
-    //@JsonIgnore
     @Column(name = "Password")
     @JsonProperty("userPass")
     private String userPass;
@@ -80,13 +76,10 @@ public class UserModel implements UserDetails {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "school_Id")
-//    @JsonIgnoreProperties({"schoolUserList", "SchoolSupervisor" })
-//    @JsonIgnoreProperties("SchoolID")
     @JsonIgnoreProperties("schoolUserList")
     private SchoolModel SchoolID;
 
     @OneToMany(mappedBy = "userId",cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JsonIgnoreProperties("userId")
     @JsonIgnoreProperties("userRequests")
     private List<UserRequestModel> userRequests;
 
@@ -102,7 +95,6 @@ public class UserModel implements UserDetails {
         return roles;
     }
 
-    //@JsonIgnore
     @Override
     public String getPassword() {
         return this.userPass;
@@ -150,7 +142,6 @@ public class UserModel implements UserDetails {
         Supervisión,
     }
 
-    //PrePersist se ejcuta cada vez que se hace una nueva insercion en la base de datos
     @PrePersist
     public void defaultUserStartDate(){
         if(this.userStartDate==null){

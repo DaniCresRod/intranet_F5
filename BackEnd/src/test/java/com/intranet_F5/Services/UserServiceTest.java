@@ -69,20 +69,16 @@ class UserServiceTest {
 
     @Test
     void testAddNewUser() {
-        //Prueba cuando no hay un usuario ya registrado con ese NIF
         when(userRepository.findByUserNif(testUser1.getUserNif())).thenReturn(null);
         when(userRepository.save(testUser1)).thenReturn(testUser1);
 
         String resultSuccess = userService.addNewUser(testUser1);
         assertEquals("El usuario testUser1 testSurname1 se guardó satisfactoriamente.", resultSuccess);
 
-        // Prueba para verificar que se llama al método findByUserNif
         verify(userRepository, times(1)).findByUserNif(testUser1.getUserNif());
 
-        // Prueba para verificar que se llama al método save
         verify(userRepository, times(1)).save(testUser1);
 
-        // Prueba cuando ya existe un usuario con el mismo NIF
         when(userRepository.findByUserNif(testUser1.getUserNif())).thenReturn(testUser1);
 
         String resultFailure = userService.addNewUser(testUser1);
@@ -91,7 +87,6 @@ class UserServiceTest {
 
     @Test
     void testDeleteUser() {
-        //Prueba cuando existe el usuario en la bd
         when(userRepository.existsById(testUser1.getId())).thenReturn(true);
 
         String response = userService.deleteUser(testUser1.getId());
@@ -100,7 +95,6 @@ class UserServiceTest {
         verify(userRepository, times(1)).existsById(testUser1.getId());
         verify(userRepository, times(1)).deleteById(testUser1.getId());
 
-        // Prueba cuando el usuario no existe en la base de datos
         when(userRepository.existsById(testUser1.getId())).thenReturn(false);
         String response2 = userService.deleteUser(testUser1.getId());
         assertEquals("No se encuentra el usuario", response2);
@@ -108,7 +102,6 @@ class UserServiceTest {
 
     @Test
     void testUpgradeUser() {
-        // Crear un usuario nuevo para actualizar
         SchoolModel schoolTest = new SchoolModel(1L, "Example School", "123 Example St, City", "555-1234",
                 null, null, null, SchoolModel.StateCode.AN, null);
 
@@ -116,13 +109,9 @@ class UserServiceTest {
                 "987654321", LocalDate.of(1980, 5, 5), LocalDate.now(), LocalDate.now().plusDays(55),
                 30, "updatedPassword", UserModel.UserType.Supervisor, null, null, schoolTest, null);
 
-        //Prueba cuando existe el usuario en la bd
         when(userRepository.existsById(1L)).thenReturn(true);
-
-        //Prueba cuando SI existe el usuario en la base de datos
         when(userRepository.findByUserNif(newUser.getUserNif())).thenReturn(testUser1);
         when(userRepository.findById(testUser1.getId())).thenReturn(Optional.of(testUser1));
-
         when(schoolRepository.findById(testUser1.getSchoolID().getId())).thenReturn(Optional.of(schoolTest));
 
         UserModel updatedUser = userService.upgradeUser(1L, newUser);
@@ -139,18 +128,14 @@ class UserServiceTest {
     @Test
     void testHldyDaysLeft() {
 
-        // Simular la respuesta del repositorio al buscar el usuario por ID
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser1));
 
-        // Crear una solicitud de usuario de prueba
         LocalDate startDate = LocalDate.now();
-        LocalDate endDate = startDate.plusDays(5); // Cambiar el número de días según tus necesidades
+        LocalDate endDate = startDate.plusDays(5);
         UserRequestModel myRequest = requestTest1;
 
-        // Llamar al método que queremos probar
         int result = userService.HldyDaysLeft(1L, myRequest);
 
-        // Asegurarse de que el método haya funcionado según lo esperado
         long differenceDays = DAYS.between(startDate, endDate);
         if (differenceDays > testUser1.getUserDays()) {
             assertEquals(-1, result);

@@ -1,7 +1,6 @@
 package com.intranet_F5.Repository;
 
 import com.intranet_F5.Model.LogModel;
-import com.intranet_F5.Model.UserRequestModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

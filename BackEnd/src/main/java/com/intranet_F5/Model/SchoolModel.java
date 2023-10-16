@@ -40,9 +40,7 @@ public class SchoolModel {
 
     @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "SchoolSupervisorId")
-    //@JsonIgnore
     @JsonIgnoreProperties({"SchoolID", "schoolUserList"})
-    //@JsonBackReference
     private UserModel SchoolSupervisor;
 
     @Column(name = "StateHolidays")
@@ -83,5 +81,4 @@ public class SchoolModel {
        RI,// La Rioja
        VC,// Comunitat Valenciana               
     }
-
 }
